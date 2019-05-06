@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using System.Linq;
 using System;
@@ -7,22 +8,27 @@ using System;
 public class threshold_movment : MonoBehaviour {
     Transform[] comparisionTransform;
     Transform[] actualTransform;
-    List<string> jointNames = new List<string>()
-    {
-        "lowerarm_l",
-        "lowerleg_r"
-    };
+    List<string> jointNames = new List<string>();
+    List<string> parentJointNames = new List<string>();
 
-    List<string> parentJointNames = new List<string>()
-    {
-        "upperarm_l",
-        "upperleg_r"
-    };
     float threshold = 0.1f;
-    float scale = 0.2f;
+    float scale = 0.15f;
     // Use this for initialization
 	void Start () {
-        
+        string[] joint_names_string = File.ReadAllLines(@"C:\Users\SimWorkstation\Documents\CSV\jointlist.csv");
+
+        for (int i = 0; i < joint_names_string.Count(); i++)
+        {
+            string[] child_and_parent = joint_names_string[i].Split(',');
+
+            jointNames.Add(child_and_parent[0]);
+            parentJointNames.Add(child_and_parent[1]);
+        }
+
+        for (int i = 0; i < parentJointNames.Count()-1; i++)
+        {
+            Instantiate(GameObject.FindGameObjectWithTag("cubes"));
+        }
     }
 	
 	// Update is called once per frame
@@ -62,14 +68,6 @@ public class threshold_movment : MonoBehaviour {
         }
         
         //cubeInformation.Add
-
-        
-
-        Vector3 lowerarm_1 = actualTransform[GetIndexOfObject("lowerarm_l")].transform.rotation.eulerAngles;
-        Vector3 lowerarm_2 = comparisionTransform[GetIndexOfObject("lowerarm_l")].transform.rotation.eulerAngles;
-        
-
-
         }
     private int GetIndexOfObject(string name)
     {

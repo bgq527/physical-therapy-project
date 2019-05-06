@@ -1,0 +1,29 @@
+﻿<Properties StartupConfiguration="{B5D87342-706C-9C66-7C86-50459BBE2CF0}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/threshold_movment.cs">
+    <Files>
+      <File FileName="Assets/Scripts/threshold_movment.cs" Line="26" Column="10" />
+      <File FileName="Assets/Scripts/euler_quaternion.cs" Line="33" Column="78" />
+      <File FileName="Assets/Scripts/jsoncomparison.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="PhysTherapy Proj" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="threshold_movment.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="6d9464e2-8718-4166-8f36-be576cad9675" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
