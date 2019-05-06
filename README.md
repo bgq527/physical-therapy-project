@@ -3,7 +3,7 @@
 ## Projects
 - arrows
   - Description
-    - Arrow perception test, currently implemented using an Android phone, Unity, and Google Cardboard Generic standards.
+    - Arrow perception test, currently implemented using Unity, ARCore, built with Gradle, and using an Android phone w/ Google Cardboard Generic standards.
   - Dependencies
     - Unity 2018.1.9f2
     - Android SDK Tools version 25.5.2
