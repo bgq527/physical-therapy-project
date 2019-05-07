@@ -8,23 +8,28 @@ using System;
 public class threshold_movment : MonoBehaviour {
     Transform[] comparisonTransform;
     Transform[] actualTransform;
+
+    // Stores names of joints for accuracy thresholding
     List<string> jointNames = new List<string>();
+    // Stores names of parents of joints for accuracy thresholding
     List<string> parentJointNames = new List<string>();
 
+    // Threshold for classifying movement as matching the example or not. Model coordinate system (not real-world coords)
     float threshold = 0.1f;
     float scale = 0.15f;
     // Use this for initialization
 	void Start () {
+        // Parse CSV for list of joints to compare to example (Change to GUI eventually)
         string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
-
         for (int i = 0; i < joint_names_string.Count(); i++)
         {
             string[] child_and_parent = joint_names_string[i].Split(',');
-
+            // Parent joints and child joints sent to appropriate lists
             jointNames.Add(child_and_parent[0]);
             parentJointNames.Add(child_and_parent[1]);
         }
 
+        // Copy first cube to add colorable game objects to show match/error status (One cube already puplated)
         for (int i = 0; i < parentJointNames.Count()-1; i++)
         {
             Instantiate(GameObject.FindGameObjectWithTag("cubes"));
@@ -33,42 +38,35 @@ public class threshold_movment : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        // Get object transforms for objects being compared
         comparisonTransform = GameObject.FindGameObjectWithTag("comparison").GetComponentsInChildren<Transform>();
         actualTransform = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
 
+        // Iterate over objects being compared (equals number of cubes used as labels)
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("cubes").Count(); i++)
         {
-
-            print(GameObject.FindGameObjectsWithTag("cubes").Count());
-            //print(cubeRenderer.Count());
-            print(jointNames[i]);
-
-            
+            // Move cube to appropriate location (location of child joint)
             GameObject.FindGameObjectsWithTag("cubes")[i].transform.position = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position;
+
+            // Assign cube's scale (i.e. size, vector 3d (could adjust dims separately))
             GameObject.FindGameObjectsWithTag("cubes")[i].transform.localScale = new Vector3(scale, scale, scale);
+
+            // Get subject's parent and child positions, calculate displacement
             Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
+            // Get model's parent and child positions (ideal positions), calculate displacement
             Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
 
-            Vector3 localPositions = localPosition1 - localPosition2;
-            print(localPositions);
+            // Calculate error in subject's position vs comparison model's position
+            Vector3 localPositionErr = localPosition1 - localPosition2;
 
-            bool withinPosition = true;
-            for (int j = 0; j < 3; j++)
-            {
-                if (Math.Abs(localPositions[j]) >= threshold)
-                {
-                    withinPosition = false;
-                }
-                
-            }
-            if (withinPosition == true)
+            // If joint position is off by a distance less than or equal to threshhold, color cube green, else green
+            if (Math.Sqrt(Math.Pow(localPositionErr[1],2) + Math.Pow(localPositionErr[2],2) + Math.Pow(localPositionErr[3],2)) <= threshold)
             {
                 GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.green;
-            } else GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.red;
+            }else GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.red;
         }
-        
-        //cubeInformation.Add
-        }
+    }
+
     private int GetIndexOfObject(string name)
     {
         int returnvalue = 0;
@@ -82,14 +80,3 @@ public class threshold_movment : MonoBehaviour {
         return returnvalue;
     }
 }
-
-
-//[Serializable]
-//public class Vector3Comparison
-//{
-//    int threshold;
-//    Vector3 joint1;
-//    Vector3 joint2;
-//    Transform cubeTransform;
-//}
-
