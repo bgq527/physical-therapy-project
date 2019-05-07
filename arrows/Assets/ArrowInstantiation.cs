@@ -27,31 +27,31 @@ public class ArrowInstantiation : MonoBehaviour {
         float cameraY = cameraTransform.transform.rotation.y;
 
         //arrowTextMesh.text = Mathf.Round(cameraX * 1000f) / 1000f + ", " + Mathf.Round(cameraY * 1000f) / 1000f;
+
+        // The following checks which state the program is in
+        // state 0 is the time when the test is currently active
+        // it starts when the user looks at the center and ends when the user looks at a target
+
+        // state 1 is the time in between tests when the user is recentering their head
+        // it begins when the user looks at the target and ends when the user looks at the "Look here" target 
         if (state == 0)
         {
-            if (cameraX < -.15f && cameraY > .3f)
-            // right
+            // Checks if the user hit either target
+            if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f))
             {
-                if (arrowTextMesh.text[2] == '>')
+                if (checkCorrect(cameraY))
                 {
                     cameraCamera.backgroundColor = Color.green;
                 }
-                else cameraCamera.backgroundColor = Color.red;
-                state = 1;
-                arrowTextMesh.text = "Look here";
-                arrows = createArrows();
-            }
-            else if (cameraX < -.15f && cameraY < -.3f)
-            // left
-            {
-                if (arrowTextMesh.text[2] == '<')
+                else
                 {
-                    cameraCamera.backgroundColor = Color.green;
+                    cameraCamera.backgroundColor = Color.red;
                 }
-                else cameraCamera.backgroundColor = Color.red;
+
                 state = 1;
                 arrowTextMesh.text = "Look here";
                 arrows = createArrows();
+
             }
         }
 
@@ -63,10 +63,25 @@ public class ArrowInstantiation : MonoBehaviour {
                 cameraCamera.backgroundColor = Color.black;
                 state = 0;
             }
-
         }
     }
 
+    // This method checks if the user looked at the correct target
+    public bool checkCorrect(float y)
+    {
+        bool correct;
+        if (y > .3f) // checks if the user was looking at the right
+        {
+            correct = arrowTextMesh.text[2] == '>' ? true : false;
+        }
+        else // check if the user was looking at the left
+        {
+            correct = arrowTextMesh.text[2] == '<' ? true : false;
+        }
+        return correct;
+    } // checkCorrect(float)
+
+    // This method creates a String of five arrows pointing in random directions
     public string createArrows()
     {
         string arrowText = "";
@@ -77,8 +92,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 arrowText += "<";
             }
             else arrowText += ">";
-
         }
         return arrowText;
-    }
+    } // createArrows()
 }
