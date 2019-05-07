@@ -167,7 +167,7 @@ public class BodySourceView : MonoBehaviour
 
             if (jt == 0)
             {
-                GameObject.FindGameObjectWithTag("comparision").transform.localPosition = new Vector3(jointObj.localPosition.x, jointObj.localPosition.y, jointObj.localPosition.z);
+                //GameObject.FindGameObjectWithTag("comparison").transform.localPosition = new Vector3(jointObj.localPosition.x, jointObj.localPosition.y, jointObj.localPosition.z);
                 //GameObject.FindGameObjectWithTag("comparision").transform.position = new Vector3(GameObject.FindGameObjectWithTag("comparision").transform.position.x, jointObj.localPosition.y, GameObject.FindGameObjectWithTag("comparision").transform.position.z);
                 Realtime_Player.SaveCurrentPosition(new Vector3(jointObj.localPosition.x, jointObj.localPosition.y, jointObj.localPosition.z));
             }

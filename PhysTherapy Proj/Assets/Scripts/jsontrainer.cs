@@ -12,6 +12,7 @@ public class jsontrainer : MonoBehaviour
     private ModelJSON json;
     int currentFrame;
     Transform[] KinectChildObjects;
+    Transform[] MovementChildObjects;
     ChildQuaternion leftlowerarm = new ChildQuaternion();
     ChildQuaternion leftupperarm = new ChildQuaternion();
     ChildQuaternion rightlowerarm = new ChildQuaternion();
@@ -33,7 +34,8 @@ public class jsontrainer : MonoBehaviour
         string reader = File.ReadAllText(@"C:\Users\Kinect\Documents\Movements\movementFile.json");
         json = JsonMapper.ToObject<ModelJSON>(reader);
         mqInJSON = json.ModelQuaternionList;
-        
+        MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
+
     }
 
     IEnumerator Play_JSON()
@@ -67,8 +69,9 @@ public class jsontrainer : MonoBehaviour
 
         KinectChildObjects[GetIndexOfObject("foot_r")].transform.rotation = Quaternion.Euler(180, 90, -90);
         KinectChildObjects[GetIndexOfObject("foot_l")].transform.rotation = Quaternion.Euler(180, 90, 90);
-
+        MovementChildObjects[GetIndexOfMovementObject("root")].rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180, transform.rotation.eulerAngles.z);
         transform.parent.localPosition = new Vector3(localPosition.x, localPosition.y, localPosition.z);
+
 
 
         yield return new WaitForSeconds(0.60f);
@@ -96,6 +99,18 @@ public class jsontrainer : MonoBehaviour
         return returnvalue;
     }
 
+    private int GetIndexOfMovementObject(string name)
+    {
+        int returnvalue = 0;
+        for (int i = 0; i < MovementChildObjects.Length; i++)
+        {
+            if (MovementChildObjects[i].name.Equals(name))
+            {
+                returnvalue = i;
+            }
+        }
+        return returnvalue;
+    }
     /*
     private Quaternion getQuaternion(string KinectChildObject, int frame)
     {
@@ -113,6 +128,6 @@ public class jsontrainer : MonoBehaviour
         return orientation;
     }
     */
-    
+
 
 }

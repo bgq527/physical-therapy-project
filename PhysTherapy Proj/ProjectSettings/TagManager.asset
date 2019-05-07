@@ -5,8 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - movement
-  - comparision
   - cubes
+  - comparison
+  - comparision
+  - trainer_movement
   layers:
   - Default
   - TransparentFX

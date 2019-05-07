@@ -6,7 +6,7 @@ using System.Linq;
 using System;
 
 public class threshold_movment : MonoBehaviour {
-    Transform[] comparisionTransform;
+    Transform[] comparisonTransform;
     Transform[] actualTransform;
     List<string> jointNames = new List<string>();
     List<string> parentJointNames = new List<string>();
@@ -15,7 +15,7 @@ public class threshold_movment : MonoBehaviour {
     float scale = 0.15f;
     // Use this for initialization
 	void Start () {
-        string[] joint_names_string = File.ReadAllLines(@"C:\Users\SimWorkstation\Documents\CSV\jointlist.csv");
+        string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
 
         for (int i = 0; i < joint_names_string.Count(); i++)
         {
@@ -33,7 +33,7 @@ public class threshold_movment : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        comparisionTransform = GameObject.FindGameObjectWithTag("comparision").GetComponentsInChildren<Transform>();
+        comparisonTransform = GameObject.FindGameObjectWithTag("comparison").GetComponentsInChildren<Transform>();
         actualTransform = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("cubes").Count(); i++)
@@ -44,10 +44,10 @@ public class threshold_movment : MonoBehaviour {
             print(jointNames[i]);
 
             
-            GameObject.FindGameObjectsWithTag("cubes")[i].transform.position = comparisionTransform[GetIndexOfObject(jointNames[i])].transform.position;
+            GameObject.FindGameObjectsWithTag("cubes")[i].transform.position = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position;
             GameObject.FindGameObjectsWithTag("cubes")[i].transform.localScale = new Vector3(scale, scale, scale);
             Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-            Vector3 localPosition2 = comparisionTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisionTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
+            Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
 
             Vector3 localPositions = localPosition1 - localPosition2;
             print(localPositions);
@@ -72,9 +72,9 @@ public class threshold_movment : MonoBehaviour {
     private int GetIndexOfObject(string name)
     {
         int returnvalue = 0;
-        for (int i = 0; i < comparisionTransform.Length; i++)
+        for (int i = 0; i < comparisonTransform.Length; i++)
         {
-            if (comparisionTransform[i].name.Equals(name))
+            if (comparisonTransform[i].name.Equals(name))
             {
                 returnvalue = i;
             }
