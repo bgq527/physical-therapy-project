@@ -22,3 +22,29 @@
   - Unity 2018.1.9f2
   - Microsoft KinectV2 SDK
   - Microsoft KinectV2 Unity Pro Plugin
+- Algorithm Walkthrough
+  - Load scene
+    - Place comparison model by loading action model from JSON
+    - Mirror comparison model (unrendered) at player model location
+    - Spawn joint markers (cubes) according to joints being tracked within jointlist.csv
+  - Render and update scene
+    - Animate walker
+    - Adjust joint marker positions according to Kinect feed
+    - Calculate displacement between joint marker locations and mirrored comparison model joint locations
+    - Color joint markers: red -> displacement outside threshold, green -> displacement within threshold
+    - Repeat
+- To Do
+  - GUI
+    - Allow user to load or choose multiple animations
+    - Allow user to choose player model colors
+    - Allow user to specify output name or username and translate to output file names
+    - Allow user to specify tracked joints from GUI
+    - Allow user to specify error thresholding 
+    - Potentially allow user to record new animations
+  - Data Recording
+    - Log joint positions and displacements to file
+    - Log inside/outside threshold flag with data
+    - Log timestamps/framestamps
+  - Other
+    - Adjust joint marker shape, size, color
+    - Record Demo Video
