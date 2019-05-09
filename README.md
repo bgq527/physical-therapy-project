@@ -13,6 +13,19 @@
   - Android Build Tools
   - Android Phone supporting ARCore, with Android 8.0 Oreo and newer versions
   - JDK and JRE Update 8 Version 211
+  
+### AR Arrows
+
+- Description
+  - Arrow perception test with AR included, currently implemented using Unity, Vuforia, built with Gradle, and using an Android phone w/ Google Cardboard v1 standards.
+- Dependencies
+  - Unity 2018.1.9f2
+  - Vuforia 7+ 
+  - Android SDK Tools version 25.5.2
+  - Android Build Tools
+  - Android Phone supporting Vuforia, with Android 8.0 Oreo and newer versions
+  - JDK and JRE Update 8 Version 211
+
 ### PhysTherapy Proj
 
 - Description
