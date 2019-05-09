@@ -11,7 +11,10 @@ public class ArrowInstantiation : MonoBehaviour {
     Transform cameraTransform;
     string arrows;
     Camera cameraCamera;
-    Timer timer;
+    string[] arrowText;
+    int currentArrow;
+    int startFrame;
+   // Timer timer;
 
     // Use this for initialization
     void Start () {
@@ -19,8 +22,16 @@ public class ArrowInstantiation : MonoBehaviour {
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<TextMesh>();
         cameraTransform = GameObject.Find("ARCamera").GetComponent<Transform>();
         cameraCamera = GameObject.Find("ARCamera").GetComponent<Camera>();
-        arrows = createArrows();
+        arrowText = new string[4];
+        arrowText[0] = "<<<<<";
+        arrowText[1] = ">>>>>";
+        arrowText[2] = "<<><<";
+        arrowText[3] = ">><>>";
+        arrows = arrowText[createArrows()];
         state = 1;
+        //timer = new Timer(1000);
+
+
     }
 	
 	// Update is called once per frame
@@ -39,26 +50,43 @@ public class ArrowInstantiation : MonoBehaviour {
         // it begins when the user looks at the target and ends when the user looks at the "Look here" target 
 
         frameCounter++;
-        if (frameCounter % 100 == 0) print(createArrows());
+        // 60 fps * .25 seconds = 15 frames 
 
         if (state == 0)
         {
+
+            // Makes the command disappear after ~250 ms
+            if (frameCounter > 15)
+            {
+                arrowTextMesh.text = "+";
+            }
             // Checks if the user hit either target
             if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f))
             {
                 if (checkCorrect(cameraY))
                 {
-                    cameraCamera.backgroundColor = Color.green;
+                    // cameraCamera.backgroundColor = Color.green;
+                    print("Correct");
                 }
                 else
                 {
-                    cameraCamera.backgroundColor = Color.red;
+                    // cameraCamera.backgroundColor = Color.red;
+                    print("Incorrect");
                 }
 
                 state = 1;
                 arrowTextMesh.text = "+";
-                arrows = createArrows();
+                currentArrow = createArrows();
+                arrows = arrowText[currentArrow];
 
+            }
+            // if 1 second has passed start new command to keep pace
+            else if (frameCounter > 60)
+            {
+                state = 1;
+                arrowTextMesh.text = "+";
+                currentArrow = createArrows();
+                arrows = arrowText[currentArrow];
             }
         }
 
@@ -66,10 +94,12 @@ public class ArrowInstantiation : MonoBehaviour {
         {
             if (cameraX > -.1f && cameraX < .1f && cameraY > -.1f && cameraY < .1f)
             {
+                frameCounter = 0;
                 arrowTextMesh.text = arrows;
                 cameraCamera.backgroundColor = Color.black;
                 state = 0;
             }
+
         }
     }
 
@@ -79,20 +109,19 @@ public class ArrowInstantiation : MonoBehaviour {
         bool correct;
         if (y > .3f) // checks if the user was looking at the right
         {
-            correct = arrowTextMesh.text[2] == '>' ? true : false;
+            correct = (currentArrow==0||currentArrow==3) ? true : false;
         }
         else // check if the user was looking at the left
         {
-            correct = arrowTextMesh.text[2] == '<' ? true : false;
+            correct = (currentArrow == 1 || currentArrow == 2) ? true : false;
         }
+
         return correct;
     } // checkCorrect(float)
 
     // This method creates a String of five arrows pointing in random directions
-    public string createArrows()
+    public int createArrows()
     {
-        string[] arrowText = {"<<<<",">>>>>","<<><<",">><>>"};
-        
-        return arrowText[(int)(Random.Range(0f, 3f))];
+        return (int) (Random.Range(0f, 3.99f));
     } // createArrows()
 }
