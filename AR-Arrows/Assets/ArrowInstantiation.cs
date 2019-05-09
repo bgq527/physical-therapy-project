@@ -14,10 +14,12 @@ public class ArrowInstantiation : MonoBehaviour {
     string[] arrowText;
     int currentArrow;
     int startFrame;
+    Transform[] wallsRenderer;
    // Timer timer;
 
     // Use this for initialization
     void Start () {
+        wallsRenderer = GameObject.Find("Walls").GetComponentsInChildren<Transform>();
         frameCounter = 0;
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<TextMesh>();
         cameraTransform = GameObject.Find("ARCamera").GetComponent<Transform>();
@@ -33,7 +35,7 @@ public class ArrowInstantiation : MonoBehaviour {
 
 
     }
-	
+
 	// Update is called once per frame
 	void Update () {
         //arrowTextMesh.text = cameraTransform.transform.rotation.x + " | " + cameraTransform.transform.rotation.y;
@@ -47,30 +49,34 @@ public class ArrowInstantiation : MonoBehaviour {
         // it starts when the user looks at the center and ends when the user looks at a target
 
         // state 1 is the time in between tests when the user is recentering their head
-        // it begins when the user looks at the target and ends when the user looks at the "Look here" target 
+        // it begins when the user looks at the target and ends when the user looks at the "Look here" target
 
         frameCounter++;
-        // 60 fps * .25 seconds = 15 frames 
+        // 60 fps * .25 seconds = 15 frames
 
         if (state == 0)
         {
 
             // Makes the command disappear after ~250 ms
-            if (frameCounter > 15)
+            if (frameCounter > 45)
             {
-                arrowTextMesh.text = "+";
+                //arrowTextMesh.text = "+";
             }
             // Checks if the user hit either target
             if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f))
             {
                 if (checkCorrect(cameraY))
                 {
-                    // cameraCamera.backgroundColor = Color.green;
+                     for (int i = 0; i < wallsRenderer.length; i++){
+                       wallsRenderer[i].material.Color = Color(0, 1f, 0, .4f);
+                     }
                     print("Correct");
                 }
                 else
                 {
-                    // cameraCamera.backgroundColor = Color.red;
+                    for (int i = 0; i < wallsRenderer.length; i++){
+                      wallsRenderer[i].material.Color = Color(1f, 0, 0, .4f);
+                    }
                     print("Incorrect");
                 }
 
@@ -81,7 +87,7 @@ public class ArrowInstantiation : MonoBehaviour {
 
             }
             // if 1 second has passed start new command to keep pace
-            else if (frameCounter > 60)
+            else if (frameCounter > 180)
             {
                 state = 1;
                 arrowTextMesh.text = "+";
@@ -92,11 +98,14 @@ public class ArrowInstantiation : MonoBehaviour {
 
         if (state == 1)
         {
-            if (cameraX > -.1f && cameraX < .1f && cameraY > -.1f && cameraY < .1f)
+
+            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
             {
+                for (int i = 0; i < wallsRenderer.length; i++){
+                  wallsRenderer[i].material.Color = Color(0, 0, 0, 0);
+                }
                 frameCounter = 0;
                 arrowTextMesh.text = arrows;
-                cameraCamera.backgroundColor = Color.black;
                 state = 0;
             }
 
@@ -109,11 +118,11 @@ public class ArrowInstantiation : MonoBehaviour {
         bool correct;
         if (y > .3f) // checks if the user was looking at the right
         {
-            correct = (currentArrow==0||currentArrow==3) ? true : false;
+            correct = (currentArrow==0 || currentArrow==3);
         }
         else // check if the user was looking at the left
         {
-            correct = (currentArrow == 1 || currentArrow == 2) ? true : false;
+            correct = (currentArrow == 1 || currentArrow == 2);
         }
 
         return correct;
