@@ -16,7 +16,7 @@
   
 ### AR Arrows
 
-![ar_arrows_demo](https://i.imgur.com/MEBzNi2.gif)
+![ar_arrows_demo](https://i.imgur.com/uyWFvuf.gif)
 
 <sup>Demo above is found within the DaxDev branch.</sup>
 
