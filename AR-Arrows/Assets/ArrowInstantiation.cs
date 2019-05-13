@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Timers;
 
 public class ArrowInstantiation : MonoBehaviour {
     int arrowDirection;
@@ -15,7 +14,7 @@ public class ArrowInstantiation : MonoBehaviour {
     int currentArrow;
     int startFrame;
     Renderer[] wallsRenderer;
-   // Timer timer;
+    Statistics stats;
 
     // Use this for initialization
     void Start () {
@@ -24,6 +23,7 @@ public class ArrowInstantiation : MonoBehaviour {
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<TextMesh>();
         cameraTransform = GameObject.Find("ARCamera").GetComponent<Transform>();
         cameraCamera = GameObject.Find("ARCamera").GetComponent<Camera>();
+        stats = new Statistics();
         arrowText = new string[4];
         arrowText[0] = "<<<<<";
         arrowText[1] = ">>>>>";
@@ -31,7 +31,6 @@ public class ArrowInstantiation : MonoBehaviour {
         arrowText[3] = ">><>>";
         arrows = arrowText[createArrows()];
         state = 1;
-        //timer = new Timer(1000);
 
 
     }
@@ -133,4 +132,9 @@ public class ArrowInstantiation : MonoBehaviour {
     {
         return (int) (Random.Range(0f, 3.99f));
     } // createArrows()
+
+    public int correctArrow()
+    {
+        return currentArrow;
+    }
 }
