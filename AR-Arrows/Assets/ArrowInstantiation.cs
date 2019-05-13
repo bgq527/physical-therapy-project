@@ -14,12 +14,12 @@ public class ArrowInstantiation : MonoBehaviour {
     string[] arrowText;
     int currentArrow;
     int startFrame;
-    Transform[] wallsRenderer;
+    Renderer[] wallsRenderer;
    // Timer timer;
 
     // Use this for initialization
     void Start () {
-        wallsRenderer = GameObject.Find("Walls").GetComponentsInChildren<Transform>();
+        wallsRenderer = GameObject.Find("Walls").GetComponentsInChildren<Renderer>();
         frameCounter = 0;
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<TextMesh>();
         cameraTransform = GameObject.Find("ARCamera").GetComponent<Transform>();
@@ -67,15 +67,15 @@ public class ArrowInstantiation : MonoBehaviour {
             {
                 if (checkCorrect(cameraY))
                 {
-                     for (int i = 0; i < wallsRenderer.length; i++){
-                       wallsRenderer[i].material.Color = Color(0, 1f, 0, .4f);
+                     for (int i = 0; i < wallsRenderer.Length; i++){
+                       wallsRenderer[i].material.color = new Color(1f, 0f, 0, .4f);
                      }
                     print("Correct");
                 }
                 else
                 {
-                    for (int i = 0; i < wallsRenderer.length; i++){
-                      wallsRenderer[i].material.Color = Color(1f, 0, 0, .4f);
+                    for (int i = 0; i < wallsRenderer.Length; i++){
+                      wallsRenderer[i].material.color = new Color(0f, 1f, 0, .4f);
                     }
                     print("Incorrect");
                 }
@@ -101,8 +101,8 @@ public class ArrowInstantiation : MonoBehaviour {
 
             if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
             {
-                for (int i = 0; i < wallsRenderer.length; i++){
-                  wallsRenderer[i].material.Color = Color(0, 0, 0, 0);
+                for (int i = 0; i < wallsRenderer.Length; i++){
+                  wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
                 }
                 frameCounter = 0;
                 arrowTextMesh.text = arrows;
