@@ -16,6 +16,10 @@
   
 ### AR Arrows
 
+![ar_arrows_demo](https://i.imgur.com/MEBzNi2.gif)
+
+<sup>Demo above is found within the DaxDev branch.</sup>
+
 - Description
   - Arrow perception test with AR included, currently implemented using Unity, Vuforia, built with Gradle, and using an Android phone w/ Google Cardboard v1 standards.
 - Dependencies
