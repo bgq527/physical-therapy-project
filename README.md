@@ -3,8 +3,14 @@
 ## Projects
 ### Arrows
 
-![arrows_demo](https://i.imgur.com/EeSyDdf.gif)
+![arrows_demo](https://i.imgur.com/EeSyDdf.gif) | ![ar_arrows_demo](https://i.imgur.com/uyWFvuf.gif)
+--- | ---
+VR Arrows | AR Arrows
 
+
+<sup>*AR Arrows Demo above is found within the DaxDev branch.</sup>
+
+#### VR
 - Description
   - Arrow perception test, currently implemented using Unity, ARCore, built with Gradle, and using an Android phone w/ Google Cardboard Generic standards.
 - Dependencies
@@ -13,13 +19,8 @@
   - Android Build Tools
   - Android Phone supporting ARCore, with Android 8.0 Oreo and newer versions
   - JDK and JRE Update 8 Version 211
-  
-### AR Arrows
 
-![ar_arrows_demo](https://i.imgur.com/uyWFvuf.gif)
-
-<sup>Demo above is found within the DaxDev branch.</sup>
-
+#### AR
 - Description
   - Arrow perception test with AR included, currently implemented using Unity, Vuforia, built with Gradle, and using an Android phone w/ Google Cardboard v1 standards.
 - Dependencies
