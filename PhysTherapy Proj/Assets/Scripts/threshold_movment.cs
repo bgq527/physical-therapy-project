@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 using System.Linq;
@@ -15,12 +16,12 @@ public class threshold_movment : MonoBehaviour {
     List<string> parentJointNames = new List<string>();
 
     // Threshold for classifying movement as matching the example or not. Model coordinate system (not real-world coords)
-    float threshold = 0.1f;
-    float scale = 0.15f;
+    
     // Use this for initialization
 	void Start () {
         // Parse CSV for list of joints to compare to example (Change to GUI eventually)
-        string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
+        //string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
+        string[] joint_names_string = Regex.Split(Resources.Load("jointlist").ToString(), "\n|\r|\r\n");
         for (int i = 0; i < joint_names_string.Count(); i++)
         {
             string[] child_and_parent = joint_names_string[i].Split(',');
@@ -38,6 +39,8 @@ public class threshold_movment : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        float threshold = fileHolder.threshold;
+        float scale = fileHolder.scale;
         // Get object transforms for objects being compared
         comparisonTransform = GameObject.FindGameObjectWithTag("comparison").GetComponentsInChildren<Transform>();
         actualTransform = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();

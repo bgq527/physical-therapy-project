@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 using System.Linq;
@@ -11,21 +12,24 @@ public class threshold_movment_1_model : MonoBehaviour {
     Transform[] trainerTransform;
     List<string> jointNames = new List<string>();
     List<string> parentJointNames = new List<string>();
+    string[] child_and_parent;
 
     float threshold = 0.1f;
     float scale = 0.15f;
     // Use this for initialization
 	void Start () {
-        string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
+        //string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
+        string[] joint_names_string = Regex.Split(Resources.Load<TextAsset>("CSVs/jointlist").ToString(), "\n|\r|\r\n");
 
         for (int i = 0; i < joint_names_string.Count(); i++)
         {
-            string[] child_and_parent = joint_names_string[i].Split(',');
-
+            child_and_parent = joint_names_string[i].Split(',');
             jointNames.Add(child_and_parent[0]);
             parentJointNames.Add(child_and_parent[1]);
         }
-
+        
+        print(jointNames.Count);
+        print(parentJointNames.Count);
         for (int i = 0; i < parentJointNames.Count()-1; i++)
         {
             print(i);
