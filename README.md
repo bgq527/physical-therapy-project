@@ -50,7 +50,6 @@ VR Arrows | AR Arrows
     - Repeat
 - To Do
   - GUI
-    - Allow user to load or choose multiple animations
     - Allow user to specify output name or username and translate to output file names
     - Allow user to specify tracked joints from GUI
     - Allow user to specify error thresholding 
