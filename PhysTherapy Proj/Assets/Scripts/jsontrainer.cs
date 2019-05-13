@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class jsontrainer : MonoBehaviour
 {
     private string jsonstring;
+    private bool loaded;
     private ModelJSON json;
     int currentFrame;
     Transform[] KinectChildObjects;
@@ -31,10 +32,7 @@ public class jsontrainer : MonoBehaviour
     {
         KinectChildObjects = gameObject.GetComponentsInChildren<Transform>();
         currentFrame = 0;
-        string reader = File.ReadAllText(@"C:\Users\Kinect\Documents\Movements\movementFile.json");
-        json = JsonMapper.ToObject<ModelJSON>(reader);
-        mqInJSON = json.ModelQuaternionList;
-        MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
+        
 
     }
 
@@ -83,7 +81,18 @@ public class jsontrainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-        StartCoroutine(Play_JSON());
+        if (!loaded){
+            if(fileHolder.movementFilename != ""){
+                string reader = File.ReadAllText(fileHolder.movementFilename);
+                json = JsonMapper.ToObject<ModelJSON>(reader);
+                mqInJSON = json.ModelQuaternionList;
+                MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
+                loaded = true;
+            }       
+        } else if (loaded){
+            StartCoroutine(Play_JSON());
+        }
+        
     }
 
     private int GetIndexOfObject(string name)
