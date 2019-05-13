@@ -5,8 +5,13 @@ using UnityEngine;
 
 public class optionsGUI : MonoBehaviour {
 	public int margin = 15;
+	private float threshold = 0.1f;
+	private float scale = 0.15f;
 	private Rect statsWindow = new Rect(Screen.width - 265, 15, 250, 70);
 	private Rect loadMovementWindow = new Rect(Screen.width - 265, 85, 250, 70);
+	private Rect movementOptionsWindow = new Rect(Screen.width - 265, 155, 250, 140);
+	string comparisonThreshold;
+	string boxScale;
 	
 
 	[DllImport("user32.dll")]
@@ -14,7 +19,8 @@ public class optionsGUI : MonoBehaviour {
 
 	private void OnGUI(){
 		statsWindow = GUI.Window(0, statsWindow, statsGUIWindow, "Save Statistics");
-		loadMovementWindow = GUI.Window(1, loadMovementWindow, loadMovementGUIWindow, "Load Movement");     
+		loadMovementWindow = GUI.Window(1, loadMovementWindow, loadMovementGUIWindow, "Load Movement");
+		movementOptionsWindow = GUI.Window(2, movementOptionsWindow, movementOptionsGUIWindow, "Options");
 	}
 
 	private void statsGUIWindow(int windowID){
@@ -38,5 +44,20 @@ public class optionsGUI : MonoBehaviour {
 		}
 		GUI.DragWindow();
 
+	}
+
+	private void movementOptionsGUIWindow(int windowID){
+		comparisonThreshold = GUI.TextField(new Rect(margin, margin, movementOptionsWindow.width - margin * 2, 20), comparisonThreshold);
+		if(float.Parse(comparisonThreshold) != 0 || float.Parse(comparisonThreshold) != fileHolder.threshold){
+			fileHolder.threshold = float.Parse(comparisonThreshold);
+		}
+		
+		boxScale = GUI.TextField(new Rect(margin, margin * 2 + 20, movementOptionsWindow.width - margin * 2, 20), boxScale);
+		if(float.Parse(boxScale) != 0 || float.Parse(boxScale) != fileHolder.scale){
+			fileHolder.scale = float.Parse(boxScale);
+		}
+
+
+		GUI.DragWindow();
 	}
 }
