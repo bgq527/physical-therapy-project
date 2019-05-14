@@ -1,7 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Globalization;
+using System;
 using UnityEngine;
-using System.Timers;
+using UnityEngine.UI;
 
 public class ArrowInstantiation : MonoBehaviour {
     int arrowDirection;
@@ -15,7 +16,11 @@ public class ArrowInstantiation : MonoBehaviour {
     int currentArrow;
     int startFrame;
     Renderer[] wallsRenderer;
-   // Timer timer;
+    Statistics stats;
+    Text debugText;
+
+    TrialData thisTrialData;
+    RawData currentRawData;
 
     // Use this for initialization
     void Start () {
@@ -24,15 +29,26 @@ public class ArrowInstantiation : MonoBehaviour {
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<TextMesh>();
         cameraTransform = GameObject.Find("ARCamera").GetComponent<Transform>();
         cameraCamera = GameObject.Find("ARCamera").GetComponent<Camera>();
-        arrowText = new string[4];
-        arrowText[0] = "<<<<<";
-        arrowText[1] = ">>>>>";
-        arrowText[2] = "<<><<";
-        arrowText[3] = ">><>>";
+        stats = new Statistics();
+        arrowText = new string[4] {"<<<<<", ">>>>>", "<<><<", ">><>>" };
         arrows = arrowText[createArrows()];
-        state = 1;
-        //timer = new Timer(1000);
+        //state = 1;
+        debugText = GameObject.Find("DebugText").GetComponent<Text>();
+        currentRawData = null;
+        thisTrialData = new TrialData();
 
+        currentRawData.returnedToOrigin = DateTime.UtcNow;
+        thisTrialData.rawUserData.Add(currentRawData);
+        currentRawData = null;
+        debugText.text = "retorig stage";
+
+        for (int i = 0; i < wallsRenderer.Length; i++)
+        {
+            wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
+        }
+        frameCounter = 0;
+        arrowTextMesh.text = arrows;
+        state = 0;
 
     }
 
@@ -41,7 +57,8 @@ public class ArrowInstantiation : MonoBehaviour {
         //arrowTextMesh.text = cameraTransform.transform.rotation.x + " | " + cameraTransform.transform.rotation.y;
         float cameraX = cameraTransform.transform.rotation.x;
         float cameraY = cameraTransform.transform.rotation.y;
-
+        
+        
         //arrowTextMesh.text = Mathf.Round(cameraX * 1000f) / 1000f + ", " + Mathf.Round(cameraY * 1000f) / 1000f;
 
         // The following checks which state the program is in
@@ -56,35 +73,59 @@ public class ArrowInstantiation : MonoBehaviour {
 
         if (state == 0)
         {
-
+            if (currentRawData == null)
+            {
+                currentRawData = new RawData();
+                currentRawData.startTime = DateTime.UtcNow;
+                debugText.text = "starttime stage";
+            }
             // Makes the command disappear after ~250 ms
             if (frameCounter > 45)
             {
                 //arrowTextMesh.text = "+";
             }
-            // Checks if the user hit either target
-            if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f))
+
+           
+            // Checks if person left the origin
+            if (!(cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f) && currentRawData.leftOrigin == DateTime.MinValue)
             {
+                currentRawData.leftOrigin = DateTime.UtcNow;
+                debugText.text = "leftorig stage";
+            }
+
+            // Checks if person returned to the origin before hitting a target
+            if ((cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f) && currentRawData.leftOrigin != DateTime.MinValue)
+            {
+                currentRawData.leftOrigin = DateTime.MinValue;
+                debugText.text = "retorig w/o targethit stage";
+            }
+
+            // Checks if the user hit either target
+            if (((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.hitTarget == DateTime.MinValue)
+            {
+                currentRawData.hitTarget = DateTime.UtcNow;
                 if (checkCorrect(cameraY))
                 {
                      for (int i = 0; i < wallsRenderer.Length; i++){
                        wallsRenderer[i].material.color = new Color(1f, 0f, 0, .4f);
                      }
-                    print("Correct");
+                    currentRawData.isCorrect = true;
+                    debugText.text = "correct stage";
                 }
                 else
                 {
                     for (int i = 0; i < wallsRenderer.Length; i++){
                       wallsRenderer[i].material.color = new Color(0f, 1f, 0, .4f);
                     }
-                    print("Incorrect");
+                    currentRawData.isCorrect = false;
+                    debugText.text = "incorr stage";
                 }
 
                 state = 1;
                 arrowTextMesh.text = "+";
                 currentArrow = createArrows();
                 arrows = arrowText[currentArrow];
-
+                currentRawData.completedTrial = true;
             }
             // if 1 second has passed start new command to keep pace
             else if (frameCounter > 180)
@@ -93,20 +134,50 @@ public class ArrowInstantiation : MonoBehaviour {
                 arrowTextMesh.text = "+";
                 currentArrow = createArrows();
                 arrows = arrowText[currentArrow];
+                currentRawData.completedTrial = false;
+                debugText.text = "didnotcomp stage";
             }
         }
 
         if (state == 1)
         {
-
-            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
+            // Checks if person left target
+            if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
             {
+                currentRawData.leftTarget = DateTime.UtcNow;
+
+                state = 1;
+                arrowTextMesh.text = "+";
+                currentArrow = createArrows();
+                arrows = arrowText[currentArrow];
+                currentRawData.completedTrial = true;
+
+                debugText.text = "lefttarg stage";
+            }
+
+            // Checks if person returned to target without returning to origin
+            if (((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget != DateTime.MinValue)
+            {
+                currentRawData.hitTarget = DateTime.MinValue;
+                debugText.text = "rettarg stage";
+
+            }
+
+            // Checks if returned to origin
+            if ((cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f) && currentRawData.returnedToOrigin == DateTime.MinValue)
+            {
+                currentRawData.returnedToOrigin = DateTime.UtcNow;
+                thisTrialData.rawUserData.Add(currentRawData);
+                currentRawData = null;
+                debugText.text = "retorig stage";
+
                 for (int i = 0; i < wallsRenderer.Length; i++){
                   wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
                 }
                 frameCounter = 0;
                 arrowTextMesh.text = arrows;
                 state = 0;
+                
             }
 
         }
@@ -131,6 +202,11 @@ public class ArrowInstantiation : MonoBehaviour {
     // This method creates a String of five arrows pointing in random directions
     public int createArrows()
     {
-        return (int) (Random.Range(0f, 3.99f));
+        return (int) UnityEngine.Random.Range(0f, 3.99f);
     } // createArrows()
+
+    public int correctArrow()
+    {
+        return currentArrow;
+    }
 }
