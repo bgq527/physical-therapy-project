@@ -32,29 +32,24 @@ public class ArrowInstantiation : MonoBehaviour {
         stats = new Statistics();
         arrowText = new string[4] {"<<<<<", ">>>>>", "<<><<", ">><>>" };
         arrows = arrowText[createArrows()];
-        //state = 1;
+        state = 0;
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
-        currentRawData = null;
         thisTrialData = new TrialData();
 
-        currentRawData.returnedToOrigin = DateTime.UtcNow;
-        thisTrialData.rawUserData.Add(currentRawData);
         currentRawData = null;
-        debugText.text = "retorig stage";
+        debugText.text = "start stage";
 
         for (int i = 0; i < wallsRenderer.Length; i++)
         {
             wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
         }
-        frameCounter = 0;
         arrowTextMesh.text = arrows;
-        state = 0;
 
     }
 
 	// Update is called once per frame
 	void Update () {
-        //arrowTextMesh.text = cameraTransform.transform.rotation.x + " | " + cameraTransform.transform.rotation.y;
+        debugText.text = cameraTransform.transform.rotation.x + " | " + cameraTransform.transform.rotation.y;
         float cameraX = cameraTransform.transform.rotation.x;
         float cameraY = cameraTransform.transform.rotation.y;
         
@@ -94,20 +89,20 @@ public class ArrowInstantiation : MonoBehaviour {
             }
 
             // Checks if person returned to the origin before hitting a target
-            if ((cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f) && currentRawData.leftOrigin != DateTime.MinValue)
+            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f && currentRawData.leftOrigin != DateTime.MinValue)
             {
                 currentRawData.leftOrigin = DateTime.MinValue;
                 debugText.text = "retorig w/o targethit stage";
             }
 
             // Checks if the user hit either target
-            if (((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.hitTarget == DateTime.MinValue)
+            if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f) && currentRawData.hitTarget == DateTime.MinValue)
             {
                 currentRawData.hitTarget = DateTime.UtcNow;
                 if (checkCorrect(cameraY))
                 {
                      for (int i = 0; i < wallsRenderer.Length; i++){
-                       wallsRenderer[i].material.color = new Color(1f, 0f, 0, .4f);
+                       wallsRenderer[i].material.color = new Color(0f, 1f, 0f, .4f);
                      }
                     currentRawData.isCorrect = true;
                     debugText.text = "correct stage";
@@ -115,7 +110,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 else
                 {
                     for (int i = 0; i < wallsRenderer.Length; i++){
-                      wallsRenderer[i].material.color = new Color(0f, 1f, 0, .4f);
+                      wallsRenderer[i].material.color = new Color(1f, 0f, 0, .4f);
                     }
                     currentRawData.isCorrect = false;
                     debugText.text = "incorr stage";
@@ -123,48 +118,40 @@ public class ArrowInstantiation : MonoBehaviour {
 
                 state = 1;
                 arrowTextMesh.text = "+";
-                currentArrow = createArrows();
-                arrows = arrowText[currentArrow];
+                arrows = arrowText[createArrows()];
                 currentRawData.completedTrial = true;
             }
             // if 1 second has passed start new command to keep pace
-            else if (frameCounter > 180)
-            {
-                state = 1;
-                arrowTextMesh.text = "+";
-                currentArrow = createArrows();
-                arrows = arrowText[currentArrow];
-                currentRawData.completedTrial = false;
-                debugText.text = "didnotcomp stage";
-            }
+            //else if (frameCounter > 180)
+            //{
+            //    state = 1;
+            //    arrowTextMesh.text = "+";
+            //    currentArrow = createArrows();
+            //    arrows = arrowText[currentArrow];
+            //    currentRawData.completedTrial = false;
+            //    debugText.text = "didnotcomp stage";
+            //}
         }
 
-        if (state == 1)
+        else if (state == 1)
         {
-            // Checks if person left target
-            if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
-            {
-                currentRawData.leftTarget = DateTime.UtcNow;
+            //// Checks if person left target
+            //if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
+            //{
+            //    currentRawData.leftTarget = DateTime.UtcNow;
+            //    debugText.text = "lefttarg stage";
+            //}
 
-                state = 1;
-                arrowTextMesh.text = "+";
-                currentArrow = createArrows();
-                arrows = arrowText[currentArrow];
-                currentRawData.completedTrial = true;
+            //// Checks if person returned to target without returning to origin
+            //if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f) && currentRawData.leftTarget != DateTime.MinValue)
+            //{
+            //    currentRawData.leftTarget = DateTime.MinValue;
+            //    debugText.text = "rettarg stage";
 
-                debugText.text = "lefttarg stage";
-            }
-
-            // Checks if person returned to target without returning to origin
-            if (((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget != DateTime.MinValue)
-            {
-                currentRawData.hitTarget = DateTime.MinValue;
-                debugText.text = "rettarg stage";
-
-            }
+            //}
 
             // Checks if returned to origin
-            if ((cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f) && currentRawData.returnedToOrigin == DateTime.MinValue)
+            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
             {
                 currentRawData.returnedToOrigin = DateTime.UtcNow;
                 thisTrialData.rawUserData.Add(currentRawData);
@@ -174,6 +161,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 for (int i = 0; i < wallsRenderer.Length; i++){
                   wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
                 }
+
                 frameCounter = 0;
                 arrowTextMesh.text = arrows;
                 state = 0;
