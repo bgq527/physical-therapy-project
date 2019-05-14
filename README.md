@@ -1,5 +1,10 @@
 # physical-therapy-project
 
+## Branches
+- master: Usually stable and ready to be built.
+- DaxDev: Dax development branch. Includes very WIP code, highly unstable & buggy but progess is very up-to-date.
+- MasonYEdit: Mason development branch.
+
 ## Projects
 ### Arrows
 
