@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class ArrowInstantiation : MonoBehaviour {
         cameraTransform = GameObject.Find("ARCamera").GetComponent<Transform>();
         cameraCamera = GameObject.Find("ARCamera").GetComponent<Camera>();
         stats = new Statistics();
-        arrowText = new string[4] {"<<<<<", ">>>>>", "<<><<", ">><>>" };
+        arrowText = new string[4] {"<<<<<", ">>>>>", "<<><<", ">><>>"};
         arrows = arrowText[createArrows()];
         state = 0;
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
@@ -49,7 +50,7 @@ public class ArrowInstantiation : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        debugText.text = cameraTransform.transform.rotation.x + " | " + cameraTransform.transform.rotation.y;
+        //debugText.text = state.ToString();
         float cameraX = cameraTransform.transform.rotation.x;
         float cameraY = cameraTransform.transform.rotation.y;
         
@@ -74,11 +75,12 @@ public class ArrowInstantiation : MonoBehaviour {
                 currentRawData.startTime = DateTime.UtcNow;
                 debugText.text = "starttime stage";
             }
-            // Makes the command disappear after ~250 ms
-            if (frameCounter > 45)
-            {
-                //arrowTextMesh.text = "+";
-            }
+
+            //// Makes the command disappear after ~250 ms
+            //if (frameCounter > 45)
+            //{
+            //    arrowTextMesh.text = "+";
+            //}
 
            
             // Checks if person left the origin
@@ -98,13 +100,13 @@ public class ArrowInstantiation : MonoBehaviour {
             // Checks if the user hit either target
             if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f) && currentRawData.hitTarget == DateTime.MinValue)
             {
+                currentRawData.isCorrect = checkCorrect(cameraY);
                 currentRawData.hitTarget = DateTime.UtcNow;
-                if (checkCorrect(cameraY))
+                if (currentRawData.isCorrect)
                 {
                      for (int i = 0; i < wallsRenderer.Length; i++){
                        wallsRenderer[i].material.color = new Color(0f, 1f, 0f, .4f);
                      }
-                    currentRawData.isCorrect = true;
                     debugText.text = "correct stage";
                 }
                 else
@@ -112,7 +114,6 @@ public class ArrowInstantiation : MonoBehaviour {
                     for (int i = 0; i < wallsRenderer.Length; i++){
                       wallsRenderer[i].material.color = new Color(1f, 0f, 0, .4f);
                     }
-                    currentRawData.isCorrect = false;
                     debugText.text = "incorr stage";
                 }
 
@@ -121,7 +122,8 @@ public class ArrowInstantiation : MonoBehaviour {
                 arrows = arrowText[createArrows()];
                 currentRawData.completedTrial = true;
             }
-            // if 1 second has passed start new command to keep pace
+
+            //// if 1 second has passed start new command to keep pace
             //else if (frameCounter > 180)
             //{
             //    state = 1;
@@ -133,33 +135,34 @@ public class ArrowInstantiation : MonoBehaviour {
             //}
         }
 
-        else if (state == 1)
+        if (state == 1)
         {
-            //// Checks if person left target
-            //if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
-            //{
-            //    currentRawData.leftTarget = DateTime.UtcNow;
-            //    debugText.text = "lefttarg stage";
-            //}
+            // Checks if person left target
+            if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
+            {
+                currentRawData.leftTarget = DateTime.UtcNow;
+                debugText.text = "lefttarg stage";
+            }
 
-            //// Checks if person returned to target without returning to origin
-            //if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f) && currentRawData.leftTarget != DateTime.MinValue)
-            //{
-            //    currentRawData.leftTarget = DateTime.MinValue;
-            //    debugText.text = "rettarg stage";
+            // Checks if person returned to target without returning to origin
+            if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f) && currentRawData.leftTarget != DateTime.MinValue)
+            {
+                currentRawData.leftTarget = DateTime.MinValue;
+                debugText.text = "rettarg stage";
 
-            //}
+            }
 
             // Checks if returned to origin
-            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
+            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f && currentRawData.leftTarget != DateTime.MinValue)
             {
+                debugText.text = "retorig stage";
                 currentRawData.returnedToOrigin = DateTime.UtcNow;
                 thisTrialData.rawUserData.Add(currentRawData);
                 currentRawData = null;
-                debugText.text = "retorig stage";
+                
 
                 for (int i = 0; i < wallsRenderer.Length; i++){
-                  wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
+                    wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
                 }
 
                 frameCounter = 0;
@@ -174,14 +177,14 @@ public class ArrowInstantiation : MonoBehaviour {
     // This method checks if the user looked at the correct target
     public bool checkCorrect(float y)
     {
-        bool correct;
-        if (y > .3f) // checks if the user was looking at the right
+        bool correct = false;
+        if (y > .2f) // checks if the user was looking at the right
         {
-            correct = (currentArrow==0 || currentArrow==3);
+            correct = currentArrow == 1 || currentArrow == 2;
         }
-        else // check if the user was looking at the left
+        else if (y < -.2f) // check if the user was looking at the left
         {
-            correct = (currentArrow == 1 || currentArrow == 2);
+            correct = currentArrow == 0 || currentArrow == 3;
         }
 
         return correct;

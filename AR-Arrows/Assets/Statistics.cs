@@ -24,7 +24,7 @@ class TrialData
     int correct;
 
 
-   public List<RawData> rawUserData;
+   public List<RawData> rawUserData = new List<RawData>();
 
     public void packageData (int trialNumber)
     {
