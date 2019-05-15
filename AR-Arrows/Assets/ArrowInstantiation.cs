@@ -18,10 +18,10 @@ public class ArrowInstantiation : MonoBehaviour {
     int currentArrow;
     int startFrame;
     Renderer[] wallsRenderer;
-    Statistics stats;
     Text debugText;
     int numTrials;
 
+    Statistics stats;
     TrialData thisTrialData;
     RawData currentRawData;
 
@@ -220,13 +220,11 @@ public class ArrowInstantiation : MonoBehaviour {
 
         //debugText.text = numTrials.ToString();
     }
-
- 
-
-
+    
+    // This method saves a JSON file
     void SaveFile(string fileName, string path, string folderName, string jsonFile)
     {
-        System.IO.File.WriteAllText(path + folderName + "/" + fileName + ".txt", jsonFile);
+        System.IO.File.WriteAllText(path + folderName + "/" + fileName + ".JSON", jsonFile);
     }
 
     // This method checks if the user looked at the correct target
