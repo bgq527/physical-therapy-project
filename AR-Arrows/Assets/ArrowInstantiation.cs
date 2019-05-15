@@ -177,7 +177,6 @@ public class ArrowInstantiation : MonoBehaviour {
                     }
                     else state = 0;
 
-                    
                     currentRawData.returnedToOrigin = DateTime.UtcNow;
                     thisTrialData.rawUserData.Add(currentRawData);
                     currentRawData = null;
@@ -189,13 +188,11 @@ public class ArrowInstantiation : MonoBehaviour {
                     }
                     frameCounter = 0;
                     arrowTextMesh.text = arrows;
-                    
-
-                    
+      
                 }
                 break;
 
-            case 5:
+            case 5: // Saves the data to a txt file
                 state = 6;
                 thisTrialData.packageData();
 
@@ -208,19 +205,20 @@ public class ArrowInstantiation : MonoBehaviour {
                 {
                     Directory.CreateDirectory(path + folderName);
                 }
-
-                SaveFile("AndroidText", path, folderName, objectToJSON);
+                string filename = DateTime.Now.ToFileTimeUtc().ToString();
+                SaveFile(filename, path, folderName, objectToJSON);
                
                 break;
-            case 6:
+
+            case 6: // Stops the tests
+                arrowTextMesh.text = "Done";
                 break;
             default:
                 Console.WriteLine("Default case");
                 break;
         }
 
-
-        debugText.text = numTrials.ToString();
+        //debugText.text = numTrials.ToString();
     }
 
  
