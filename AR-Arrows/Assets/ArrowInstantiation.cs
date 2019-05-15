@@ -58,120 +58,127 @@ public class ArrowInstantiation : MonoBehaviour {
         //arrowTextMesh.text = Mathf.Round(cameraX * 1000f) / 1000f + ", " + Mathf.Round(cameraY * 1000f) / 1000f;
 
         // The following checks which state the program is in
-        // state 0 is the time when the test is currently active
-        // it starts when the user looks at the center and ends when the user looks at a target
-
-        // state 1 is the time in between tests when the user is recentering their head
-        // it begins when the user looks at the target and ends when the user looks at the "Look here" target
 
         frameCounter++;
         // 60 fps * .25 seconds = 15 frames
 
-        if (state == 0)
+        switch (state)
         {
-            if (currentRawData == null)
-            {
-                currentRawData = new RawData();
-                currentRawData.startTime = DateTime.UtcNow;
-                debugText.text = "starttime stage";
-            }
-
-            //// Makes the command disappear after ~250 ms
-            //if (frameCounter > 45)
-            //{
-            //    arrowTextMesh.text = "+";
-            //}
-
-           
-            // Checks if person left the origin
-            if (!(cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f) && currentRawData.leftOrigin == DateTime.MinValue)
-            {
-                currentRawData.leftOrigin = DateTime.UtcNow;
-                debugText.text = "leftorig stage";
-            }
-
-            // Checks if person returned to the origin before hitting a target
-            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f && currentRawData.leftOrigin != DateTime.MinValue)
-            {
-                currentRawData.leftOrigin = DateTime.MinValue;
-                debugText.text = "retorig w/o targethit stage";
-            }
-
-            // Checks if the user hit either target
-            if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f) && currentRawData.hitTarget == DateTime.MinValue)
-            {
-                currentRawData.isCorrect = checkCorrect(cameraY);
-                currentRawData.hitTarget = DateTime.UtcNow;
-                if (currentRawData.isCorrect)
+            case 0: // Instantiates a new RawData object, determines and sets start time        -> Goes to state 1
+                if (currentRawData == null)
                 {
-                     for (int i = 0; i < wallsRenderer.Length; i++){
-                       wallsRenderer[i].material.color = new Color(0f, 1f, 0f, .4f);
-                     }
-                    debugText.text = "correct stage";
+                    currentRawData = new RawData();
+                    currentRawData.startTime = DateTime.UtcNow;
+                    debugText.text = "starttime stage";
+                    state = 1;
+
                 }
-                else
+                break;
+
+            case 1: // Determines if the user has left the origin                               -> Goes to state 2
+                if (!(cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f))
                 {
-                    for (int i = 0; i < wallsRenderer.Length; i++){
-                      wallsRenderer[i].material.color = new Color(1f, 0f, 0, .4f);
+                    currentRawData.leftOrigin = DateTime.UtcNow;
+                    debugText.text = "leftorig stage";
+                    state = 2;
+
+                }
+                break;
+
+            case 2: // Determines if
+                    // A: The user has returned to the origin without hitting a target          -> Goes back to state 1
+                    // B: The user has hit a target                                             -> Goes to state 3
+
+                // Scenario A
+                if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
+                {
+                    currentRawData.leftOrigin = DateTime.MinValue;
+                    debugText.text = "retorig w/o targethit stage";
+                    state = 1;
+
+                }
+
+                // Scenario B
+                else if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f))
+                {
+                    currentRawData.isCorrect = checkCorrect(cameraY);
+                    currentRawData.hitTarget = DateTime.UtcNow;
+                    if (currentRawData.isCorrect)
+                    {
+                        for (int i = 0; i < wallsRenderer.Length; i++)
+                        {
+                            wallsRenderer[i].material.color = new Color(0f, 1f, 0f, .4f);
+
+                        }
+                        debugText.text = "correct stage";
+
                     }
-                    debugText.text = "incorr stage";
+                    else
+                    {
+                        for (int i = 0; i < wallsRenderer.Length; i++)
+                        {
+                            wallsRenderer[i].material.color = new Color(1f, 0f, 0, .4f);
+                        }
+                        debugText.text = "incorr stage";
+
+                    }
+
+                    arrowTextMesh.text = "+";
+                    arrows = arrowText[createArrows()];
+                    currentRawData.completedTrial = true;
+                    state = 3;
+
+                }
+                Console.WriteLine("Case 2");
+                break;
+
+            case 3: // Determines if the user has left the target threshold                     -> Goes to state 4
+                if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
+                {
+                    currentRawData.leftTarget = DateTime.UtcNow;
+                    debugText.text = "lefttarg stage";
+                    state = 4;
+
+                }
+                break;
+
+            case 4: // Determines if
+                    // A: The user has returned to the target without hitting the origin        -> Goes to state 3
+                    // B: The user has hit the origin                                           -> Goes to state 0
+
+                // Scenario A
+                if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f))
+                {
+                    currentRawData.leftTarget = DateTime.MinValue;
+                    debugText.text = "rettarg stage";
+                    state = 3;
+
                 }
 
-                state = 1;
-                arrowTextMesh.text = "+";
-                arrows = arrowText[createArrows()];
-                currentRawData.completedTrial = true;
-            }
+                // Scenario B
+                else if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
+                {
+                    debugText.text = "retorig stage";
+                    currentRawData.returnedToOrigin = DateTime.UtcNow;
+                    thisTrialData.rawUserData.Add(currentRawData);
+                    currentRawData = null;
 
-            //// if 1 second has passed start new command to keep pace
-            //else if (frameCounter > 180)
-            //{
-            //    state = 1;
-            //    arrowTextMesh.text = "+";
-            //    currentArrow = createArrows();
-            //    arrows = arrowText[currentArrow];
-            //    currentRawData.completedTrial = false;
-            //    debugText.text = "didnotcomp stage";
-            //}
-        }
+                    for (int i = 0; i < wallsRenderer.Length; i++)
+                    {
+                        wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
 
-        if (state == 1)
-        {
-            // Checks if person left target
-            if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
-            {
-                currentRawData.leftTarget = DateTime.UtcNow;
-                debugText.text = "lefttarg stage";
-            }
+                    }
+                    frameCounter = 0;
+                    arrowTextMesh.text = arrows;
+                    state = 0;
 
-            // Checks if person returned to target without returning to origin
-            if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f) && currentRawData.leftTarget != DateTime.MinValue)
-            {
-                currentRawData.leftTarget = DateTime.MinValue;
-                debugText.text = "rettarg stage";
-
-            }
-
-            // Checks if returned to origin
-            if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f && currentRawData.leftTarget != DateTime.MinValue)
-            {
-                debugText.text = "retorig stage";
-                currentRawData.returnedToOrigin = DateTime.UtcNow;
-                thisTrialData.rawUserData.Add(currentRawData);
-                currentRawData = null;
-                
-
-                for (int i = 0; i < wallsRenderer.Length; i++){
-                    wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
                 }
-
-                frameCounter = 0;
-                arrowTextMesh.text = arrows;
-                state = 0;
-                
-            }
-
+                break;
+            default:
+                Console.WriteLine("Default case");
+                break;
         }
+
     }
 
     // This method checks if the user looked at the correct target
