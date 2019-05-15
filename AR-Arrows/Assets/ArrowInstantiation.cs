@@ -25,21 +25,33 @@ public class ArrowInstantiation : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        // GameObject component instantiation
         wallsRenderer = GameObject.Find("Walls").GetComponentsInChildren<Renderer>();
-        frameCounter = 0;
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<TextMesh>();
         cameraTransform = GameObject.Find("ARCamera").GetComponent<Transform>();
         cameraCamera = GameObject.Find("ARCamera").GetComponent<Camera>();
+
+
+        // Statistics and general program variable instantiation
         stats = new Statistics();
         arrowText = new string[4] {"<<<<<", ">>>>>", "<<><<", ">><>>"};
         arrows = arrowText[createArrows()];
-        state = 0;
-        debugText = GameObject.Find("DebugText").GetComponent<Text>();
         thisTrialData = new TrialData();
-
         currentRawData = null;
+
+
+        // Update method variable instantiation
+        frameCounter = 0;
+        state = 0;
+
+
+        // Debugging variable instantiation
+        debugText = GameObject.Find("DebugText").GetComponent<Text>();
         debugText.text = "start stage";
 
+
+        // Sets correctness visualization walls to invisible 
         for (int i = 0; i < wallsRenderer.Length; i++)
         {
             wallsRenderer[i].material.color = new Color(0, 0, 0, 0);
@@ -54,14 +66,10 @@ public class ArrowInstantiation : MonoBehaviour {
         float cameraX = cameraTransform.transform.rotation.x;
         float cameraY = cameraTransform.transform.rotation.y;
         
-        
-        //arrowTextMesh.text = Mathf.Round(cameraX * 1000f) / 1000f + ", " + Mathf.Round(cameraY * 1000f) / 1000f;
-
-        // The following checks which state the program is in
-
         frameCounter++;
         // 60 fps * .25 seconds = 15 frames
 
+        // The following checks which state the program is in
         switch (state)
         {
             case 0: // Instantiates a new RawData object, determines and sets start time        -> Goes to state 1
@@ -101,7 +109,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 // Scenario B
                 else if ((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f))
                 {
-                    currentRawData.isCorrect = checkCorrect(cameraY);
+                    currentRawData.isCorrect = checkCorrect(cameraY, arrows);
                     currentRawData.hitTarget = DateTime.UtcNow;
                     if (currentRawData.isCorrect)
                     {
@@ -133,7 +141,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 break;
 
             case 3: // Determines if the user has left the target threshold                     -> Goes to state 4
-                if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)) && currentRawData.leftTarget == DateTime.MinValue)
+                if (!((cameraX < -.15f) && (cameraY < -.3f || cameraY > .3f)))
                 {
                     currentRawData.leftTarget = DateTime.UtcNow;
                     debugText.text = "lefttarg stage";
@@ -182,29 +190,25 @@ public class ArrowInstantiation : MonoBehaviour {
     }
 
     // This method checks if the user looked at the correct target
-    public bool checkCorrect(float y)
+    public bool checkCorrect(float y, string currentArrow)
     {
         bool correct = false;
-        if (y > .2f) // checks if the user was looking at the right
+        if (y > .3f) // checks if the user was looking at the right
         {
-            correct = currentArrow == 1 || currentArrow == 2;
+            correct = currentArrow[2] == '>';
         }
-        else if (y < -.2f) // check if the user was looking at the left
+        else if (y < -.3f) // check if the user was looking at the left
         {
-            correct = currentArrow == 0 || currentArrow == 3;
+            correct = currentArrow[2] == '<';
         }
 
         return correct;
-    } // checkCorrect(float)
+    }
 
-    // This method creates a String of five arrows pointing in random directions
+    // This method randomly picks a number from 0 to 4 (non-inclusive) to choose between one of four possible arrow configurations
     public int createArrows()
     {
         return (int) UnityEngine.Random.Range(0f, 3.99f);
-    } // createArrows()
+    } 
 
-    public int correctArrow()
-    {
-        return currentArrow;
-    }
 }
