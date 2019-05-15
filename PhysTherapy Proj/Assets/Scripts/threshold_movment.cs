@@ -21,7 +21,7 @@ public class threshold_movment : MonoBehaviour {
 	void Start () {
         // Parse CSV for list of joints to compare to example (Change to GUI eventually)
         //string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
-        string[] joint_names_string = Regex.Split(Resources.Load("jointlist").ToString(), "\n|\r|\r\n");
+        string[] joint_names_string = Regex.Split(Resources.Load("jointlist").ToString(), "\n");
         for (int i = 0; i < joint_names_string.Count(); i++)
         {
             string[] child_and_parent = joint_names_string[i].Split(',');

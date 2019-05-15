@@ -717,7 +717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1209027322}
   - component: {fileID: 1209027321}
-  - component: {fileID: 1209027324}
+  - component: {fileID: 1209027323}
   m_Layer: 0
   m_Name: BodyManager
   m_TagString: Untagged
@@ -749,7 +749,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1209027324
+--- !u!114 &1209027323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}

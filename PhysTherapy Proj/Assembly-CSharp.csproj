@@ -90,7 +90,6 @@
      <Compile Include="Assets\Scripts\optionsGUI.cs" />
      <Compile Include="Assets\Scripts\Realtime_Player.cs" />
      <Compile Include="Assets\Scripts\Realtime_Player_1Comp.cs" />
-     <Compile Include="Assets\Scripts\threshold_movement.cs" />
      <Compile Include="Assets\Scripts\threshold_movment.cs" />
      <Compile Include="Assets\Scripts\threshold_movment_1_model.cs" />
      <None Include="Assets\Scripts\HSVPicker\Resources\Shaders\Compute\GenerateSVTexture.compute" />

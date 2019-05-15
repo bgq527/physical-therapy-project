@@ -14,12 +14,11 @@ public class threshold_movment_1_model : MonoBehaviour {
     List<string> parentJointNames = new List<string>();
     string[] child_and_parent;
 
-    float threshold = 0.1f;
-    float scale = 0.15f;
+    
     // Use this for initialization
 	void Start () {
         //string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
-        string[] joint_names_string = Regex.Split(Resources.Load<TextAsset>("CSVs/jointlist").ToString(), "\n|\r|\r\n");
+        string[] joint_names_string = Regex.Split(Resources.Load<TextAsset>("CSVs/jointlist").ToString(), "\n");
 
         for (int i = 0; i < joint_names_string.Count(); i++)
         {
@@ -27,7 +26,7 @@ public class threshold_movment_1_model : MonoBehaviour {
             jointNames.Add(child_and_parent[0]);
             parentJointNames.Add(child_and_parent[1]);
         }
-        
+
         print(jointNames.Count);
         print(parentJointNames.Count);
         for (int i = 0; i < parentJointNames.Count()-1; i++)
@@ -42,7 +41,8 @@ public class threshold_movment_1_model : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        float threshold = fileHolder.threshold;
+        float scale = fileHolder.scale;
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("cubes").Count(); i++)
         {
