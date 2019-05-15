@@ -11,27 +11,87 @@ class Statistics : MonoBehaviour
     DateTime trialDate;
     List<TrialData> userTrials;
 
+
 }
 
 [System.Serializable]
 class TrialData
 {
-    float conTime;
-    float inconTime;
-    float testTime;
-    float avgTime;
-    float efficiency;
-    int correct;
+    public float conTime;
+    public float inconTime;
+
+    // max time that they took to hit the target sakadTime
+    public float testTime;
+
+    // average of response time 
+    public float avgTime;
+
+    // ( numTrials * average response ) / correct answers
+    public float efficiency;
+    public int correct;
 
 
    public List<RawData> rawUserData = new List<RawData>();
 
-    public void packageData (int trialNumber)
+    public void packageData ()
     {
-        DateTime startTime = rawUserData[trialNumber].startTime;
+
+        // time to return to target
         TimeSpan responseTime = new TimeSpan();
+
+        // time to hit taget
         TimeSpan sakadTime = new TimeSpan();
-        int sakadTimeState = 0;
+
+
+        testTime = 0;
+        int conCount = 0;
+        int inconCount = 0;
+
+        for (int i = 0; i < rawUserData.Count; i++)
+        {
+            // Response time calculated as the time that it took to go from the target back to the origin
+            responseTime = rawUserData[i].leftTarget - rawUserData[i].returnedToOrigin;
+
+            // Sakad time calculated as the time that it took to go from the origin to the target
+            sakadTime = rawUserData[i].leftOrigin - rawUserData[i].hitTarget;
+
+            if (rawUserData[i].shownArrows == "<<<<<" || rawUserData[i].shownArrows == ">>>>>" )
+            {
+                conTime += sakadTime.Milliseconds;
+                conCount++;
+            }
+            else
+            {
+                inconTime += sakadTime.Milliseconds;
+                inconCount++;
+            }
+
+            if (rawUserData[i].isCorrect == true)
+            {
+                correct++;
+            }
+
+            if (responseTime.Milliseconds > testTime)
+            {
+                testTime = responseTime.Milliseconds;
+            }
+
+            avgTime += responseTime.Milliseconds;
+        }
+
+        // Calculates avgTime
+        avgTime = avgTime / rawUserData.Count;
+
+        // Calculates the conTime
+        if (conCount == 0) conTime = 0;
+        else conTime = conTime / conCount;
+
+        // Calculates the inconTime
+        if (inconCount == 0) inconTime = 0;
+        else inconTime = inconTime / inconCount;
+
+        // Calculates efficiency
+        efficiency = (rawUserData.Count*avgTime) / correct;
 
 
         //for (int i = 0; i < rawUserData.Length; i++)
@@ -50,8 +110,8 @@ class TrialData
         //        sakadTime = frameRawData.time - startTime;
         //    }
         //}
-        
-    }
+
+    } //packageData()
 }
 
 [System.Serializable]
