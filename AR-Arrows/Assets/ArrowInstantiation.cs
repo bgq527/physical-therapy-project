@@ -169,7 +169,15 @@ public class ArrowInstantiation : MonoBehaviour {
                 // Scenario B
                 else if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
                 {
-                    debugText.text = "retorig stage";
+                    numTrials++;
+
+                    if (numTrials >= 12)
+                    {
+                        state = 5;
+                    }
+                    else state = 0;
+
+                    
                     currentRawData.returnedToOrigin = DateTime.UtcNow;
                     thisTrialData.rawUserData.Add(currentRawData);
                     currentRawData = null;
@@ -181,18 +189,14 @@ public class ArrowInstantiation : MonoBehaviour {
                     }
                     frameCounter = 0;
                     arrowTextMesh.text = arrows;
-                    numTrials++;
+                    
 
-                    if (numTrials >= 12)
-                    {
-                        state = 5;
-                    }
-                    else state = 0;
-
+                    
                 }
                 break;
 
             case 5:
+                state = 6;
                 thisTrialData.packageData();
 
                 string objectToJSON = JsonUtility.ToJson(thisTrialData, true);
@@ -206,6 +210,9 @@ public class ArrowInstantiation : MonoBehaviour {
                 }
 
                 SaveFile("AndroidText", path, folderName, objectToJSON);
+               
+                break;
+            case 6:
                 break;
             default:
                 Console.WriteLine("Default case");
@@ -213,7 +220,7 @@ public class ArrowInstantiation : MonoBehaviour {
         }
 
 
-
+        debugText.text = numTrials.ToString();
     }
 
  
