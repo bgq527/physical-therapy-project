@@ -12,6 +12,7 @@ public class optionsGUI : MonoBehaviour {
 	private Rect movementOptionsWindow = new Rect(Screen.width - 265, 155, 250, 140);
 	string comparisonThreshold;
 	string boxScale;
+    string thresholdMessage;
 	
 
 	[DllImport("user32.dll")]
@@ -47,17 +48,21 @@ public class optionsGUI : MonoBehaviour {
 	}
 
 	private void movementOptionsGUIWindow(int windowID){
-		comparisonThreshold = GUI.TextField(new Rect(margin, margin, movementOptionsWindow.width - margin * 2, 20), comparisonThreshold);
-		if(float.Parse(comparisonThreshold) != 0 || float.Parse(comparisonThreshold) != fileHolder.threshold){
-			fileHolder.threshold = float.Parse(comparisonThreshold);
-		}
-		
-		boxScale = GUI.TextField(new Rect(margin, margin * 2 + 20, movementOptionsWindow.width - margin * 2, 20), boxScale);
+        GUI.Label(new Rect(margin, margin, movementOptionsWindow.width - margin * 2, 20), "Set Threshold (default is .1)");
+        comparisonThreshold = GUI.TextField(new Rect(margin, margin+20, movementOptionsWindow.width - margin * 2, 20), comparisonThreshold);
+
+        GUI.Label(new Rect(margin, margin * 2 + 25, movementOptionsWindow.width - margin * 2, 20), "Set box scale (default is .15)");
+        boxScale = GUI.TextField(new Rect(margin, margin * 2 + 45, movementOptionsWindow.width - margin * 2, 20), boxScale);
 		if(float.Parse(boxScale) != 0 || float.Parse(boxScale) != fileHolder.scale){
 			fileHolder.scale = float.Parse(boxScale);
 		}
 
+        if (float.Parse(comparisonThreshold) != 0 || float.Parse(comparisonThreshold) != fileHolder.threshold)
+        {
+            fileHolder.threshold = float.Parse(comparisonThreshold);
+        }
 
-		GUI.DragWindow();
+        
+        GUI.DragWindow();
 	}
 }
