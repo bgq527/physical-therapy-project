@@ -271,7 +271,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100120, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
       propertyPath: m_TagString
-      value: comparison
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 13700000, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
       propertyPath: m_Enabled
@@ -307,6 +307,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400116, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100120, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -537,7 +541,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100120, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
       propertyPath: m_TagString
-      value: movement
+      value: comparison
+      objectReference: {fileID: 0}
+    - target: {fileID: 400116, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
@@ -552,9 +560,20 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 505626217}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5d9619d1f10a3849bc3de7ce92d9987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &505626220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 505626217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f900e74d93f2bb438665043b9a5add0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1029258282
@@ -1725,7 +1744,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100120, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}
       propertyPath: m_TagString
-      value: trainer_movement
+      value: movement
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eb90b7b91f559d440bebbabbc68cb4ea, type: 3}

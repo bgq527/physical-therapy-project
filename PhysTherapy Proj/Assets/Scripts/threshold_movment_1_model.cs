@@ -14,9 +14,9 @@ public class threshold_movment_1_model : MonoBehaviour {
     List<string> parentJointNames = new List<string>();
     string[] child_and_parent;
 
-    
+
     // Use this for initialization
-	void Start () {
+    void Start () {
         //string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
         string[] joint_names_string = Regex.Split(Resources.Load<TextAsset>("CSVs/jointlist").ToString(), "\n");
 
@@ -33,10 +33,13 @@ public class threshold_movment_1_model : MonoBehaviour {
         {
             print(i);
             Instantiate(GameObject.FindGameObjectWithTag("cubes"));
+            GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.green;
         }
+
+
         comparisonTransform = GameObject.FindGameObjectWithTag("comparison").GetComponentsInChildren<Transform>();
         actualTransform = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
-        trainerTransform = GameObject.FindGameObjectWithTag("trainer_movement").GetComponentsInChildren<Transform>();
+        trainerTransform = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
     }
 	
 	// Update is called once per frame
@@ -69,22 +72,19 @@ public class threshold_movment_1_model : MonoBehaviour {
                 }
                 
             }
+
+           
+            
+
             if (withinPosition == true)
             {
-                // GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>.enabled = true;
-                GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.green;
+                GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = true;
 
-                // To make it slowly decrease
-                GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color.a = a - 1;
-
-                // create a variable to track alpha, decrease by one each time
-
-                // TODO: add option for this in GUI
             }
             else
             {
-                GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = false;
-                //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.red;
+                 GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().enabled = false;
+
             }
         }
         

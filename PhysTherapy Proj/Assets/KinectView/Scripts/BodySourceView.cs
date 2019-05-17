@@ -47,7 +47,9 @@ public class BodySourceView : MonoBehaviour
     };
     
     void Update () 
+
     {
+        print("Body exists: " + bodyExists.ToString());
         if (BodySourceManager == null)
         {
             return;
