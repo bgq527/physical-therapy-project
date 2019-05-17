@@ -71,9 +71,21 @@ public class threshold_movment_1_model : MonoBehaviour {
             }
             if (withinPosition == true)
             {
+                // GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>.enabled = true;
                 GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.green;
-            } else GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.red;
 
+                // To make it slowly decrease
+                GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color.a = a - 1;
+
+                // create a variable to track alpha, decrease by one each time
+
+                // TODO: add option for this in GUI
+            }
+            else
+            {
+                GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = false;
+                //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.red;
+            }
         }
         
         //cubeInformation.Add
