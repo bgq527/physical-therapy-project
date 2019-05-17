@@ -42,7 +42,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        KinectChildObjects[GetIndexOfObject("root")].transform.localRotation = Quaternion.Euler(0, 180, 0);
+        //KinectChildObjects[GetIndexOfObject("root")].transform.localRotation = Quaternion.Euler(0, 180, 0);
         if (BodySourceView.doesBodyExist() == true && ThisFrameJoints == null)
         {
             ThisFrameJoints = BodySourceView.joints;
@@ -71,7 +71,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
             //print(frame);
             frame += 1;
 
-            KinectChildObjects[GetIndexOfObject("root")].transform.localRotation = Quaternion.Euler(0, 0, 0);
+            //KinectChildObjects[GetIndexOfObject("root")].transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         }
 
@@ -122,6 +122,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
 
     private CurrentFrame MakeChildQuaternionList(List<Vector3> ThisFrameJoints)
     {
+        print(ThisFrameJoints[0]);
         ChildQuaternion leftlowerarm = new ChildQuaternion();
         ChildQuaternion leftupperarm = new ChildQuaternion();
         ChildQuaternion rightlowerarm = new ChildQuaternion();
