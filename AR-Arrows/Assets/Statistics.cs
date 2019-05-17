@@ -11,47 +11,97 @@ class Statistics : MonoBehaviour
     DateTime trialDate;
     List<TrialData> userTrials;
 
+
 }
 
 [System.Serializable]
 class TrialData
 {
-    float conTime;
-    float inconTime;
-    float testTime;
-    float avgTime;
-    float efficiency;
-    int correct;
+    // average of sakadTime when the arrows shown were congruent
+    public float conTime;
 
+    // average of sakadTime when the arrows shown were incongruent
+    public float inconTime;
 
-   public List<RawData> rawUserData = new List<RawData>();
+    // max time that they took to hit the target sakadTime
+    public float testTime;
 
-    public void packageData (int trialNumber)
+    // average of response time 
+    public float avgTime;
+
+    // ( numTrials * average response ) / correct answers
+    public float efficiency;
+
+    // count of correct answers (out of 12)
+    public int correct;
+ 
+    public List<RawData> rawUserData = new List<RawData>();
+
+    public void packageData ()
     {
-        DateTime startTime = rawUserData[trialNumber].startTime;
+
+        // time to return to target
         TimeSpan responseTime = new TimeSpan();
+
+        // time to hit taget
         TimeSpan sakadTime = new TimeSpan();
-        int sakadTimeState = 0;
 
 
-        //for (int i = 0; i < rawUserData.Length; i++)
-        //{
-        //    RawData frameRawData = rawUserData[i];
-        //    if (frameRawData.leftOrigin == true && responseTime == null)
-        //    {
-        //        responseTime = frameRawData.time - startTime;
-        //    }
-        //    if (frameRawData.leftOrigin == true && sakadTimeState == 0 && sakadTime == null)
-        //    {
-        //        sakadTimeState = 1;
-        //    }
-        //    if (frameRawData.enteredOrigin == true && sakadTimeState == 1)
-        //    {
-        //        sakadTime = frameRawData.time - startTime;
-        //    }
-        //}
-        
-    }
+        testTime = 0;
+        int conCount = 0;
+        int inconCount = 0;
+
+        for (int i = 0; i < rawUserData.Count; i++)
+        {
+            // Response time calculated as the time that it took to go from the target back to the origin
+            responseTime = rawUserData[i].returnedToOrigin - rawUserData[i].leftTarget;
+
+            // Sakad time calculated as the time that it took to go from the origin to the target
+            // sakadTime = rawUserData[i].hitTarget - rawUserData[i].leftOrigin;
+            sakadTime = rawUserData[i].hitTarget - rawUserData[i].startTime;
+
+            // Determines if the arrows are congruent or incongruent
+            if (rawUserData[i].shownArrows == "<<<<<" || rawUserData[i].shownArrows == ">>>>>" )
+            {
+                conTime += sakadTime.Milliseconds;
+                conCount++;
+            }
+            else
+            {
+                inconTime += sakadTime.Milliseconds;
+                inconCount++;
+            }
+            
+            // Counts the number of correct answers
+            if (rawUserData[i].isCorrect == true)
+            {
+                correct++;
+            }
+
+            // Determines the longest response time, which is the "testTime"
+            if (responseTime.Milliseconds > testTime)
+            {
+                testTime = responseTime.Milliseconds;
+            }
+
+            avgTime += sakadTime.Milliseconds;
+        }
+
+        // Calculates avgTime
+        avgTime = avgTime / rawUserData.Count;
+
+        // Calculates the conTime
+        if (conCount == 0) conTime = 0;
+        else conTime = conTime / conCount;
+
+        // Calculates the inconTime
+        if (inconCount == 0) inconTime = 0;
+        else inconTime = inconTime / inconCount;
+
+        // Calculates efficiency
+        efficiency = (rawUserData.Count*avgTime) / correct;
+
+    } //packageData()
 }
 
 [System.Serializable]
@@ -67,27 +117,3 @@ class RawData
     public DateTime returnedToOrigin;
 
 }
-
-//[System.Serializable]
-//class RawData
-//{
-//    public Vector3 cameraPosition;
-//    public bool leftOrigin;
-//    public bool hitTarget;
-//    public bool leftTargetHit;
-//    public bool enteredOrigin;
-//    // states
-//    public TimeSpan time;
-
-//    public RawData ()
-//    {
-//        cameraPosition = GameObject.Find("ARCamera").GetComponent<Vector3>();
-//        leftOrigin = (cameraPosition.x > -.05f && cameraPosition.x < .05f && cameraPosition.y > -.05f && cameraPosition.y < .05f);
-//        hitTarget = ((cameraPosition.x < -.15f) && (cameraPosition.y < -.3f || cameraPosition.y > .3f));
-//        leftTargetHit = (hitTarget && ((cameraPosition.x > -.15f) && (cameraPosition.y > -.3f || cameraPosition.y < .3f)));
-//        enteredOrigin = (cameraPosition.x < -.05f && cameraPosition.x > .05f && cameraPosition.y < -.05f && cameraPosition.y > .05f);
-//        time = new TimeSpan(DateTime.Now.Ticks);
-//    }
-
-//}
-

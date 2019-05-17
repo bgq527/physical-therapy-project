@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using System;
@@ -17,9 +18,10 @@ public class ArrowInstantiation : MonoBehaviour {
     int currentArrow;
     int startFrame;
     Renderer[] wallsRenderer;
-    Statistics stats;
     Text debugText;
+    int numTrials;
 
+    Statistics stats;
     TrialData thisTrialData;
     RawData currentRawData;
 
@@ -40,10 +42,10 @@ public class ArrowInstantiation : MonoBehaviour {
         thisTrialData = new TrialData();
         currentRawData = null;
 
-
         // Update method variable instantiation
         frameCounter = 0;
         state = 0;
+        numTrials = 0;
 
 
         // Debugging variable instantiation
@@ -76,6 +78,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 if (currentRawData == null)
                 {
                     currentRawData = new RawData();
+                    currentRawData.shownArrows = arrows;
                     currentRawData.startTime = DateTime.UtcNow;
                     debugText.text = "starttime stage";
                     state = 1;
@@ -166,7 +169,14 @@ public class ArrowInstantiation : MonoBehaviour {
                 // Scenario B
                 else if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
                 {
-                    debugText.text = "retorig stage";
+                    numTrials++;
+
+                    if (numTrials >= 12)
+                    {
+                        state = 5;
+                    }
+                    else state = 0;
+
                     currentRawData.returnedToOrigin = DateTime.UtcNow;
                     thisTrialData.rawUserData.Add(currentRawData);
                     currentRawData = null;
@@ -178,15 +188,43 @@ public class ArrowInstantiation : MonoBehaviour {
                     }
                     frameCounter = 0;
                     arrowTextMesh.text = arrows;
-                    state = 0;
-
+      
                 }
+                break;
+
+            case 5: // Saves the data to a txt file
+                state = 6;
+                thisTrialData.packageData();
+
+                string objectToJSON = JsonUtility.ToJson(thisTrialData, true);
+                print(objectToJSON);
+
+                string path = "/storage/emulated/0/"; string folderName = "xyz";
+
+                if (!Directory.Exists(path + folderName))
+                {
+                    Directory.CreateDirectory(path + folderName);
+                }
+                string filename = DateTime.Now.ToFileTimeUtc().ToString();
+                SaveFile(filename, path, folderName, objectToJSON);
+               
+                break;
+
+            case 6: // Stops the tests
+                arrowTextMesh.text = "Done";
                 break;
             default:
                 Console.WriteLine("Default case");
                 break;
         }
 
+        //debugText.text = numTrials.ToString();
+    }
+    
+    // This method saves a JSON file
+    void SaveFile(string fileName, string path, string folderName, string jsonFile)
+    {
+        System.IO.File.WriteAllText(path + folderName + "/" + fileName + ".JSON", jsonFile);
     }
 
     // This method checks if the user looked at the correct target
@@ -208,7 +246,7 @@ public class ArrowInstantiation : MonoBehaviour {
     // This method randomly picks a number from 0 to 4 (non-inclusive) to choose between one of four possible arrow configurations
     public int createArrows()
     {
-        return (int) UnityEngine.Random.Range(0f, 3.99f);
+        return (int) UnityEngine.Random.Range(0f, 3.999f);
     } 
 
 }
