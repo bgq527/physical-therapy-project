@@ -57,8 +57,6 @@ public class ArrowInstantiation : MonoBehaviour {
         rightTarget = GameObject.Find("Right").GetComponent<Text>();
 
 
-        
-
     }
 
 	// Update is called once per frame
