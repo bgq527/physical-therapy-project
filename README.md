@@ -28,8 +28,10 @@ VR Arrows (with eyetracking) | AR Arrows
 - Dependencies
   - Unity 2018.3+
   - Windows 10
+  - Pupil Labs Eyetracker
+  - Pupil Labs Pupil Capture software (![Pupil software can be found here](https://github.com/pupil-labs/pupil/releases))
   - SteamVR
-  - HTC VIVEPORT
+  - HTC Vive/Vive Pro & HTC VIVEPORT
 
 #### AR
 - Description
