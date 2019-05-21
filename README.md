@@ -6,13 +6,13 @@
 - MasonYEdit: Mason development branch.
 
 ## Projects
-### Arrows
+### Arrows (Eriksen Flanker Task)
 
-![arrows_demo](https://i.imgur.com/EeSyDdf.gif) | ![ar_arrows_demo](https://i.imgur.com/uyWFvuf.gif)
+![eyetracker_arrows_demo](https://i.imgur.com/xe8zAh8.gif) | ![ar_arrows_demo](https://i.imgur.com/uyWFvuf.gif) | 
 --- | ---
-VR Arrows | AR Arrows
+VR Arrows (with eyetracking) | AR Arrows
 
-#### VR
+#### VR (Mobile)
 - Description
   - Arrow perception test, currently implemented using Unity, ARCore, built with Gradle, and using an Android phone w/ Google Cardboard Generic standards.
 - Dependencies
@@ -21,6 +21,15 @@ VR Arrows | AR Arrows
   - Android Build Tools
   - Android Phone supporting ARCore, with Android 8.0 Oreo and newer versions
   - JDK and JRE Update 8 Version 211
+  
+#### VR (Desktop, with eyetracking)
+- Description
+  - Arrow perception test, currently implemented using Unity and OpenVR (SteamVR), using the HTC Vive and the Pupil Labs HTC Vive Binocular eyetracker. *In the future, AR may be implemented into this project*
+- Dependencies
+  - Unity 2018.3+
+  - Windows 10
+  - SteamVR
+  - HTC VIVEPORT
 
 #### AR
 - Description
