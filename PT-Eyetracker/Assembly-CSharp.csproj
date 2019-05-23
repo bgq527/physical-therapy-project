@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{61C588EE-5F29-48D0-3B84-CEEFCC6F66D4}</ProjectGuid>
+    <ProjectGuid>{BA12458E-B9DF-E2FA-C4E9-FCBDC2644975}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -63,20 +63,62 @@
     <Compile Include="Assets\Arrows\ArrowInstantiation.cs" />
     <Compile Include="Assets\Arrows\CameraThreshhold.cs" />
     <Compile Include="Assets\Arrows\Statistics.cs" />
+    <Compile Include="Assets\KinectView\Scripts\BodySourceManager.cs" />
+    <Compile Include="Assets\KinectView\Scripts\BodySourceView.cs" />
+    <Compile Include="Assets\LitJson\IJsonWrapper.cs" />
+    <Compile Include="Assets\LitJson\JsonData.cs" />
+    <Compile Include="Assets\LitJson\JsonException.cs" />
+    <Compile Include="Assets\LitJson\JsonMapper.cs" />
+    <Compile Include="Assets\LitJson\JsonReader.cs" />
+    <Compile Include="Assets\LitJson\JsonWriter.cs" />
+    <Compile Include="Assets\LitJson\Lexer.cs" />
+    <Compile Include="Assets\LitJson\ParserToken.cs" />
+    <Compile Include="Assets\Scripts\changeColor.cs" />
+    <Compile Include="Assets\Scripts\euler_quaternion.cs" />
+    <Compile Include="Assets\Scripts\fileHolder.cs" />
+    <Compile Include="Assets\Scripts\fps_limit.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\Enums\ColorValues.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\Events\ColorChangedEvent.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\Events\HSVChangedEvent.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\Other\ColorPickerTester.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\Other\TiltWindow.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorImage.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorLabel.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorPicker.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorPickerSetup.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorPresetManager.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorPresets.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorSlider.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\ColorSliderImage.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\HexColorField.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UI\SVBoxSlider.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UtilityScripts\BoxSlider.cs" />
+    <Compile Include="Assets\Scripts\HSVPicker\UtilityScripts\HSVUtil.cs" />
+    <Compile Include="Assets\Scripts\JSON_Structure.cs" />
+    <Compile Include="Assets\Scripts\jsoncomparison.cs" />
+    <Compile Include="Assets\Scripts\jsontrainer.cs" />
+    <Compile Include="Assets\Scripts\optionsGUI.cs" />
+    <Compile Include="Assets\Scripts\Realtime_Player.cs" />
+    <Compile Include="Assets\Scripts\Realtime_Player_1Comp.cs" />
+    <Compile Include="Assets\Scripts\threshold_movement.cs" />
+    <Compile Include="Assets\Scripts\threshold_movment.cs" />
+    <Compile Include="Assets\Scripts\threshold_movment_1_model.cs" />
+    <None Include="Assets\Scripts\HSVPicker\Resources\Shaders\Compute\GenerateSVTexture.compute" />
+    <None Include="Assets\Scripts\HSVPicker\README.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -283,19 +325,22 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.14f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="AsyncIO">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Assets/Plugins/Pupil/3rd-party/AsyncIO.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Assets/Plugins/Pupil/3rd-party/AsyncIO.dll</HintPath>
     </Reference>
     <Reference Include="NetMQ">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Assets/Plugins/Pupil/3rd-party/NetMQ.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Assets/Plugins/Pupil/3rd-party/NetMQ.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker with kinect/Assets/Plugins/System.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -654,7 +699,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{58B12656-7C17-3351-F747-F526A3D308A8}</Project>
+      <Project>{7D2C7222-A7A9-CF8B-5CAB-0846CB849198}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

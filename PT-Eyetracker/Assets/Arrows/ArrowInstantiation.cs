@@ -21,6 +21,7 @@ public class ArrowInstantiation : MonoBehaviour {
     int numTrials;
     Text leftTarget;
     Text rightTarget;
+    GameObject roomScene;
 
     Statistics stats;
     TrialData thisTrialData;
@@ -56,6 +57,8 @@ public class ArrowInstantiation : MonoBehaviour {
         leftTarget = GameObject.Find("Left").GetComponent<Text>();
         rightTarget = GameObject.Find("Right").GetComponent<Text>();
 
+        roomScene = GameObject.Find("Room");
+        
 
     }
 
@@ -68,10 +71,12 @@ public class ArrowInstantiation : MonoBehaviour {
             playArrows();
             //debugText.text = variable_holder.eyeRotation.ToString();
             debugText.text = "";
+            roomScene.SetActive(true);
 
         }
         else
         {
+            roomScene.SetActive(false);
             arrowTextMesh.text = "";
             leftTarget.text = "";
             rightTarget.text = "";
