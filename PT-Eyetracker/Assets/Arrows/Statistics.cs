@@ -17,91 +17,68 @@ class Statistics : MonoBehaviour
 [System.Serializable]
 class TrialData
 {
-    // average of sakadTime when the arrows shown were congruent
-    public float conTime;
+    // Average Reaction Time (milliseconds): Elapsed time between appearance of visual stimulus (set of 5 arrows) and pupil movement to peripheral visual target (X located at least 30 degrees lateral to center fixation point)
+    public float avgReactionTime;
 
-    // average of sakadTime when the arrows shown were incongruent
-    public float inconTime;
+    // Proportion of Correct Responses: Number of pupil movements in direction corresponding to direction indicated by center arrow of 5-arrow sets (Number Correct / Total Number of Trials)
+    public float proportionOfCorrectResponses;
 
-    // max time that they took to hit the target sakadTime
-    public float testTime;
+    // Efficiency Index: Average Reaction Time / Proportion of Correct Responses
+    public float efficiencyIndex;
 
-    // average of response time 
-    public float avgTime;
+    // Average Reaction Time for Correct Incongruent Responses(<<><< or >><>>)
+    public float avgInconReactionTime;
 
-    // ( numTrials * average response ) / correct answers
-    public float efficiency;
+    // Average Reaction Time for Correct Congruent Responses (<<<<< or >>>>>)
+    public float avgConReactionTime;
 
-    // count of correct answers (out of 12)
-    public int correct;
- 
+    // Conflict Effect (milliseconds): Average Reaction Time for Correct Incongruent Responses minus Average Reaction Time for Correct Congruent Responses (<<<<< or >>>>>)
+    public float conflictEffect;
+
+    // Average Reaction Time for Correct Responses(Incongruent or Congruent)
+    public float avgReactionTimeCorrectResponses;
+
     public List<RawData> rawUserData = new List<RawData>();
 
-    public void packageData ()
+    public void packageData()
     {
-
-        // time to return to target
-        TimeSpan responseTime = new TimeSpan();
-
-        // time to hit taget
-        TimeSpan sakadTime = new TimeSpan();
-
-
-        testTime = 0;
         int conCount = 0;
         int inconCount = 0;
-
         for (int i = 0; i < rawUserData.Count; i++)
         {
-            // Response time calculated as the time that it took to go from the target back to the origin
-            responseTime = rawUserData[i].returnedToOrigin - rawUserData[i].leftTarget;
+            TimeSpan reactionTime = rawUserData[i].hitTarget - rawUserData[i].startTime;
 
-            // Sakad time calculated as the time that it took to go from the origin to the target
-            // sakadTime = rawUserData[i].hitTarget - rawUserData[i].leftOrigin;
-            sakadTime = rawUserData[i].hitTarget - rawUserData[i].startTime;
+            avgReactionTime += reactionTime.Milliseconds;
 
-            // Determines if the arrows are congruent or incongruent
-            if (rawUserData[i].shownArrows == "<<<<<" || rawUserData[i].shownArrows == ">>>>>" )
+            if (rawUserData[i].isCorrect)
             {
-                conTime += sakadTime.Milliseconds;
-                conCount++;
-            }
-            else
-            {
-                inconTime += sakadTime.Milliseconds;
-                inconCount++;
-            }
-            
-            // Counts the number of correct answers
-            if (rawUserData[i].isCorrect == true)
-            {
-                correct++;
+                proportionOfCorrectResponses++;
+                avgReactionTimeCorrectResponses += reactionTime.Milliseconds;
+
+                if (rawUserData[i].shownArrows == "<<<<<" || rawUserData[i].shownArrows == ">>>>>")
+                {
+                    avgConReactionTime += reactionTime.Milliseconds;
+                    conCount++;
+                }
+                else
+                {
+                    avgInconReactionTime += reactionTime.Milliseconds;
+                    inconCount++;
+                }
+
             }
 
-            // Determines the longest response time, which is the "testTime"
-            if (responseTime.Milliseconds > testTime)
-            {
-                testTime = responseTime.Milliseconds;
-            }
-
-            avgTime += sakadTime.Milliseconds;
         }
 
-        // Calculates avgTime
-        avgTime = avgTime / rawUserData.Count;
+        avgReactionTime = avgReactionTime / rawUserData.Count;
+        avgReactionTimeCorrectResponses = avgReactionTimeCorrectResponses / proportionOfCorrectResponses;
+        proportionOfCorrectResponses = proportionOfCorrectResponses / rawUserData.Count;
+        efficiencyIndex = avgReactionTime / proportionOfCorrectResponses;
+        avgConReactionTime = avgConReactionTime / conCount;
+        avgInconReactionTime = avgInconReactionTime / inconCount;
+        conflictEffect = avgInconReactionTime - avgConReactionTime;
 
-        // Calculates the conTime
-        if (conCount == 0) conTime = 0;
-        else conTime = conTime / conCount;
-
-        // Calculates the inconTime
-        if (inconCount == 0) inconTime = 0;
-        else inconTime = inconTime / inconCount;
-
-        // Calculates efficiency
-        efficiency = (rawUserData.Count*avgTime) / correct;
-
-    } //packageData()
+    }
 }
 
 [System.Serializable]
