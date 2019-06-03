@@ -56,17 +56,25 @@ public class Realtime_Player_1Comp : MonoBehaviour
                 stopw.Start();
             }
             //print(frame / stopw.Elapsed.TotalSeconds);
-            CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
+            //CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
 
-            CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
+            //CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
 
             // NEW STUFF -----------------------
-
-            if (StartRecording.startButtonPressed && !StartRecording.stopButtonPressed && StartRecording.saveFileName != null)
+            if (SceneSwitcher.startButtonPressed && !SceneSwitcher.stopButtonPressed && fileHolder.saveFilename != null)
             {
-                SaveModelJSON("Test1");
+                //fileHolder.stopWatchTime = stopw.Elapsed.TotalMilliseconds.ToString();
+                
+                CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
+
+                CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
             }
-            else if (StartRecording.startButtonPressed && StartRecording.saveFileName == null)
+
+            else if (SceneSwitcher.startButtonPressed && SceneSwitcher.stopButtonPressed && fileHolder.saveFilename != null)
+            {
+                SaveModelJSON(fileHolder.saveFilename);
+            }
+            else if (SceneSwitcher.startButtonPressed && fileHolder.saveFilename == null)
             {
                 GUI.Label(new Rect(200, 200, 300, 100), "Give the file a name before you start recording");
             }
