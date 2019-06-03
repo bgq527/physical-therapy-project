@@ -66,8 +66,8 @@ public class ArrowInstantiation : MonoBehaviour {
 	void Update () {
         if (variable_holder.calibrated == true)
         {
-            leftTarget.text = "L";
-            rightTarget.text = "R";
+            leftTarget.text = "☐";
+            rightTarget.text = "☐";
             playArrows();
             //debugText.text = variable_holder.eyeRotation.ToString();
             debugText.text = "";
@@ -137,7 +137,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 }
 
                 // Scenario B
-                else if ((cameraX > .15f) && (cameraY < -.3f || cameraY > .3f))
+                else if (cameraY < -.3f || cameraY > .3f)
                 {
                     currentRawData.isCorrect = checkCorrect(cameraY, arrows);
                     currentRawData.hitTarget = DateTime.UtcNow;
@@ -164,7 +164,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 break;
 
             case 3: // Determines if the user has left the target threshold                     -> Goes to state 4
-                if (!((cameraX > .15f) && (cameraY < -.3f || cameraY > .3f)))
+                if (!(cameraY < -.3f || cameraY > .3f))
                 {
                     currentRawData.leftTarget = DateTime.UtcNow;
                     debugText.text = "lefttarg stage";
@@ -178,7 +178,7 @@ public class ArrowInstantiation : MonoBehaviour {
                     // B: The user has hit the origin                                           -> Goes to state 0
 
                 // Scenario A
-                if ((cameraX > .15f) && (cameraY < -.3f || cameraY > .3f))
+                if (cameraY < -.3f || cameraY > .3f)
                 {
                     currentRawData.leftTarget = DateTime.MinValue;
                     debugText.text = "rettarg stage";
