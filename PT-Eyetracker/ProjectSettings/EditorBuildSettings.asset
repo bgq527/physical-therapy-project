@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ArrowsScene.unity
     guid: ad3f0665944cdf443a9a4cf6aaa16c9d
+  - enabled: 1
+    path: Assets/Scenes/SaveMovementScene.unity
+    guid: 82d7b5825b188da43a100aa59ee2e7c9
   m_configObjects: {}

@@ -21,7 +21,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
     bool rtriggerdown = false;
 
     ModelQuaternions[] modeljson = new ModelQuaternions[6001];
-    bool saveJSON = false;
+    public bool saveJSON = false;
     bool slerpAll = true;
     bool justxyz = false;
     public static Vector3 saveCurrentPosition;
@@ -59,14 +59,28 @@ public class Realtime_Player_1Comp : MonoBehaviour
             CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
 
             CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
-            if (saveJSON && frame >= 500 && !saved)
+
+            // NEW STUFF -----------------------
+
+            if (StartRecording.startButtonPressed && !StartRecording.stopButtonPressed && StartRecording.saveFileName != null)
             {
-                SaveModelJSON();
+                SaveModelJSON("Test1");
             }
-            if (!saveJSON && frame >= 1000)
+            else if (StartRecording.startButtonPressed && StartRecording.saveFileName == null)
             {
-                frame = 0;
+                GUI.Label(new Rect(200, 200, 300, 100), "Give the file a name before you start recording");
             }
+
+            // NEW STUFF ENDS -------------------
+            
+            //if (saveJSON && frame >= 500 && !saved)
+            //{
+            //    SaveModelJSON();
+            //}
+            //if (!saveJSON && frame >= 1000)
+            //{
+            //    frame = 0;
+            //}
 
             //print(frame);
             frame += 1;
@@ -77,7 +91,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
 
     }
 
-    private void SaveModelJSON()
+    private void SaveModelJSON(string filename)
     {
         if (!justxyz)
         {
@@ -89,7 +103,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
             string objectToJSON = JsonUtility.ToJson(finishedJSON, true);
             print(objectToJSON);
             //            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\matchingMovements.json", true))
-            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\"+fileHolder.saveFilename+".json", true))
+            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\"+filename+".json", true))
             {
                 file.WriteLine(objectToJSON);
             }

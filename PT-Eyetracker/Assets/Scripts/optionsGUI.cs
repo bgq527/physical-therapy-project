@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine.SceneManagement;
 
 public class optionsGUI : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class optionsGUI : MonoBehaviour
     private Rect statsWindow = new Rect(Screen.width - 265, 15, 250, 70);
     private Rect loadMovementWindow = new Rect(Screen.width - 265, 85, 250, 70);
     private Rect movementOptionsWindow = new Rect(Screen.width - 265, 155, 250, 140);
+    private Rect saveSceneWindow = new Rect(Screen.width - 265, 2155, 250, 140);
     string comparisonThreshold;
     string boxScale;
     string saveFileName;
@@ -23,18 +25,17 @@ public class optionsGUI : MonoBehaviour
         statsWindow = GUI.Window(0, statsWindow, statsGUIWindow, "Save Statistics");
         loadMovementWindow = GUI.Window(1, loadMovementWindow, loadMovementGUIWindow, "Load Movement");
         movementOptionsWindow = GUI.Window(2, movementOptionsWindow, movementOptionsGUIWindow, "Options");
+        //saveSceneWindow = GUI.Window(3, saveSceneWindow, saveSceneGUIWindow, "Record New Movements");
     }
 
     private void statsGUIWindow(int windowID)
     {
-        saveFileName = GUI.TextField(new Rect(margin, margin, statsWindow.width - margin * 2, 20), saveFileName);
-        if (GUI.Button(new Rect(statsWindow.width / 2 - 25, margin + 20, 50, 20), "Save"))
+        //saveFileName = GUI.TextField(new Rect(margin, margin, statsWindow.width - margin * 2, 20), saveFileName);
+        if (GUI.Button(new Rect(statsWindow.width / 2 - 100, margin + 20, 200, 20), "Record New Movements"))
         {
-            System.Windows.Forms.SaveFileDialog saveStatisticsDialog = new System.Windows.Forms.SaveFileDialog();
-            if (saveStatisticsDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                fileHolder.saveFilename = saveFileName;
-            }
+            
+              SceneManager.LoadScene("SaveMovementScene");
+            
         }
         GUI.DragWindow();
     }
@@ -74,4 +75,15 @@ public class optionsGUI : MonoBehaviour
 
         GUI.DragWindow();
     }
+
+    //private void saveSceneGUIWindow(int windowID)
+    //{
+
+    //    if  (GUI.Button(new Rect(margin, margin, saveSceneWindow.width - margin * 2, 20), "Click to Record new movements"))
+    //    {
+    //        SceneManager.LoadScene("SaveMovementScene");
+    //    }
+
+    //    GUI.DragWindow();
+    //}
 }
