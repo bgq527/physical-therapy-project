@@ -1270,6 +1270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1075309427}
   - component: {fileID: 1075309426}
+  - component: {fileID: 1075309428}
   m_Layer: 0
   m_Name: ArrowScriptHolder
   m_TagString: Untagged
@@ -1284,7 +1285,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075309425}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ebcdf56a27e11b4d9d00e9225706e1d, type: 3}
   m_Name: 
@@ -1303,6 +1304,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1075309428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075309425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91be7b188d5a19242a56c5464709f828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1081280673
 GameObject:
   m_ObjectHideFlags: 0

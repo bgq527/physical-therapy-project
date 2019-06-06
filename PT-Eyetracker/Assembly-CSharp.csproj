@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Arrows\ArrowInstantiation.cs" />
+    <Compile Include="Assets\Arrows\Arrows.cs" />
     <Compile Include="Assets\Arrows\CameraThreshhold.cs" />
     <Compile Include="Assets\Arrows\Statistics.cs" />
     <Compile Include="Assets\KinectView\Scripts\BodySourceManager.cs" />
