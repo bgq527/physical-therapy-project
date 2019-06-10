@@ -1728,7 +1728,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Edit Participant Info
+  m_Text: 'Change Participant
+
+'
 --- !u!222 &1950254133
 CanvasRenderer:
   m_ObjectHideFlags: 0
