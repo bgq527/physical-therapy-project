@@ -44,6 +44,8 @@ class TrialData
     {
         int conCount = 0;
         int inconCount = 0;
+
+        // Iterate over the list of RawData
         for (int i = 0; i < rawUserData.Count; i++)
         {
             TimeSpan reactionTime = rawUserData[i].hitTarget - rawUserData[i].startTime;
@@ -70,12 +72,25 @@ class TrialData
 
         }
 
+        // Calculate the Average reaction time
         avgReactionTime = avgReactionTime / rawUserData.Count;
+
+        // Calculating the average reaction time of correct responses
         avgReactionTimeCorrectResponses = avgReactionTimeCorrectResponses / proportionOfCorrectResponses;
+
+        // Calculating the proportion of correct responses
         proportionOfCorrectResponses = proportionOfCorrectResponses / rawUserData.Count;
+
+        // Calculating the efficiency index
         efficiencyIndex = avgReactionTime / proportionOfCorrectResponses;
+
+        // Calculating the average congruent reaction time
         avgConReactionTime = avgConReactionTime / conCount;
+
+        // Caclating the average incongruent reaction time
         avgInconReactionTime = avgInconReactionTime / inconCount;
+
+        // Calculating the conflict effect
         conflictEffect = avgInconReactionTime - avgConReactionTime;
 
     }
