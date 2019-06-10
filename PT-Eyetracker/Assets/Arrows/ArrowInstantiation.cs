@@ -22,6 +22,7 @@ public class ArrowInstantiation : MonoBehaviour {
     Text leftTarget;
     Text rightTarget;
     GameObject roomScene;
+    bool timedSection;
 
     Statistics stats;
     TrialData thisTrialData;
@@ -48,7 +49,7 @@ public class ArrowInstantiation : MonoBehaviour {
         frameCounter = 0;
         state = 0;
         numTrials = 0;
-
+        timedSection = false;
 
         // Debugging variable instantiation
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
@@ -66,8 +67,8 @@ public class ArrowInstantiation : MonoBehaviour {
 	void Update () {
         if (variable_holder.calibrated == true)
         {
-            leftTarget.text = "L";
-            rightTarget.text = "R";
+            leftTarget.text = "☐";
+            rightTarget.text = "☐";
             playArrows();
             //debugText.text = variable_holder.eyeRotation.ToString();
             debugText.text = "";
@@ -94,7 +95,12 @@ public class ArrowInstantiation : MonoBehaviour {
 
 
         frameCounter++;
-        // 60 fps * .25 seconds = 15 frames
+        //arrowTextMesh.text = "";
+
+        if ( timedSection )
+        {
+            TimeCheck();
+        }
 
         // The following checks which state the program is in
         switch (state)
@@ -103,10 +109,13 @@ public class ArrowInstantiation : MonoBehaviour {
                 if (currentRawData == null)
                 {
                     arrowTextMesh.text = arrows;
-                    currentRawData = new RawData();
-                    currentRawData.shownArrows = arrows;
-                    currentRawData.startTime = DateTime.UtcNow;
+                    currentRawData = new RawData
+                    {
+                        shownArrows = arrows,
+                        startTime = DateTime.UtcNow
+                    };
                     debugText.text = "starttime stage";
+                    timedSection = true;
                     
                     state = 1;
 
@@ -137,7 +146,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 }
 
                 // Scenario B
-                else if ((cameraX > .15f) && (cameraY < -.3f || cameraY > .3f))
+                else if (cameraY < -.3f || cameraY > .3f)
                 {
                     currentRawData.isCorrect = checkCorrect(cameraY, arrows);
                     currentRawData.hitTarget = DateTime.UtcNow;
@@ -164,7 +173,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 break;
 
             case 3: // Determines if the user has left the target threshold                     -> Goes to state 4
-                if (!((cameraX > .15f) && (cameraY < -.3f || cameraY > .3f)))
+                if (!(cameraY < -.3f || cameraY > .3f))
                 {
                     currentRawData.leftTarget = DateTime.UtcNow;
                     debugText.text = "lefttarg stage";
@@ -175,10 +184,10 @@ public class ArrowInstantiation : MonoBehaviour {
 
             case 4: // Determines if
                     // A: The user has returned to the target without hitting the origin        -> Goes to state 3
-                    // B: The user has hit the origin                                           -> Goes to state 0
+                    // B: The user has hit the origin                                           -> Goes to state 5 to save the data
 
                 // Scenario A
-                if ((cameraX > .15f) && (cameraY < -.3f || cameraY > .3f))
+                if (cameraY < -.3f || cameraY > .3f)
                 {
                     currentRawData.leftTarget = DateTime.MinValue;
                     debugText.text = "rettarg stage";
@@ -187,8 +196,10 @@ public class ArrowInstantiation : MonoBehaviour {
                 }
 
                 // Scenario B
-                else if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f)
+                else if (cameraX > -.05f && cameraX < .05f && cameraY > -.05f && cameraY < .05f || !currentRawData.completedTrial)
                 {
+                    timedSection = false;
+
                     numTrials++;
 
                     if (numTrials >= 12)
@@ -208,7 +219,7 @@ public class ArrowInstantiation : MonoBehaviour {
                 }
                 break;
 
-            case 5: // Saves the data to a txt file
+            case 5: // Saves the data to a JSON file
                 state = 6;
                 thisTrialData.packageData();
 
@@ -263,6 +274,20 @@ public class ArrowInstantiation : MonoBehaviour {
     public int createArrows()
     {
         return (int) UnityEngine.Random.Range(0f, 3.999f);
-    } 
+    }
+
+    public void TimeCheck()
+    {
+        if (DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond > 250f && (arrowTextMesh.text != "" || arrowTextMesh.text != "+"))
+        {
+            arrowTextMesh.text = "";
+        }
+        if (DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond > 1000f)
+        {
+            currentRawData.completedTrial = false;
+            state = 4;
+            timedSection = false;
+        }
+    }
 
 }

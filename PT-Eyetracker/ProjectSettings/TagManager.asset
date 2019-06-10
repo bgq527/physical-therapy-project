@@ -8,8 +8,6 @@ TagManager:
   - comparison
   - cubes
   - movementmr
-  - savefiletext
-  - stopw
   layers:
   - Default
   - TransparentFX

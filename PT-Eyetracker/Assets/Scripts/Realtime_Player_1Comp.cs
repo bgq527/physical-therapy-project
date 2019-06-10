@@ -21,7 +21,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
     bool rtriggerdown = false;
 
     ModelQuaternions[] modeljson = new ModelQuaternions[6001];
-    public bool saveJSON = false;
+    bool saveJSON = false;
     bool slerpAll = true;
     bool justxyz = false;
     public static Vector3 saveCurrentPosition;
@@ -56,39 +56,17 @@ public class Realtime_Player_1Comp : MonoBehaviour
                 stopw.Start();
             }
             //print(frame / stopw.Elapsed.TotalSeconds);
-            //CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
+            CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
 
-            //CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
-
-            // NEW STUFF -----------------------
-            if (SceneSwitcher.startButtonPressed && !SceneSwitcher.stopButtonPressed && fileHolder.saveFilename != null)
+            CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
+            if (saveJSON && frame >= 500 && !saved)
             {
-                //fileHolder.stopWatchTime = stopw.Elapsed.TotalMilliseconds.ToString();
-                
-                CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
-
-                CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
+                SaveModelJSON();
             }
-
-            else if (SceneSwitcher.startButtonPressed && SceneSwitcher.stopButtonPressed && fileHolder.saveFilename != null)
+            if (!saveJSON && frame >= 1000)
             {
-                SaveModelJSON(fileHolder.saveFilename);
+                frame = 0;
             }
-            else if (SceneSwitcher.startButtonPressed && fileHolder.saveFilename == null)
-            {
-                GUI.Label(new Rect(200, 200, 300, 100), "Give the file a name before you start recording");
-            }
-
-            // NEW STUFF ENDS -------------------
-            
-            //if (saveJSON && frame >= 500 && !saved)
-            //{
-            //    SaveModelJSON();
-            //}
-            //if (!saveJSON && frame >= 1000)
-            //{
-            //    frame = 0;
-            //}
 
             //print(frame);
             frame += 1;
@@ -99,7 +77,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
 
     }
 
-    private void SaveModelJSON(string filename)
+    private void SaveModelJSON()
     {
         if (!justxyz)
         {
@@ -111,7 +89,7 @@ public class Realtime_Player_1Comp : MonoBehaviour
             string objectToJSON = JsonUtility.ToJson(finishedJSON, true);
             print(objectToJSON);
             //            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\matchingMovements.json", true))
-            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\"+filename+".json", true))
+            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\"+fileHolder.saveFilename+".json", true))
             {
                 file.WriteLine(objectToJSON);
             }

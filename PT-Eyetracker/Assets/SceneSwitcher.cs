@@ -14,12 +14,13 @@ public class SceneSwitcher : MonoBehaviour
     public void GotoMainMenuScene()
     {
         SceneManager.LoadScene("ArrowsScene");
-        XRSettings.enabled = true;   
+        XRSettings.enabled = true;
     }
 
     public void ChangeFileName(InputField text)
     {
         fileHolder.saveFilename = text.text;
+        print(fileHolder.saveFilename);
     }
 
     public void PrintConfirmation()
@@ -31,11 +32,13 @@ public class SceneSwitcher : MonoBehaviour
     {
         stopButtonPressed = false;
         startButtonPressed = true;
+        Debug.Log("StartRecordingPressed");
     }
 
     public void StopRecording()
     {
         startButtonPressed = false;
         stopButtonPressed = true;
+        Debug.Log("StopRecordingPressed");
     }
 }

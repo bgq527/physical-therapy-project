@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Arrows\ArrowInstantiation.cs" />
+    <Compile Include="Assets\Arrows\Arrows.cs" />
     <Compile Include="Assets\Arrows\CameraThreshhold.cs" />
     <Compile Include="Assets\Arrows\Statistics.cs" />
     <Compile Include="Assets\KinectView\Scripts\BodySourceManager.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="Assets\LitJson\Lexer.cs" />
     <Compile Include="Assets\LitJson\ParserToken.cs" />
     <Compile Include="Assets\SceneSwitcher.cs" />
-    <Compile Include="Assets\Scripts\ButtonPress.cs" />
     <Compile Include="Assets\Scripts\changeColor.cs" />
     <Compile Include="Assets\Scripts\euler_quaternion.cs" />
     <Compile Include="Assets\Scripts\fileHolder.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Assets\Scripts\Realtime_Player.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player_1Comp.cs" />
     <Compile Include="Assets\Scripts\SaveGUI.cs" />
+    <Compile Include="Assets\Scripts\StartPress.cs" />
     <Compile Include="Assets\Scripts\StartRecording.cs" />
     <Compile Include="Assets\Scripts\threshold_movement.cs" />
     <Compile Include="Assets\Scripts\threshold_movment.cs" />
