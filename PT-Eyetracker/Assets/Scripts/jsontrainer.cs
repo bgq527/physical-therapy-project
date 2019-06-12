@@ -83,8 +83,8 @@ public class jsontrainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (variable_holder.calibrated == true)
-        {
+        //if (variable_holder.calibrated == true)
+       // {
             movementMeshRenderer.enabled = true;
             if (!loaded)
             {
@@ -96,16 +96,16 @@ public class jsontrainer : MonoBehaviour
                     MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
                     loaded = true;
                 }
-            }
+           // }
             else if (loaded)
             {
                 StartCoroutine(Play_JSON());
             }
         }
-        else
-        {
-            movementMeshRenderer.enabled = false;
-        }
+        //else
+       // {
+       //     movementMeshRenderer.enabled = false;
+       // }
     }
 
     private int GetIndexOfObject(string name)

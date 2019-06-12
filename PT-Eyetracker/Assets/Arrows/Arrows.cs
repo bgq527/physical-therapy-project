@@ -15,7 +15,7 @@ public class Arrows : MonoBehaviour
     int numTrials;
     Text leftTarget;
     Text rightTarget;
-    GameObject roomScene;
+//    GameObject roomScene;
     bool isSceneSetup;
     bool timeOne;
     float originThreshold;
@@ -33,7 +33,7 @@ public class Arrows : MonoBehaviour
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<Text>();
         leftTarget = GameObject.Find("Left").GetComponent<Text>();
         rightTarget = GameObject.Find("Right").GetComponent<Text>();
-        roomScene = GameObject.Find("Room");
+//      roomScene = GameObject.Find("Room");
 
         // Statistics and general program variable instantiation
         stats = new Statistics();
@@ -53,7 +53,7 @@ public class Arrows : MonoBehaviour
         debugText.text = "";
 
         // hide objects before eye tracker is calibrated
-        roomScene.SetActive(false);
+//      roomScene.SetActive(false);
         arrowTextMesh.enabled = false;
         leftTarget.text = "";
         rightTarget.text = "";
@@ -214,7 +214,7 @@ public class Arrows : MonoBehaviour
         debugText.text = "";
         state = 1;
         arrowTextMesh.enabled = true;
-        roomScene.SetActive(true);
+//      roomScene.SetActive(true);
         isSceneSetup = true;
     }
 

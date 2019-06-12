@@ -13,7 +13,7 @@ public class SceneSwitcher : MonoBehaviour
 
     public void GotoMainMenuScene()
     {
-        SceneManager.LoadScene("ArrowsScene");
+        SceneManager.LoadScene("MainMenuScene");
         XRSettings.enabled = true;
     }
 

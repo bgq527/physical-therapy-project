@@ -64,6 +64,7 @@
     <Compile Include="Assets\Arrows\Arrows.cs" />
     <Compile Include="Assets\Arrows\CameraThreshhold.cs" />
     <Compile Include="Assets\Arrows\Statistics.cs" />
+    <Compile Include="Assets\ArrowsController.cs" />
     <Compile Include="Assets\KinectView\Scripts\BodySourceManager.cs" />
     <Compile Include="Assets\KinectView\Scripts\BodySourceView.cs" />
     <Compile Include="Assets\LitJson\IJsonWrapper.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Assets\Scripts\JSON_Structure.cs" />
     <Compile Include="Assets\Scripts\jsoncomparison.cs" />
     <Compile Include="Assets\Scripts\jsontrainer.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\optionsGUI.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player_1Comp.cs" />
@@ -108,8 +110,26 @@
     <Compile Include="Assets\Scripts\threshold_movement.cs" />
     <Compile Include="Assets\Scripts\threshold_movment.cs" />
     <Compile Include="Assets\Scripts\threshold_movment_1_model.cs" />
+    <Compile Include="Assets\SettingsController.cs" />
     <None Include="Assets\Scripts\HSVPicker\Resources\Shaders\Compute\GenerateSVTexture.compute" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Scripts\HSVPicker\README.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/Kinect/Documents/PT-Eyetracker/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
