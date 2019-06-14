@@ -75,7 +75,7 @@ public class threshold_movment_1_model : MonoBehaviour {
            
             
 
-            if (withinPosition == true && variable_holder.calibrated == true)
+            if (withinPosition == true /* && variable_holder.calibrated == true*/)
             {
                 GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = true;
 
