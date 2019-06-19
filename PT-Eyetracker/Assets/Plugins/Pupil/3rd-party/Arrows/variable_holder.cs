@@ -6,11 +6,13 @@ public class variable_holder : MonoBehaviour
 {
     public static Vector3 eyeRotation;
     public static bool calibrated;
+    public static float yvalue;
     // Start is called before the first frame update
     void Start()
     {
         eyeRotation = new Vector3();
         calibrated = false;
+        yvalue = 0f;
     }
 
     // Update is called once per frame

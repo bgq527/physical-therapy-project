@@ -8,6 +8,7 @@ TagManager:
   - comparison
   - cubes
   - movementmr
+  - roottag
   layers:
   - Default
   - TransparentFX

@@ -173,6 +173,11 @@ public class BodySourceView : MonoBehaviour
                 //GameObject.FindGameObjectWithTag("comparision").transform.position = new Vector3(GameObject.FindGameObjectWithTag("comparision").transform.position.x, jointObj.localPosition.y, GameObject.FindGameObjectWithTag("comparision").transform.position.z);
                 Realtime_Player.SaveCurrentPosition(new Vector3(jointObj.localPosition.x, jointObj.localPosition.y, jointObj.localPosition.z));
             }
+
+            if (jt == Kinect.JointType.FootLeft)
+            {
+                variable_holder.yvalue = jointObj.transform.position.y;
+            }
             //if (jt == 0)
             //{
             //    GameObject.FindGameObjectWithTag("KinectPlayer").transform.position = new Vector3(jointObj.localPosition.x, GameObject.FindGameObjectWithTag("KinectPlayer").transform.position.y, 3.45f - jointObj.localPosition.z);

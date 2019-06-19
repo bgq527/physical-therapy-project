@@ -32,7 +32,8 @@ public class threshold_movment_1_model : MonoBehaviour {
         for (int i = 0; i < parentJointNames.Count()-1; i++)
         {
             print(i);
-            Instantiate(GameObject.FindGameObjectWithTag("cubes"));
+        //    Instantiate(GameObject.FindGameObjectWithTag("cubes"));
+            Instantiate(GameObject.Find("BlobLightProjector"));
             GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.green;
         }
 
