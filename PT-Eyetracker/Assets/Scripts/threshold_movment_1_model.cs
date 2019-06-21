@@ -51,7 +51,7 @@ public class threshold_movment_1_model : MonoBehaviour {
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("proj").Count(); i++ )
         {
-            print(GameObject.FindGameObjectsWithTag("proj").Count());
+        //    print(GameObject.FindGameObjectsWithTag("proj").Count());
 
             var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
             pos.z -= 1;
