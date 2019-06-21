@@ -76,25 +76,25 @@ public class Realtime_Player_1Comp : MonoBehaviour
             //KinectChildObjects[GetIndexOfObject("root")].transform.localRotation = Quaternion.Euler(0, 0, 0);
 
 
-            // TEST
+           // // TEST
 
 
-            var yvalue = BodySourceView.joints[19].y;
+           // var yvalue = BodySourceView.joints[19].y;
 
-            print(variable_holder.yvalue);
+           // print(variable_holder.yvalue);
 
 
             
 
-           // var floorplane = GameObject.Find("FloorPlane");
-           // Vector3 position = new Vector3(floorplane.transform.position.x, yvalue, floorplane.transform.position.z);
-           // floorplane.transform.position = position;
+           //// var floorplane = GameObject.Find("FloorPlane");
+           //// Vector3 position = new Vector3(floorplane.transform.position.x, yvalue, floorplane.transform.position.z);
+           //// floorplane.transform.position = position;
 
-            var cam = GameObject.Find("MainCamera");
-            Vector3 position = new Vector3(cam.transform.position.x, yvalue + 1, cam.transform.position.z);
-            cam.transform.position = position;
+           // var cam = GameObject.Find("MainCamera");
+           // Vector3 position = new Vector3(cam.transform.position.x, yvalue + 1, cam.transform.position.z);
+           // cam.transform.position = position;
             
-            // END TEST
+           // // END TEST
         }
 
     }

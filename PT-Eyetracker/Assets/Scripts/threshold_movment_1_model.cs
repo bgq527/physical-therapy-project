@@ -32,9 +32,10 @@ public class threshold_movment_1_model : MonoBehaviour {
         for (int i = 0; i < parentJointNames.Count()-1; i++)
         {
             print(i);
-        //    Instantiate(GameObject.FindGameObjectWithTag("cubes"));
+         //   Instantiate(GameObject.FindGameObjectWithTag("cubes"));
             Instantiate(GameObject.Find("BlobLightProjector"));
-            GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.green;
+        //    GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().material.color = Color.green;
+            GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().material.color = Color.green;
         }
 
 
@@ -48,20 +49,18 @@ public class threshold_movment_1_model : MonoBehaviour {
         float threshold = fileHolder.threshold;
         float scale = fileHolder.scale;
 
-        for (int i = 0; i < GameObject.FindGameObjectsWithTag("cubes").Count(); i++)
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("proj").Count(); i++ )
         {
+            print(GameObject.FindGameObjectsWithTag("proj").Count());
 
-            print(GameObject.FindGameObjectsWithTag("cubes").Count());
-            //print(cubeRenderer.Count());
-            print(jointNames[i]);
+            var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
+            pos.z -= 1;
+            GameObject.FindGameObjectsWithTag("proj")[i].transform.position = pos;
 
-            GameObject.FindGameObjectsWithTag("cubes")[i].transform.position = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
-            GameObject.FindGameObjectsWithTag("cubes")[i].transform.localScale = new Vector3(scale, scale, scale);
             Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
             Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
 
             Vector3 localPositions = localPosition1 - localPosition2;
-            print(localPositions);
 
             bool withinPosition = true;
             for (int j = 0; j < 3; j++)
@@ -70,26 +69,89 @@ public class threshold_movment_1_model : MonoBehaviour {
                 {
                     withinPosition = false;
                 }
-                
+
             }
 
-           
-            
 
             if (withinPosition == true /* && variable_holder.calibrated == true*/)
             {
-                GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = true;
+                //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = true;
+                //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Projector>().enabled = true;
+                GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().enabled = true;
 
             }
             else
             {
-                  GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().enabled = false;
+                //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().enabled = false;
+                GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().enabled = false;
                 //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().material.color = Color.red;
 
             }
+        }
+
+        //for (int i = 0; i < GameObject.FindGameObjectsWithTag("cubes").Count(); i++)
+        //{
+
+        //    print(GameObject.FindGameObjectsWithTag("cubes").Count());
+        //    //print(cubeRenderer.Count());
+        //    print(jointNames[i]);
+
+        //    // New
+        //    //var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
+        //    //pos.z -= 1;
+
+        //    //GameObject.FindGameObjectsWithTag("cubes")[i].transform.localScale = new Vector3(scale, scale, scale);
+
+
+        //    //Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
+        //    //Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
+
+        //    //Vector3 localPositions = localPosition1 - localPosition2;
+
+        //    // End
+
 
             
-        }
+
+        //    GameObject.FindGameObjectsWithTag("cubes")[i].transform.position = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
+        //    //GameObject.FindGameObjectsWithTag("cubes")[i].transform.position.z = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
+        //    GameObject.FindGameObjectsWithTag("cubes")[i].transform.localScale = new Vector3(scale, scale, scale);
+        //    Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
+        //    Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
+
+        //    Vector3 localPositions = localPosition1 - localPosition2;
+        //    print(localPositions);
+
+            
+
+        //    bool withinPosition = true;
+        //    for (int j = 0; j < 3; j++)
+        //    {
+        //        if (Math.Abs(localPositions[j]) >= threshold)
+        //        {
+        //            withinPosition = false;
+        //        }
+                
+        //    }
+
+           
+            
+
+        //    if (withinPosition == true /* && variable_holder.calibrated == true*/)
+        //    {
+        //        GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = true;
+        //        //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Projector>().enabled = true;
+
+        //    }
+        //    else
+        //    {
+        //          GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().enabled = false;
+        //        //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().material.color = Color.red;
+
+        //    }
+
+            
+        //}
         
         //cubeInformation.Add
         }
