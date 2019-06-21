@@ -113,6 +113,7 @@
     <Compile Include="Assets\Scripts\optionsGUI.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player_1Comp.cs" />
+    <Compile Include="Assets\Scripts\Realtime_Player_Save.cs" />
     <Compile Include="Assets\Scripts\SaveGUI.cs" />
     <Compile Include="Assets\Scripts\StartPress.cs" />
     <Compile Include="Assets\Scripts\StartRecording.cs" />
