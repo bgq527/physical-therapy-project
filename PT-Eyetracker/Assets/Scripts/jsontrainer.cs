@@ -41,7 +41,7 @@ public class jsontrainer : MonoBehaviour
 
     IEnumerator Play_JSON()
     {
-        gameObject.transform.parent.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+       // gameObject.transform.parent.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         
         cqInJSON = mqInJSON[currentFrame];
         List<ChildQuaternion> currentChildQuaternion = cqInJSON.ChildQuaternionList;
@@ -68,8 +68,12 @@ public class jsontrainer : MonoBehaviour
         KinectChildObjects[GetIndexOfObject("lowerleg_l")].transform.rotation = leftlowerleg.quaternion;
         KinectChildObjects[GetIndexOfObject("upperleg_l")].transform.rotation = leftupperleg.quaternion;
 
+       // KinectChildObjects[GetIndexOfObject("foot_r")].transform.rotation = Quaternion.Euler(0, 0, 0);
+       // KinectChildObjects[GetIndexOfObject("foot_l")].transform.rotation = Quaternion.Euler(0, 0, 0);
+
         KinectChildObjects[GetIndexOfObject("foot_r")].transform.rotation = Quaternion.Euler(180, 90, -90);
         KinectChildObjects[GetIndexOfObject("foot_l")].transform.rotation = Quaternion.Euler(180, 90, 90);
+
         MovementChildObjects[GetIndexOfMovementObject("root")].rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180, transform.rotation.eulerAngles.z);
         //ransform.parent.localPosition = new Vector3(localPosition.x, localPosition.y, localPosition.z);
 
