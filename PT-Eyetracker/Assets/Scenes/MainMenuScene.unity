@@ -1138,7 +1138,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: G.Miller
+  m_Text: First Last
 --- !u!222 &823838619
 CanvasRenderer:
   m_ObjectHideFlags: 0

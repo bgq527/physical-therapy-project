@@ -35,7 +35,7 @@ public class Realtime_Player_Save : MonoBehaviour
     {
         KinectChildObjects = gameObject.GetComponentsInChildren<Transform>();
         MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
-        comparisonTag = GameObject.FindGameObjectWithTag("comparison").GetComponent<Transform>();
+    //    comparisonTag = GameObject.FindGameObjectWithTag("comparison").GetComponent<Transform>();
         frame = 0;
     }
 

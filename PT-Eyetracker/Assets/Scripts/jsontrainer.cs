@@ -31,6 +31,7 @@ public class jsontrainer : MonoBehaviour
 
     void Start()
     {
+        loaded = false;
         KinectChildObjects = gameObject.GetComponentsInChildren<Transform>();
         currentFrame = 0;
         movementMeshRenderer = GameObject.FindGameObjectWithTag("movementmr").GetComponent<SkinnedMeshRenderer>();
@@ -85,7 +86,7 @@ public class jsontrainer : MonoBehaviour
     {
         //if (variable_holder.calibrated == true)
        // {
-            movementMeshRenderer.enabled = true;
+       //     movementMeshRenderer.enabled = true;
             if (!loaded)
             {
                 if (fileHolder.movementFilename != "")
@@ -96,12 +97,12 @@ public class jsontrainer : MonoBehaviour
                     MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
                     loaded = true;
                 }
-           // }
+            }
             else if (loaded)
             {
                 StartCoroutine(Play_JSON());
             }
-        }
+        //}
         //else
        // {
        //     movementMeshRenderer.enabled = false;
