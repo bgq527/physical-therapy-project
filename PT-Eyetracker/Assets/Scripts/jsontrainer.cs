@@ -24,6 +24,10 @@ public class jsontrainer : MonoBehaviour
     ChildQuaternion leftlowerleg = new ChildQuaternion();
     ChildQuaternion head = new ChildQuaternion();
     SkinnedMeshRenderer movementMeshRenderer;
+    private float timer = 0.0f;
+    bool play = false;
+    float timer2 = 0f;
+    int count = 0;
 
     ModelQuaternions[] mqInJSON;
     ModelQuaternions cqInJSON;
@@ -88,6 +92,31 @@ public class jsontrainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        timer2 += Time.deltaTime;
+        //print(timer);
+
+        if (timer >= .0410f)
+        {
+            play = true;
+            timer = 0f;
+           // count++;
+        }
+
+
+        // How many times a second the movements are being played
+        // Should be 24..
+        /*
+        if (timer2 >= 1f)
+        {
+            print(count);
+            count = 0;
+            timer2 = 0f;
+        }
+        */
+
+        else play = false;
+
         //if (variable_holder.calibrated == true)
        // {
        //     movementMeshRenderer.enabled = true;
@@ -102,7 +131,7 @@ public class jsontrainer : MonoBehaviour
                     loaded = true;
                 }
             }
-            else if (loaded)
+            else if (loaded && play)
             {
                 StartCoroutine(Play_JSON());
             }

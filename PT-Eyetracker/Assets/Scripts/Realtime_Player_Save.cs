@@ -73,6 +73,9 @@ public class Realtime_Player_Save : MonoBehaviour
             print(frame);
             frame += 1;
 
+            var rotate = GameObject.Find("rp_eric_rigged_001_yup_t (2)").transform.rotation;
+            rotate.y = 0;
+            GameObject.Find("rp_eric_rigged_001_yup_t (2)").transform.rotation = rotate;
            
         }
 
