@@ -7,6 +7,7 @@ public class variable_holder : MonoBehaviour
     public static Vector3 eyeRotation;
     public static bool calibrated;
     public static float yvalue;
+    public static float minPos;
     // Start is called before the first frame update
     void Start()
     {
