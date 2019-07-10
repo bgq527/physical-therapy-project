@@ -76,6 +76,7 @@
     <Compile Include="Assets\LitJson\Lexer.cs" />
     <Compile Include="Assets\LitJson\ParserToken.cs" />
     <Compile Include="Assets\ProjectorScript.cs" />
+    <Compile Include="Assets\RGBController.cs" />
     <Compile Include="Assets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
     <Compile Include="Assets\SampleScenes\Menu\Scripts\PauseMenu.cs" />
     <Compile Include="Assets\SampleScenes\Menu\Scripts\SceneAndURLLoader.cs" />
