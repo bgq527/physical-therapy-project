@@ -42,5 +42,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("SettingsScene");
     }
+
+    public void GotoRGBTest()
+    {
+        SceneManager.LoadScene("RGBTest");
+    }
 }
 

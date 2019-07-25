@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SettingsScene.unity
     guid: c9c60256666a180448241a0991955542
+  - enabled: 1
+    path: Assets/Scenes/RGBTest.unity
+    guid: 535555f8114a2a948b2aaa51c4e64811
   m_configObjects: {}

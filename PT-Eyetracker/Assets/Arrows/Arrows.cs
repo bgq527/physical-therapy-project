@@ -53,7 +53,12 @@ public class Arrows : MonoBehaviour
         debugText.text = "";
 
         // hide objects before eye tracker is calibrated
-//      roomScene.SetActive(false);
+        //      roomScene.SetActive(false);
+
+        arrowTextMesh.color = Color.white;
+        leftTarget.color = Color.white;
+        rightTarget.color = Color.white;
+
         arrowTextMesh.enabled = false;
         leftTarget.text = "";
         rightTarget.text = "";
