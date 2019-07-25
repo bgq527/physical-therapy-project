@@ -5,16 +5,20 @@ using Assets.HSVPicker;
 
 public class changeColor : MonoBehaviour {
 
+    public GameObject camera;
 	public Renderer objRenderer;
 	public ColorPicker picker;
 	// Use this for initialization
 	void Start () {
-		objRenderer = gameObject.GetComponent<Renderer>();
+
+        Camera cam = camera.GetComponent<Camera>();
+        
+        //objRenderer = gameObject.GetComponent<Renderer>();
 		picker.onValueChanged.AddListener(color =>
 		{
-			objRenderer.material.color = color;
+            cam.backgroundColor = color;
 		});
-		objRenderer.material.color = picker.CurrentColor;
+		cam.backgroundColor = picker.CurrentColor;
 	}
 	
 	// Update is called once per frame

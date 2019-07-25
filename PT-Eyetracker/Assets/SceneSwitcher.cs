@@ -13,7 +13,7 @@ public class SceneSwitcher : MonoBehaviour
 
     public void GotoMainMenuScene()
     {
-        SceneManager.LoadScene("ArrowsScene");
+        SceneManager.LoadScene("MainMenuScene");
         XRSettings.enabled = true;
     }
 
@@ -33,6 +33,8 @@ public class SceneSwitcher : MonoBehaviour
         stopButtonPressed = false;
         startButtonPressed = true;
         Debug.Log("StartRecordingPressed");
+
+        Realtime_Player_Save.saveJSON = true;
     }
 
     public void StopRecording()

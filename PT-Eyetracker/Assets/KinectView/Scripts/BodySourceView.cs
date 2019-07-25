@@ -156,7 +156,7 @@ public class BodySourceView : MonoBehaviour
 
             joints.Add(GetVector3FromJoint(sourceJoint));
 
-            
+
 
             if (_BoneMap.ContainsKey(jt))
             {
@@ -172,6 +172,20 @@ public class BodySourceView : MonoBehaviour
                 //GameObject.FindGameObjectWithTag("comparison").transform.localPosition = new Vector3(jointObj.localPosition.x, jointObj.localPosition.y, jointObj.localPosition.z);
                 //GameObject.FindGameObjectWithTag("comparision").transform.position = new Vector3(GameObject.FindGameObjectWithTag("comparision").transform.position.x, jointObj.localPosition.y, GameObject.FindGameObjectWithTag("comparision").transform.position.z);
                 Realtime_Player.SaveCurrentPosition(new Vector3(jointObj.localPosition.x, jointObj.localPosition.y, jointObj.localPosition.z));
+            }
+
+            if (jt == Kinect.JointType.FootLeft)
+            {
+                variable_holder.minPos = jointObj.position.y;
+                print(variable_holder.minPos);
+                GameObject.Find("FloorCube").transform.position = new Vector3 (0, variable_holder.minPos, 0);
+                
+
+            }
+
+            if (jt == Kinect.JointType.FootLeft)
+            {
+                variable_holder.yvalue = jointObj.transform.position.y;
             }
             //if (jt == 0)
             //{

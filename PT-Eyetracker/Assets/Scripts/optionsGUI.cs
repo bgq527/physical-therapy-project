@@ -22,7 +22,7 @@ public class optionsGUI : MonoBehaviour
     {
         statsWindow = GUI.Window(0, statsWindow, statsGUIWindow, "Save Statistics");
         loadMovementWindow = GUI.Window(1, loadMovementWindow, loadMovementGUIWindow, "Load Movement");
-        movementOptionsWindow = GUI.Window(2, movementOptionsWindow, movementOptionsGUIWindow, "Options");
+    //    movementOptionsWindow = GUI.Window(2, movementOptionsWindow, movementOptionsGUIWindow, "Options");
     }
 
     private void statsGUIWindow(int windowID)
@@ -54,24 +54,24 @@ public class optionsGUI : MonoBehaviour
 
     }
 
-    private void movementOptionsGUIWindow(int windowID)
-    {
-        GUI.Label(new Rect(margin, margin, movementOptionsWindow.width - margin * 2, 20), "Set Threshold (default is .1)");
-        comparisonThreshold = GUI.TextField(new Rect(margin, margin + 20, movementOptionsWindow.width - margin * 2, 20), comparisonThreshold);
+    //private void movementOptionsGUIWindow(int windowID)
+    //{
+    //    GUI.Label(new Rect(margin, margin, movementOptionsWindow.width - margin * 2, 20), "Set Threshold (default is .1)");
+    //    comparisonThreshold = GUI.TextField(new Rect(margin, margin + 20, movementOptionsWindow.width - margin * 2, 20), comparisonThreshold);
 
-        GUI.Label(new Rect(margin, margin * 2 + 25, movementOptionsWindow.width - margin * 2, 20), "Set box scale (default is .15)");
-        boxScale = GUI.TextField(new Rect(margin, margin * 2 + 45, movementOptionsWindow.width - margin * 2, 20), boxScale);
-        if (float.Parse(boxScale) != 0 || float.Parse(boxScale) != fileHolder.scale)
-        {
-            fileHolder.scale = float.Parse(boxScale);
-        }
+    //    GUI.Label(new Rect(margin, margin * 2 + 25, movementOptionsWindow.width - margin * 2, 20), "Set box scale (default is .15)");
+    //    boxScale = GUI.TextField(new Rect(margin, margin * 2 + 45, movementOptionsWindow.width - margin * 2, 20), boxScale);
+    //    if (float.Parse(boxScale) != 0 || float.Parse(boxScale) != fileHolder.scale)
+    //    {
+    //        fileHolder.scale = float.Parse(boxScale);
+    //    }
 
-        if (float.Parse(comparisonThreshold) != 0 || float.Parse(comparisonThreshold) != fileHolder.threshold)
-        {
-            fileHolder.threshold = float.Parse(comparisonThreshold);
-        }
+    //    if (float.Parse(comparisonThreshold) != 0 || float.Parse(comparisonThreshold) != fileHolder.threshold)
+    //    {
+    //        fileHolder.threshold = float.Parse(comparisonThreshold);
+    //    }
 
 
-        GUI.DragWindow();
-    }
+    //    GUI.DragWindow();
+    //}
 }

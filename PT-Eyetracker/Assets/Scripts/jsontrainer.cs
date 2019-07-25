@@ -24,6 +24,10 @@ public class jsontrainer : MonoBehaviour
     ChildQuaternion leftlowerleg = new ChildQuaternion();
     ChildQuaternion head = new ChildQuaternion();
     SkinnedMeshRenderer movementMeshRenderer;
+    private float timer = 0.0f;
+    bool play = false;
+    float timer2 = 0f;
+    int count = 0;
 
     ModelQuaternions[] mqInJSON;
     ModelQuaternions cqInJSON;
@@ -31,6 +35,7 @@ public class jsontrainer : MonoBehaviour
 
     void Start()
     {
+        loaded = false;
         KinectChildObjects = gameObject.GetComponentsInChildren<Transform>();
         currentFrame = 0;
         movementMeshRenderer = GameObject.FindGameObjectWithTag("movementmr").GetComponent<SkinnedMeshRenderer>();
@@ -40,7 +45,7 @@ public class jsontrainer : MonoBehaviour
 
     IEnumerator Play_JSON()
     {
-        gameObject.transform.parent.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+       // gameObject.transform.parent.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         
         cqInJSON = mqInJSON[currentFrame];
         List<ChildQuaternion> currentChildQuaternion = cqInJSON.ChildQuaternionList;
@@ -67,8 +72,12 @@ public class jsontrainer : MonoBehaviour
         KinectChildObjects[GetIndexOfObject("lowerleg_l")].transform.rotation = leftlowerleg.quaternion;
         KinectChildObjects[GetIndexOfObject("upperleg_l")].transform.rotation = leftupperleg.quaternion;
 
+       // KinectChildObjects[GetIndexOfObject("foot_r")].transform.rotation = Quaternion.Euler(0, 0, 0);
+       // KinectChildObjects[GetIndexOfObject("foot_l")].transform.rotation = Quaternion.Euler(0, 0, 0);
+
         KinectChildObjects[GetIndexOfObject("foot_r")].transform.rotation = Quaternion.Euler(180, 90, -90);
         KinectChildObjects[GetIndexOfObject("foot_l")].transform.rotation = Quaternion.Euler(180, 90, 90);
+
         MovementChildObjects[GetIndexOfMovementObject("root")].rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180, transform.rotation.eulerAngles.z);
         //ransform.parent.localPosition = new Vector3(localPosition.x, localPosition.y, localPosition.z);
 
@@ -83,9 +92,34 @@ public class jsontrainer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (variable_holder.calibrated == true)
+        timer += Time.deltaTime;
+        timer2 += Time.deltaTime;
+        //print(timer);
+
+        if (timer >= .0410f)
         {
-            movementMeshRenderer.enabled = true;
+            play = true;
+            timer = 0f;
+           // count++;
+        }
+
+
+        // How many times a second the movements are being played
+        // Should be 24..
+        /*
+        if (timer2 >= 1f)
+        {
+            print(count);
+            count = 0;
+            timer2 = 0f;
+        }
+        */
+
+        else play = false;
+
+        //if (variable_holder.calibrated == true)
+       // {
+       //     movementMeshRenderer.enabled = true;
             if (!loaded)
             {
                 if (fileHolder.movementFilename != "")
@@ -97,15 +131,15 @@ public class jsontrainer : MonoBehaviour
                     loaded = true;
                 }
             }
-            else if (loaded)
+            else if (loaded && play)
             {
                 StartCoroutine(Play_JSON());
             }
-        }
-        else
-        {
-            movementMeshRenderer.enabled = false;
-        }
+        //}
+        //else
+       // {
+       //     movementMeshRenderer.enabled = false;
+       // }
     }
 
     private int GetIndexOfObject(string name)

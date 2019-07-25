@@ -17,9 +17,36 @@ namespace PupilLabs
         public event Action OnConnected;
         public event Action OnDisconnecting;
 
+        private bool done = false;
+        private bool done2 = false;
+
         public bool IsConnected
         {
             get { return request.IsConnected; }
+        }
+
+        void Update()
+        {
+            if (VariableHolder.startedTest && !done)
+            {
+                request.SendStartMessage();
+                done = true;
+            }
+
+            if (VariableHolder.endedTest && !done2)
+            {
+                try
+                {
+                    done2 = true;
+                    Debug.Log(request.ReceiveRequestResponse());
+                    request.SendCommand("r", out string x);
+                    print(x);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                }
+            }
         }
 
         public string IP

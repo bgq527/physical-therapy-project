@@ -27,7 +27,7 @@ namespace PupilLabs
             private TimeSpan requestTimeout = new System.TimeSpan(0, 0, 1); //= 1sec
 
             public bool IsConnected { get; set; }
-
+            
             public string GetSubConnectionString()
             {
                 return IPHeader + subport;
@@ -58,6 +58,18 @@ namespace PupilLabs
                     requestSocket.SendFrame("PUB_PORT");
                     requestSocket.TryReceiveFrameString(requestTimeout, out pubport);
                 }
+            }
+
+            public void SendStartMessage()
+            {
+                requestSocket.SendFrame("R");
+                print("start recording Request Sent");
+            }
+
+            public void SendEndMessage()
+            {
+                requestSocket.SendFrame("r");
+                print("End recording Request Sent");
             }
 
             public void CloseSockets()
