@@ -165,6 +165,7 @@
     <Compile Include="Assets\Plugins\Pupil\Scripts\Utils\DontDestroy.cs" />
     <Compile Include="Assets\Plugins\Pupil\Scripts\Utils\EnableOnCalibrationSuccess.cs" />
     <Compile Include="Assets\Plugins\Pupil\Scripts\Utils\LoadSceneAfterCalibration.cs" />
+    <Compile Include="Assets\Plugins\Pupil\Scripts\VariableHolder.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Camera2DFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />

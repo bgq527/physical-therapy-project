@@ -112,6 +112,7 @@
     <Compile Include="Assets\Scripts\jsontrainer.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\optionsGUI.cs" />
+    <Compile Include="Assets\Scripts\PupilRemoteController.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player_1Comp.cs" />
     <Compile Include="Assets\Scripts\Realtime_Player_Save.cs" />

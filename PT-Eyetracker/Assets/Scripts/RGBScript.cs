@@ -27,13 +27,17 @@ public class RGBScript : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime;
-        print(time);
+       // print(time);
 
-        if (time > timeBetweenCycles && count <= 12)
+        if (time > timeBetweenCycles && count < 12)
         {
             cam.backgroundColor = cycle[count];
             count++;
             time -= timeBetweenCycles;
+        }
+        else if (count >= 12)
+        {
+            VariableHolder.endedTest = true;
         }
        
     
