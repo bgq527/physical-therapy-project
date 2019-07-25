@@ -35,10 +35,17 @@ namespace PupilLabs
 
             if (VariableHolder.endedTest && !done2)
             {
-                done2 = true;
-                print("IM HERE XDXDXD"+done2);
-                request.SendEndMessage();
-                done2 = true;
+                try
+                {
+                    done2 = true;
+                    Debug.Log(request.ReceiveRequestResponse());
+                    request.SendCommand("r", out string x);
+                    print(x);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                }
             }
         }
 
