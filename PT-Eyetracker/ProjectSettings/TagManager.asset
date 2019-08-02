@@ -10,6 +10,7 @@ TagManager:
   - movementmr
   - roottag
   - proj
+  - room
   layers:
   - Default
   - TransparentFX

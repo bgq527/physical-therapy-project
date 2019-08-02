@@ -19,6 +19,9 @@ public class Arrows : MonoBehaviour
     bool isSceneSetup;
     bool timeOne;
     float originThreshold;
+    bool countDownFinished;
+    bool countDownStarted;
+    DateTime countDownStartTime;
 
     Statistics stats;
     TrialData thisTrialData;
@@ -33,7 +36,7 @@ public class Arrows : MonoBehaviour
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<Text>();
         leftTarget = GameObject.Find("Left").GetComponent<Text>();
         rightTarget = GameObject.Find("Right").GetComponent<Text>();
-//      roomScene = GameObject.Find("Room");
+   //   roomScene = GameObject.Find("Room");
 
         // Statistics and general program variable instantiation
         stats = new Statistics();
@@ -47,6 +50,7 @@ public class Arrows : MonoBehaviour
         numTrials = 0;
         isSceneSetup = false;
         originThreshold = .1f;
+        countDownFinished = false;
 
         // Debugging variable instantiation
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
@@ -55,9 +59,9 @@ public class Arrows : MonoBehaviour
         // hide objects before eye tracker is calibrated
         //      roomScene.SetActive(false);
 
-        arrowTextMesh.color = Color.white;
-        leftTarget.color = Color.white;
-        rightTarget.color = Color.white;
+        //arrowTextMesh.color = Color.white;
+        //leftTarget.color = Color.white;
+        //rightTarget.color = Color.white;
 
         arrowTextMesh.enabled = false;
         leftTarget.text = "";
@@ -68,16 +72,16 @@ public class Arrows : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //debugText.text = state.ToString();
+                //debugText.text = state.ToString();
 
         // Check if the scene has already been setup
         if (!isSceneSetup)
         {
             // Once the eye tracker has been calibrated setup the scene
-           if (variable_holder.calibrated == true)
+           if (variable_holder.calibrated == true && variable_holder.startButtonPressed)
             {
-                SetupScene();
+                CountDown();
+                if (countDownFinished) SetupScene();
             }
         }
 
@@ -203,6 +207,25 @@ public class Arrows : MonoBehaviour
                 Debug.Log("Default state");
                 break;
         }
+    }
+
+    // Counts down from 5 seconds
+    void CountDown()
+    {
+        if (!countDownStarted)
+        {
+            countDownStartTime = DateTime.UtcNow + TimeSpan.FromSeconds(5);
+            arrowTextMesh.enabled = true;
+            countDownStarted = true;
+        }
+
+        arrowTextMesh.text =  countDownStartTime.Second - DateTime.UtcNow.Second  + "";
+
+        if (DateTime.UtcNow.Second - countDownStartTime.Second > 0f)
+        {
+            countDownFinished = true;
+        }
+
     }
 
     // This method randomly picks a number from 0 to 4 (non-inclusive) to choose between one of four possible arrow configurations
