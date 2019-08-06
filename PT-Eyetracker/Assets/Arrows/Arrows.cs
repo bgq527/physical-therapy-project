@@ -15,7 +15,9 @@ public class Arrows : MonoBehaviour
     int numTrials;
     Text leftTarget;
     Text rightTarget;
-//    GameObject roomScene;
+    //    GameObject roomScene;
+
+    public bool roomActive;
     bool isSceneSetup;
     bool timeOne;
     float originThreshold;
@@ -28,6 +30,19 @@ public class Arrows : MonoBehaviour
     RawData currentRawData;
 
     Text debugText;
+
+
+    public GameObject RightConfText;
+    public GameObject LeftConfText;
+    public GameObject CurrentTimingText;
+    public GameObject NextSetText;
+    public GameObject CurrentStageText;
+    public GameObject PreviousCompletedText;
+    public GameObject PreviousCorrectText;
+    public GameObject PreviousLeaveOriginText;
+    public GameObject PreviousHitTargetText;
+    public GameObject PreviousLeftTargetText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +66,7 @@ public class Arrows : MonoBehaviour
         isSceneSetup = false;
         originThreshold = .1f;
         countDownFinished = false;
+        roomActive = true;
 
         // Debugging variable instantiation
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
@@ -59,9 +75,9 @@ public class Arrows : MonoBehaviour
         // hide objects before eye tracker is calibrated
         //      roomScene.SetActive(false);
 
-        //arrowTextMesh.color = Color.white;
-        //leftTarget.color = Color.white;
-        //rightTarget.color = Color.white;
+        arrowTextMesh.color = Color.gray;
+        leftTarget.color = Color.gray;
+        rightTarget.color = Color.gray;
 
         arrowTextMesh.enabled = false;
         leftTarget.text = "";
@@ -72,8 +88,8 @@ public class Arrows : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-                //debugText.text = state.ToString();
-
+        //debugText.text = state.ToString();
+        UpdateStats();
         // Check if the scene has already been setup
         if (!isSceneSetup)
         {
@@ -228,6 +244,82 @@ public class Arrows : MonoBehaviour
 
     }
 
+    // Updates the stats box
+    void UpdateStats()
+    {
+        //Text[] text = RightConfText.GetComponents<Text>();
+        //text[0].text = Time.time.ToString();
+
+        Text rightText = RightConfText.GetComponent<Text>();
+        Text stageText = CurrentStageText.GetComponent<Text>();
+        Text timingText = CurrentTimingText.GetComponent<Text>();
+        Text nextText = NextSetText.GetComponent<Text>();
+        Text leaveOrigText = PreviousLeaveOriginText.GetComponent<Text>();
+        Text correctText = PreviousCorrectText.GetComponent<Text>();
+        Text completedText = PreviousCompletedText.GetComponent<Text>();
+        Text hitTargText = PreviousHitTargetText.GetComponent<Text>();
+        Text leaveTargText = PreviousLeftTargetText.GetComponent<Text>();
+
+        //LeftConfText
+
+
+        nextText.text = currentArrows;
+
+        
+        if (state > 0)
+        {
+            if (state != 1)
+            {
+                completedText.text = currentRawData.returnedToOrigin - currentRawData.startTime + "";
+                correctText.text = currentRawData.isCorrect + "";
+                leaveOrigText.text = currentRawData.leftOrigin - currentRawData.startTime + "";
+                hitTargText.text = currentRawData.hitTarget - currentRawData.startTime + "";
+                leaveTargText.text = currentRawData.leftTarget - currentRawData.startTime + "";
+            }
+
+
+
+            //CurrentStageText
+            switch (state)
+            {
+                case 1:
+                    stageText.text = "reset state";
+                    break;
+                case 2:
+                    stageText.text = "in origin";
+                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+                    break;
+                case 3:
+                    stageText.text = "left origin";
+                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+                    break;
+                case 4:
+                    stageText.text = "hit target";
+                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+                    break;
+                case 5:
+                    stageText.text = "left target";
+                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+                    break;
+                case 6:
+                    stageText.text = "test end";
+                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+                    break;
+
+            }
+        }
+        else if (variable_holder.calibrated) stageText.text = "waiting for start";
+        else stageText.text = "calibration";
+        
+        
+        //PreviousCompletedText
+        //PreviousCorrectText
+        //PreviousLeaveOriginText
+        //PreviousHitTargetText
+        //PreviousLeftTargetText
+
+    }
+
     // This method randomly picks a number from 0 to 4 (non-inclusive) to choose between one of four possible arrow configurations
     int CreateArrows()
     {
@@ -273,6 +365,25 @@ public class Arrows : MonoBehaviour
                 SaveData();
             }
                 
+        }
+    }
+
+    // Changes color of text when background changes
+    public void RoomChanged()
+    {
+        roomActive = !roomActive;
+        if (roomActive)
+        {
+            arrowTextMesh.color = Color.black;
+            leftTarget.color = Color.black;
+            rightTarget.color = Color.black;
+        }
+        else
+        {
+            arrowTextMesh.color = Color.white;
+            leftTarget.color = Color.white;
+            rightTarget.color = Color.white;
+
         }
     }
 

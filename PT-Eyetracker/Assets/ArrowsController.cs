@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ArrowsController : MonoBehaviour
 {
     public GameObject room;
+    
 
     void Start()
     {
