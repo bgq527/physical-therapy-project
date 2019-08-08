@@ -178,7 +178,7 @@ public class BodySourceView : MonoBehaviour
             {
                 variable_holder.minPos = jointObj.position.y;
                 print(variable_holder.minPos);
-                GameObject.Find("FloorCube").transform.position = new Vector3 (0, variable_holder.minPos, 0);
+                //GameObject.Find("FloorCube").transform.position = new Vector3 (0, variable_holder.minPos, 0);
                 
 
             }
