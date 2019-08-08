@@ -270,11 +270,11 @@ public class Arrows : MonoBehaviour
         {
             if (state != 1)
             {
-                completedText.text = currentRawData.returnedToOrigin - currentRawData.startTime + "";
+                completedText.text = currentRawData.returnedToOrigin.Millisecond - currentRawData.startTime.Millisecond + "";
                 correctText.text = currentRawData.isCorrect + "";
-                leaveOrigText.text = currentRawData.leftOrigin - currentRawData.startTime + "";
-                hitTargText.text = currentRawData.hitTarget - currentRawData.startTime + "";
-                leaveTargText.text = currentRawData.leftTarget - currentRawData.startTime + "";
+                leaveOrigText.text = currentRawData.leftOrigin.Millisecond - currentRawData.startTime.Millisecond + "";
+                hitTargText.text = currentRawData.hitTarget.Millisecond - currentRawData.startTime.Millisecond + "";
+                leaveTargText.text = currentRawData.leftTarget.Millisecond - currentRawData.startTime.Millisecond + "";
             }
 
 
