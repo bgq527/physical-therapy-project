@@ -8,9 +8,9 @@ public class optionsGUI : MonoBehaviour
     public int margin = 15;
     private float threshold = 0.1f;
     private float scale = 0.15f;
-    private Rect statsWindow = new Rect(Screen.width - 265, 15, 250, 70);
-    private Rect loadMovementWindow = new Rect(Screen.width - 265, 85, 250, 70);
-    private Rect movementOptionsWindow = new Rect(Screen.width - 265, 155, 250, 140);
+    //private Rect statsWindow = new Rect(Screen.width - 265, 15, 250, 70);
+    private Rect loadMovementWindow = new Rect(Screen.width - 265, 15, 250, 70);
+    //private Rect movementOptionsWindow = new Rect(Screen.width - 265, 155, 250, 140);
     string comparisonThreshold;
     string boxScale;
     string saveFileName;
@@ -20,24 +20,24 @@ public class optionsGUI : MonoBehaviour
 
     private void OnGUI()
     {
-        statsWindow = GUI.Window(0, statsWindow, statsGUIWindow, "Save Statistics");
+        //statsWindow = GUI.Window(0, statsWindow, statsGUIWindow, "Save Statistics");
         loadMovementWindow = GUI.Window(1, loadMovementWindow, loadMovementGUIWindow, "Load Movement");
     //    movementOptionsWindow = GUI.Window(2, movementOptionsWindow, movementOptionsGUIWindow, "Options");
     }
 
-    private void statsGUIWindow(int windowID)
-    {
-        saveFileName = GUI.TextField(new Rect(margin, margin, statsWindow.width - margin * 2, 20), saveFileName);
-        if (GUI.Button(new Rect(statsWindow.width / 2 - 25, margin + 20, 50, 20), "Save"))
-        {
-            System.Windows.Forms.SaveFileDialog saveStatisticsDialog = new System.Windows.Forms.SaveFileDialog();
-            if (saveStatisticsDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                fileHolder.saveFilename = saveFileName;
-            }
-        }
-        GUI.DragWindow();
-    }
+    //private void statsGUIWindow(int windowID)
+    //{
+    //    saveFileName = GUI.TextField(new Rect(margin, margin, statsWindow.width - margin * 2, 20), saveFileName);
+    //    if (GUI.Button(new Rect(statsWindow.width / 2 - 25, margin + 20, 50, 20), "Save"))
+    //    {
+    //        System.Windows.Forms.SaveFileDialog saveStatisticsDialog = new System.Windows.Forms.SaveFileDialog();
+    //        if (saveStatisticsDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+    //        {
+    //            fileHolder.saveFilename = saveFileName;
+    //        }
+    //    }
+    //    GUI.DragWindow();
+    //}
 
     private void loadMovementGUIWindow(int windowID)
     {
