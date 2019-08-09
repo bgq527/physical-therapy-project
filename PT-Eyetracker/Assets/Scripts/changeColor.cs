@@ -16,9 +16,12 @@ public class changeColor : MonoBehaviour {
         //objRenderer = gameObject.GetComponent<Renderer>();
 		picker.onValueChanged.AddListener(color =>
 		{
-            cam.backgroundColor = color;
+           // cam.backgroundColor = color;
+            objRenderer.material.color = color;
+
 		});
-		cam.backgroundColor = picker.CurrentColor;
+		//cam.backgroundColor = picker.CurrentColor;
+
 	}
 	
 	// Update is called once per frame
