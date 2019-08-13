@@ -9,6 +9,7 @@ public class variable_holder : MonoBehaviour
     public static float yvalue;
     public static float minPos;
     public static bool startButtonPressed = false;
+    public static bool stopButtonPressed = false;
     // Start is called before the first frame update
     void Start()
     {
