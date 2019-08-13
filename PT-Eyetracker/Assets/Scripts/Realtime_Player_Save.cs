@@ -26,6 +26,8 @@ public class Realtime_Player_Save : MonoBehaviour
     bool justxyz = false;
     public static Vector3 saveCurrentPosition;
 
+    bool alreadySaved;
+
     Stopwatch stopw;
     List<Vector3> ThisFrameJoints;
 
@@ -37,6 +39,7 @@ public class Realtime_Player_Save : MonoBehaviour
         MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
     //    comparisonTag = GameObject.FindGameObjectWithTag("comparison").GetComponent<Transform>();
         frame = 0;
+        alreadySaved = false;
     }
 
     // Update is called once per frame
@@ -58,24 +61,38 @@ public class Realtime_Player_Save : MonoBehaviour
                 stopw.Start();
             }
             //print(frame / stopw.Elapsed.TotalSeconds);
-            CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
+            //CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
 
+            //CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
+            //if (saveJSON && frame >= 500 && !saved)
+            //{
+            //    SaveModelJSON();
+            //}
+            //if (!saveJSON && frame >= 1000)
+            //{
+            //    frame = 0;
+            //}
+
+            CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
             CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
-            if (saveJSON && frame >= 500 && !saved)
+
+            if (variable_holder.startButtonPressed)
+            {
+                
+                
+            }
+            if (variable_holder.stopButtonPressed && !alreadySaved)
             {
                 SaveModelJSON();
-            }
-            if (!saveJSON && frame >= 1000)
-            {
-                frame = 0;
+                alreadySaved = true;
             }
 
             print(frame);
             frame += 1;
 
-            var rotate = GameObject.Find("rp_eric_rigged_001_yup_t (2)").transform.rotation;
-            rotate.y = 0;
-            GameObject.Find("rp_eric_rigged_001_yup_t (2)").transform.rotation = rotate;
+            //var rotate = GameObject.Find("rp_eric_rigged_001_yup_t (2)").transform.rotation;
+            //rotate.y = 0;
+            //GameObject.Find("rp_eric_rigged_001_yup_t (2)").transform.rotation = rotate;
            
         }
 
@@ -93,7 +110,7 @@ public class Realtime_Player_Save : MonoBehaviour
             string objectToJSON = JsonUtility.ToJson(finishedJSON, true);
             print(objectToJSON);
             //            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\matchingMovements.json", true))
-            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\"+fileHolder.saveFilename+".json", true))
+            using (StreamWriter file = new StreamWriter(@"C:\Users\NIW\Documents\Movements\"+fileHolder.saveFilename+".json", true))
             {
                 file.WriteLine(objectToJSON);
             }
@@ -261,6 +278,7 @@ public class Realtime_Player_Save : MonoBehaviour
         //==============#
         //FRAME SAVING  #
         //==============#
+
         List<ChildQuaternion> ChildQuaternionList = new List<ChildQuaternion>();
         ChildQuaternionList.Add(leftlowerarm);
         ChildQuaternionList.Add(leftupperarm);

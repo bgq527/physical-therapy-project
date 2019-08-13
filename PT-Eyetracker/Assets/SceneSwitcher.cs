@@ -30,17 +30,21 @@ public class SceneSwitcher : MonoBehaviour
 
     public void StartRecording()
     {
-        stopButtonPressed = false;
-        startButtonPressed = true;
-        Debug.Log("StartRecordingPressed");
+        //stopButtonPressed = false;
+        //startButtonPressed = true;
+        //Debug.Log("StartRecordingPressed");
 
-        Realtime_Player_Save.saveJSON = true;
+        //Realtime_Player_Save.saveJSON = true;
+
+        variable_holder.startButtonPressed = true;
     }
 
     public void StopRecording()
     {
-        startButtonPressed = false;
-        stopButtonPressed = true;
-        Debug.Log("StopRecordingPressed");
+        //startButtonPressed = false;
+        //stopButtonPressed = true;
+        //Debug.Log("StopRecordingPressed");
+
+        variable_holder.stopButtonPressed = true;
     }
 }
