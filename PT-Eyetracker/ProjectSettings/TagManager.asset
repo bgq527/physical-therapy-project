@@ -11,6 +11,7 @@ TagManager:
   - roottag
   - proj
   - room
+  - floorcube
   layers:
   - Default
   - TransparentFX

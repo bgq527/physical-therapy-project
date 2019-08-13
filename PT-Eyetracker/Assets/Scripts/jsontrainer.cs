@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class jsontrainer : MonoBehaviour
 {
     // Used for moving the floor
-    public static float lowest_foot;
+    float lowest_foot;
 
     private string jsonstring;
     private bool loaded;
@@ -92,6 +92,10 @@ public class jsontrainer : MonoBehaviour
             lowest_foot = KinectChildObjects[GetIndexOfObject("foot_r")].transform.position[1];
         }
 
+        float floor_y = GameObject.FindGameObjectWithTag("floorcube").transform.position.y;
+        float difference = lowest_foot - floor_y;
+        float new_model_y = gameObject.transform.position.y - difference + 0.2f;
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, new_model_y, gameObject.transform.position.z);
 
         yield return new WaitForSeconds(0.60f);
 
