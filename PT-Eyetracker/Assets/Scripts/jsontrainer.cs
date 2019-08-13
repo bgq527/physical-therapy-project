@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class jsontrainer : MonoBehaviour
 {
+    // Used for moving the floor
+    public static float lowest_foot;
+
     private string jsonstring;
     private bool loaded;
     private ModelJSON json;
@@ -81,6 +84,13 @@ public class jsontrainer : MonoBehaviour
         MovementChildObjects[GetIndexOfMovementObject("root")].rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180, transform.rotation.eulerAngles.z);
         //ransform.parent.localPosition = new Vector3(localPosition.x, localPosition.y, localPosition.z);
 
+        if (KinectChildObjects[GetIndexOfObject("foot_r")].transform.position.y > KinectChildObjects[GetIndexOfObject("foot_l")].transform.position.y) {
+            lowest_foot = KinectChildObjects[GetIndexOfObject("foot_l")].transform.position[1];
+        }
+        else
+        {
+            lowest_foot = KinectChildObjects[GetIndexOfObject("foot_r")].transform.position[1];
+        }
 
 
         yield return new WaitForSeconds(0.60f);
