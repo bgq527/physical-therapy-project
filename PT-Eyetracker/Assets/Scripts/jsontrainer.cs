@@ -99,7 +99,7 @@ public class jsontrainer : MonoBehaviour
 
         yield return new WaitForSeconds(0.60f);
 
-        if (currentFrame > 500) currentFrame = 0;
+        if (currentFrame > mqInJSON.Length) currentFrame = 0;
         else currentFrame++;
     }
 

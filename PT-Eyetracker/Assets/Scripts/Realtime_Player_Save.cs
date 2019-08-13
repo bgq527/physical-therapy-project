@@ -17,6 +17,7 @@ public class Realtime_Player_Save : MonoBehaviour
     bool saved = false;
     int index = 0;
     int frame;
+    int lastframe;
     static Vector3 ModelPosition = new Vector3();
     bool rtriggerdown = false;
 
@@ -66,17 +67,18 @@ public class Realtime_Player_Save : MonoBehaviour
             CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
             CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
 
-            if (variable_holder.startButtonPressed)
-            {
-                frame += 1;
-
-            }
             if (variable_holder.stopButtonPressed && !alreadySaved)
             {
+                lastframe = frame;
                 SaveModelJSON();
                 alreadySaved = true;
             }
 
+            if (variable_holder.startButtonPressed)
+            {
+                frame += 1;
+            }
+            
             print(frame);
            
             //var rotate = GameObject.Find("rp_eric_rigged_001_yup_t (2)").transform.rotation;
@@ -94,12 +96,19 @@ public class Realtime_Player_Save : MonoBehaviour
             print("JSON saved!");
             saved = true;
             ModelJSON finishedJSON = new ModelJSON();
-            finishedJSON.ModelQuaternionList = modeljson;
+            ModelQuaternions[] final_model_json = new ModelQuaternions[lastframe];
+
+            for (int j=0; j < final_model_json.Length; j++)
+            {
+                final_model_json[j] = modeljson[j];
+            }
+
+            finishedJSON.ModelQuaternionList = final_model_json;
 
             string objectToJSON = JsonUtility.ToJson(finishedJSON, true);
             print(objectToJSON);
             //            using (StreamWriter file = new StreamWriter(@"C:\Users\Kinect\Documents\Movements\matchingMovements.json", true))
-            using (StreamWriter file = new StreamWriter(Application.dataPath + fileHolder.saveFilename+".json", true))
+            using (StreamWriter file = new StreamWriter(Application.dataPath + "/" + fileHolder.saveFilename+".json", true))
             {
                 file.WriteLine(objectToJSON);
             }
