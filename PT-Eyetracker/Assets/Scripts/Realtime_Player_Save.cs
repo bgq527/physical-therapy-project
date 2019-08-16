@@ -67,11 +67,11 @@ public class Realtime_Player_Save : MonoBehaviour
             CurrentFrame cf = MakeChildQuaternionList(ThisFrameJoints);
             CompileFrame(cf.ChildQuaternionList, cf.V3BSVJoints);
 
-            if (variable_holder.stopButtonPressed && !alreadySaved)
+            if (variable_holder.stopButtonPressed)
             {
                 lastframe = frame;
                 SaveModelJSON();
-                alreadySaved = true;
+                variable_holder.stopButtonPressed = false;
             }
 
             if (variable_holder.startButtonPressed)

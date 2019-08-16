@@ -15,7 +15,7 @@ class Statistics : MonoBehaviour
 }
 
 [System.Serializable]
-class TrialData
+class TrialData : MonoBehaviour
 {
     // Average Reaction Time (milliseconds): Elapsed time between appearance of visual stimulus (set of 5 arrows) and pupil movement to peripheral visual target (X located at least 30 degrees lateral to center fixation point)
     public float avgReactionTime;
@@ -93,7 +93,13 @@ class TrialData
         // Calculating the conflict effect
         conflictEffect = avgInconReactionTime - avgConReactionTime;
 
+        variable_holder.dataholder[0] = avgReactionTime;
+        variable_holder.dataholder[1] = avgConReactionTime;
+        variable_holder.dataholder[2] = avgInconReactionTime;
+        variable_holder.dataholder[3] = conflictEffect;
+
     }
+
 }
 
 [System.Serializable]

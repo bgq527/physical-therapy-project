@@ -31,7 +31,6 @@ public class Arrows : MonoBehaviour
 
     Text debugText;
 
-
     public GameObject RightConfText;
     public GameObject LeftConfText;
     public GameObject CurrentTimingText;
@@ -268,14 +267,14 @@ public class Arrows : MonoBehaviour
         
         if (state > 0)
         {
-            if (state != 1)
-            {
-                completedText.text = currentRawData.returnedToOrigin.Millisecond - currentRawData.startTime.Millisecond + "";
-                correctText.text = currentRawData.isCorrect + "";
-                leaveOrigText.text = currentRawData.leftOrigin.Millisecond - currentRawData.startTime.Millisecond + "";
-                hitTargText.text = currentRawData.hitTarget.Millisecond - currentRawData.startTime.Millisecond + "";
-                leaveTargText.text = currentRawData.leftTarget.Millisecond - currentRawData.startTime.Millisecond + "";
-            }
+            //if (state != 1)
+            //{
+            //    completedText.text = currentRawData.returnedToOrigin.Millisecond - currentRawData.startTime.Millisecond + "";
+            //    correctText.text = currentRawData.isCorrect + "";
+            //    leaveOrigText.text = currentRawData.leftOrigin.Millisecond - currentRawData.startTime.Millisecond + "";
+            //    hitTargText.text = currentRawData.hitTarget.Millisecond - currentRawData.startTime.Millisecond + "";
+            //    leaveTargText.text = currentRawData.leftTarget.Millisecond - currentRawData.startTime.Millisecond + "";
+            //}
 
 
 
@@ -287,23 +286,23 @@ public class Arrows : MonoBehaviour
                     break;
                 case 2:
                     stageText.text = "in origin";
-                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+             //       timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
                     break;
                 case 3:
                     stageText.text = "left origin";
-                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+            //        timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
                     break;
                 case 4:
                     stageText.text = "hit target";
-                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+            //        timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
                     break;
                 case 5:
                     stageText.text = "left target";
-                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+            //        timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
                     break;
                 case 6:
                     stageText.text = "test end";
-                    timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
+            //        timingText.text = DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond + "";
                     break;
 
             }
@@ -428,5 +427,34 @@ public class Arrows : MonoBehaviour
         System.IO.File.WriteAllText(path + folderName + "/" + filename + ".JSON", objectToJSON);
 
         arrowTextMesh.text = "done";
+
+        CallSaveData();
+
+    }
+
+    public void CallSaveData()
+    {
+        StartCoroutine(SaveDataSQL());
+    }
+
+
+    IEnumerator SaveDataSQL()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("avgtime", variable_holder.dataholder[0] + "");
+        form.AddField("contime", variable_holder.dataholder[1] + "");
+        form.AddField("incontime", variable_holder.dataholder[2] + "");
+        form.AddField("conflicteffect", variable_holder.dataholder[3] + "");
+        WWW www = new WWW("http://localhost/sqlconnect/savedata.php", form);
+        yield return www;
+        if (www.text == "0")
+        {
+            Debug.Log("Data saved successfully.");
+        }
+        else
+        {
+            Debug.Log("Save Data failed. Error: " + www.text);
+        }
+
     }
 }

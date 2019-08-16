@@ -26,17 +26,6 @@ public class SceneSwitcher : MonoBehaviour
 
     void Update()
     {
-        if (variable_holder.startButtonPressed && ! variable_holder.stopButtonPressed && ! timerStopwatch.IsRunning)
-        {
-            timerStopwatch.Reset();
-            timerStopwatch.Start();
-        }
-        else if (variable_holder.stopButtonPressed && !timerStopwatch.IsRunning)
-        {
-            timerStopwatch.Stop();
-        }
-        // Text rightText = RightConfText.GetComponent<Text>();
-        //timerTe
         Text timerTextMesh = timerText.GetComponent<Text>();
         timerTextMesh.text = timerStopwatch.Elapsed.Minutes + ":" + timerStopwatch.Elapsed.Seconds + ":" + timerStopwatch.Elapsed.Milliseconds /* + timerStopwatch.ElapsedMilliseconds*/;
     }
@@ -60,12 +49,7 @@ public class SceneSwitcher : MonoBehaviour
 
     public void StartRecording()
     {
-        //stopButtonPressed = false;
-        //startButtonPressed = true;
-        //Debug.Log("StartRecordingPressed");
-
-        //Realtime_Player_Save.saveJSON = true;
-
+        timerStopwatch.Restart();
         variable_holder.startButtonPressed = true;
         recordingText.SetActive(true);
         timerText.SetActive(true);
@@ -73,12 +57,10 @@ public class SceneSwitcher : MonoBehaviour
 
     public void StopRecording()
     {
-        //startButtonPressed = false;
-        //stopButtonPressed = true;
-        //Debug.Log("StopRecordingPressed");
-
         variable_holder.stopButtonPressed = true;
         recordingText.SetActive(false);
         timerText.SetActive(false);
+        variable_holder.startButtonPressed = false;
+        timerStopwatch.Stop();
     }
 }

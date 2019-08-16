@@ -10,6 +10,14 @@ public class variable_holder : MonoBehaviour
     public static float minPos;
     public static bool startButtonPressed = false;
     public static bool stopButtonPressed = false;
+
+    public static float[] dataholder = new float[4];
+
+    public float conTime;
+    public float inconTime;
+    public float avgTime;
+    public float conflictEffect;
+
     // Start is called before the first frame update
     void Start()
     {
