@@ -42,6 +42,10 @@ public class Arrows : MonoBehaviour
     public GameObject PreviousHitTargetText;
     public GameObject PreviousLeftTargetText;
 
+    public GameObject LineRenderObject;
+
+    public bool showOptions;
+
 
     // Start is called before the first frame update
     void Start()
@@ -82,11 +86,21 @@ public class Arrows : MonoBehaviour
         leftTarget.text = "";
         rightTarget.text = "";
 
+        LineRenderObject = GameObject.Find("LineRenderObject");
+
+        showOptions = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (showOptions)
+        {
+            ShowOrigin();
+            DrawEyeHitMarker(variable_holder.eyeRotation.x, variable_holder.eyeRotation.y);
+        }
+
+        //originMarker.transform
         //debugText.text = state.ToString();
         UpdateStats();
         // Check if the scene has already been setup
@@ -457,4 +471,45 @@ public class Arrows : MonoBehaviour
         }
 
     }
+
+    private void ShowOrigin()
+    {
+        double xpoint;
+        double ypoint;
+        Vector3[] points = new Vector3[60];
+        for (int i = 0; i < 60; i ++)
+        {
+            xpoint = originThreshold * Math.Cos(i) + LineRenderObject.transform.position.x;
+            ypoint = originThreshold * Math.Sin(i) + LineRenderObject.transform.position.y;
+            points[i] = new Vector3(Convert.ToSingle(xpoint), Convert.ToSingle(ypoint), LineRenderObject.transform.position.z);
+        }
+        LineRenderer originMarker = LineRenderObject.GetComponent<LineRenderer>();
+        originMarker.material = new Material(Shader.Find("Sprites/Default"));
+        originMarker.widthMultiplier = 0.005f;
+        originMarker.positionCount = 60;
+        originMarker.SetPositions(points);
+    }
+
+    private void DrawEyeHitMarker(float x, float y)
+    {
+        GameObject GO = GameObject.Find("EyeHitMarker");
+        LineRenderer hitmarker = GO.GetComponent<LineRenderer>();
+        hitmarker.material = new Material(Shader.Find("Sprites/Default"));
+        hitmarker.material.color = Color.red;
+        hitmarker.widthMultiplier = .01f;
+
+        double xpoint;
+        double ypoint;
+        Vector3[] points = new Vector3[15];
+        for (int i = 0; i < 15; i++)
+        {
+            xpoint = .02f * Math.Cos(i) + (GO.transform.position.x+x);
+            ypoint = .02f * Math.Sin(i) + (GO.transform.position.y+y);
+            points[i] = new Vector3(Convert.ToSingle(xpoint), Convert.ToSingle(ypoint), GO.transform.position.z);
+        }
+
+        hitmarker.positionCount = 15;
+        hitmarker.SetPositions(points);
+    }
+
 }
