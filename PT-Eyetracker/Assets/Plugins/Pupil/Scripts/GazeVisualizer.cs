@@ -106,6 +106,8 @@ namespace PupilLabs
                 variable_holder.eyeRotation = localGazeDirection;
                 gazeDistance = gazeData.GazeDistance;
             }
+            variable_holder.conf = gazeData.Confidence;
+          //  print("conf:" + variable_holder.conf);
         }
 
         void ShowProjected()

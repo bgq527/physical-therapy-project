@@ -44,7 +44,8 @@ public class Arrows : MonoBehaviour
 
     public GameObject LineRenderObject;
 
-    public bool showOptions;
+    public bool showThresholds;
+    private int frame;
 
 
     // Start is called before the first frame update
@@ -88,13 +89,14 @@ public class Arrows : MonoBehaviour
 
         LineRenderObject = GameObject.Find("LineRenderObject");
 
-        showOptions = true;
+        showThresholds = true;
+        frame = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (showOptions)
+        if (showThresholds)
         {
             ShowOrigin();
             DrawEyeHitMarker(variable_holder.eyeRotation.x, variable_holder.eyeRotation.y);
@@ -262,7 +264,7 @@ public class Arrows : MonoBehaviour
     {
         //Text[] text = RightConfText.GetComponents<Text>();
         //text[0].text = Time.time.ToString();
-
+        
         Text rightText = RightConfText.GetComponent<Text>();
         Text stageText = CurrentStageText.GetComponent<Text>();
         Text timingText = CurrentTimingText.GetComponent<Text>();
@@ -274,6 +276,8 @@ public class Arrows : MonoBehaviour
         Text leaveTargText = PreviousLeftTargetText.GetComponent<Text>();
 
         //LeftConfText
+
+        rightText.text = variable_holder.conf+"";
 
 
         nextText.text = currentArrows;
@@ -486,7 +490,7 @@ public class Arrows : MonoBehaviour
         LineRenderer originMarker = LineRenderObject.GetComponent<LineRenderer>();
         originMarker.material = new Material(Shader.Find("Sprites/Default"));
         originMarker.widthMultiplier = 0.005f;
-        originMarker.positionCount = 60;
+        originMarker.positionCount =60;
         originMarker.SetPositions(points);
     }
 
@@ -510,6 +514,11 @@ public class Arrows : MonoBehaviour
 
         hitmarker.positionCount = 15;
         hitmarker.SetPositions(points);
+    }
+
+    public void changeThresholdChoice()
+    {
+        showThresholds = !showThresholds;
     }
 
 }

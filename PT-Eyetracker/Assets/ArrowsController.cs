@@ -19,6 +19,7 @@ public class ArrowsController : MonoBehaviour
     public void GotoMainMenu()
     {
         SceneManager.LoadScene("MainMenuScene");
+        variable_holder.calibrated = false;
     }
 
     public void EnableBackground()

@@ -13,6 +13,8 @@ public class variable_holder : MonoBehaviour
 
     public static float[] dataholder = new float[4];
 
+    public static float conf;
+
     public float conTime;
     public float inconTime;
     public float avgTime;
