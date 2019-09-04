@@ -98,8 +98,8 @@ public class Arrows : MonoBehaviour
     {
         if (showThresholds)
         {
-            ShowOrigin();
-            DrawEyeHitMarker(variable_holder.eyeRotation.x, variable_holder.eyeRotation.y);
+           ShowOrigin();
+           DrawEyeHitMarker(variable_holder.eyeRotation.x, variable_holder.eyeRotation.y);
         }
 
         //originMarker.transform
@@ -481,11 +481,11 @@ public class Arrows : MonoBehaviour
         double xpoint;
         double ypoint;
         Vector3[] points = new Vector3[60];
-        for (int i = 0; i < 60; i ++)
+        for (int i = 0; i < 360; i += 6)
         {
             xpoint = originThreshold * Math.Cos(i) + LineRenderObject.transform.position.x;
             ypoint = originThreshold * Math.Sin(i) + LineRenderObject.transform.position.y;
-            points[i] = new Vector3(Convert.ToSingle(xpoint), Convert.ToSingle(ypoint), LineRenderObject.transform.position.z);
+            points[i/6] = new Vector3(Convert.ToSingle(xpoint), Convert.ToSingle(ypoint), LineRenderObject.transform.position.z);
         }
         LineRenderer originMarker = LineRenderObject.GetComponent<LineRenderer>();
         originMarker.material = new Material(Shader.Find("Sprites/Default"));
@@ -499,17 +499,20 @@ public class Arrows : MonoBehaviour
         GameObject GO = GameObject.Find("EyeHitMarker");
         LineRenderer hitmarker = GO.GetComponent<LineRenderer>();
         hitmarker.material = new Material(Shader.Find("Sprites/Default"));
-        hitmarker.material.color = Color.red;
+       
         hitmarker.widthMultiplier = .01f;
+
+        if (variable_holder.conf > .75f) hitmarker.material.color = Color.green;
+        else hitmarker.material.color = Color.red;
 
         double xpoint;
         double ypoint;
         Vector3[] points = new Vector3[15];
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 360; i+=24)
         {
-            xpoint = .02f * Math.Cos(i) + (GO.transform.position.x+x);
-            ypoint = .02f * Math.Sin(i) + (GO.transform.position.y+y);
-            points[i] = new Vector3(Convert.ToSingle(xpoint), Convert.ToSingle(ypoint), GO.transform.position.z);
+            xpoint = .005f * Math.Cos(i) + (GO.transform.position.x+x);
+            ypoint = .005f * Math.Sin(i) + (GO.transform.position.y+y);
+            points[i/24] = new Vector3(Convert.ToSingle(xpoint), Convert.ToSingle(ypoint), GO.transform.position.z);
         }
 
         hitmarker.positionCount = 15;
