@@ -113,5 +113,6 @@ class RawData
     public DateTime hitTarget;
     public DateTime leftTarget;
     public DateTime returnedToOrigin;
+    public Vector2 gazeCoords;
 
 }

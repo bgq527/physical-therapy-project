@@ -20,7 +20,7 @@ public class Arrows : MonoBehaviour
     public bool roomActive;
     bool isSceneSetup;
     bool timeOne;
-    float originThreshold;
+    public static float originThreshold = .1f;
     bool countDownFinished;
     bool countDownStarted;
     DateTime countDownStartTime;
@@ -47,6 +47,12 @@ public class Arrows : MonoBehaviour
     public bool showThresholds;
     private int frame;
 
+    public static int thresholdPointsToDraw = 30;
+    public static int hitmarkerPointsToDraw = 4;
+
+    public static float arrowTiming = 250f;
+    public static float setTiming = 1f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -68,7 +74,7 @@ public class Arrows : MonoBehaviour
         state = 0;
         numTrials = 0;
         isSceneSetup = false;
-        originThreshold = .1f;
+    //    originThreshold = .1f;
         countDownFinished = false;
         roomActive = true;
 
@@ -87,10 +93,11 @@ public class Arrows : MonoBehaviour
         leftTarget.text = "";
         rightTarget.text = "";
 
-        LineRenderObject = GameObject.Find("LineRenderObject");
+       // LineRenderObject = GameObject.Find("LineRenderObject");
 
         showThresholds = true;
         frame = 0;
+
     }
 
     // Update is called once per frame
@@ -108,6 +115,7 @@ public class Arrows : MonoBehaviour
         // Check if the scene has already been setup
         if (!isSceneSetup)
         {
+            
             // Once the eye tracker has been calibrated setup the scene
            if (variable_holder.calibrated == true && variable_holder.startButtonPressed)
             {
@@ -142,6 +150,7 @@ public class Arrows : MonoBehaviour
         // State 1 resets the variables so TimeTracker() would use old data if it was called during state 1;
         if (state != 1) TimeTracker();
 
+        if (state > 1 && state < 4) currentRawData.gazeCoords = (new Vector2(cameraX, cameraY));
         // Since this method is run every frame we use states to keep track of where the user is at in the test
         // State 1: is the time when it starts, it can only last 1 frame as everytime it is called it sets state = 2
         // State 2: starts when the user is looking in the origin threshold and ends when they leave the threshold
@@ -360,14 +369,14 @@ public class Arrows : MonoBehaviour
     {
         // Checks if 250 ms have passed since the initial showing of the arrows
         // makes the arrows disappear if time has passed
-        if (DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond > 250f && !timeOne)  {
+        if (DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond > arrowTiming && !timeOne)  {
             arrowTextMesh.text = "";
             timeOne = true;
         }
         
         // checks if 1 second has passed since the initial showing of arrows
         // moves on to the next set of arrows if the user has not completed in 1 second
-        else if ((DateTime.UtcNow - currentRawData.startTime).Seconds > 1f) {
+        else if (((DateTime.UtcNow - currentRawData.startTime).Milliseconds/1000 + (DateTime.UtcNow - currentRawData.startTime).Seconds) > setTiming) {
             currentRawData.completedTrial = false;
             thisTrialData.rawUserData.Add(currentRawData);
             currentRawData = null;
@@ -490,7 +499,7 @@ public class Arrows : MonoBehaviour
         LineRenderer originMarker = LineRenderObject.GetComponent<LineRenderer>();
         originMarker.material = new Material(Shader.Find("Sprites/Default"));
         originMarker.widthMultiplier = 0.005f;
-        originMarker.positionCount =60;
+        originMarker.positionCount =thresholdPointsToDraw;
         originMarker.SetPositions(points);
     }
 
@@ -515,7 +524,7 @@ public class Arrows : MonoBehaviour
             points[i/24] = new Vector3(Convert.ToSingle(xpoint), Convert.ToSingle(ypoint), GO.transform.position.z);
         }
 
-        hitmarker.positionCount = 15;
+        hitmarker.positionCount = hitmarkerPointsToDraw;
         hitmarker.SetPositions(points);
     }
 
