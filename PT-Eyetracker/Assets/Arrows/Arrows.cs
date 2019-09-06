@@ -178,6 +178,8 @@ public class Arrows : MonoBehaviour
 
                 // Set the text to the new set of arrows
                 arrowTextMesh.text = currentArrows;
+                leftTarget.text = "☐";
+                rightTarget.text = "☐";
                 state = 2;
 
                 break;
@@ -205,7 +207,8 @@ public class Arrows : MonoBehaviour
 
                     // Set the text to a "+" to indicate to the player to look back at it
                     arrowTextMesh.text = "+";
-
+                    leftTarget.text = "";
+                    rightTarget.text = "";
                     state = 4;
                 }
                 break;
