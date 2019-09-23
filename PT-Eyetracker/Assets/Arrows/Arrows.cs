@@ -216,7 +216,7 @@ public class Arrows : MonoBehaviour
             // State 3: check if the user hits a target, goes to state 4
             case 3:
                 // check if they user has hit a target
-                if (cameraY < -.3f || cameraY > .3f)
+                if (CheckHitTarget(cameraX, cameraY))
                 {
                     // Check if the user selected the correct target
                     currentRawData.isCorrect = CheckCorrect(cameraY, currentArrows);
@@ -463,7 +463,7 @@ public class Arrows : MonoBehaviour
     void SaveData()
     {
         state = 6;
-        thisTrialData.packageData();
+        string csv = thisTrialData.packageData();
         string objectToJSON = JsonUtility.ToJson(thisTrialData, true);
         print(objectToJSON);
 
@@ -475,6 +475,7 @@ public class Arrows : MonoBehaviour
         }
         string filename = DateTime.Now.ToFileTimeUtc().ToString();
 
+        System.IO.File.WriteAllText(path + folderName + "/" + filename + ".csv", csv);
         System.IO.File.WriteAllText(path + folderName + "/" + filename + ".JSON", objectToJSON);
 
         arrowTextMesh.text = "done";
@@ -509,13 +510,11 @@ public class Arrows : MonoBehaviour
 
     }
 
-    private void CheckHitTarget(float x, float y)
+    private bool CheckHitTarget(float x, float y)
     {
-      //  if (variable_holder.eyeRotation.x > .3f && variable_holder.eyeRotation.x > .3f + scale*20*.005f && variable_holder.eyeRotation.y > )
-
-            // if (x > x1 && x < x2 && 
-            // y > y1 && y < y2) 
-            //return true;
+        if (x < rTarget[0].x && x > rTarget[3].x && y < rTarget[0].y && y > rTarget[3].y) return true;
+        else if (x < lTarget[0].x && x > lTarget[3].x && y < lTarget[0].y && y > lTarget[3].y) return true;
+        else return false;
     }
 
     private void ShowOrigin()
