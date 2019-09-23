@@ -68,4 +68,21 @@ public class OptionsScript : MonoBehaviour
         Debug.Log("Setting the origin threshold to "+ deg + " degrees.");
     }
 
+    // Change the location of the Targets
+    public void MoveTargets()
+    {
+        InputField IFx = TargetXInputField.GetComponent<InputField>();
+        InputField IFy = TargetYInputField.GetComponent<InputField>();
+        // xCoord represents the x value of the closest line to the center (i.e. on a target on the left side of the screen the right most line on the square)
+        float xCoord = float.Parse(IFx.text);
+        // yCoord represents the y value of the center of the target
+        float yCoord = float.Parse(IFy.text);
+
+        Arrows.targetX = xCoord;
+        Arrows.targetY = yCoord;
+
+
+
+    }
+
 }

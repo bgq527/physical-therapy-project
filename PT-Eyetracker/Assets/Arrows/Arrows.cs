@@ -53,6 +53,12 @@ public class Arrows : MonoBehaviour
     public static float arrowTiming = 250f;
     public static float setTiming = 1f;
 
+    public static float targetX = .3f;
+    public static float targetY = 0f;
+    public static float scale = 1.0f;
+    public GameObject LeftTarget;
+    public GameObject RightTarget;
+
 
     // Start is called before the first frame update
     void Start()
@@ -108,6 +114,8 @@ public class Arrows : MonoBehaviour
            ShowOrigin();
            DrawEyeHitMarker(variable_holder.eyeRotation.x, variable_holder.eyeRotation.y);
         }
+
+        DrawTargets();
 
         //originMarker.transform
         //debugText.text = state.ToString();
@@ -531,9 +539,105 @@ public class Arrows : MonoBehaviour
         hitmarker.SetPositions(points);
     }
 
+    // Turn on/off showing the thresholds
     public void changeThresholdChoice()
     {
         showThresholds = !showThresholds;
+    }
+
+    public void DrawTargets()
+    {
+        float size = 20* scale / 2;
+        float x, y;
+        x = targetX * 1000;
+        y = targetY * 1000;
+
+        LineRenderer leftLR = LeftTarget.GetComponent<LineRenderer>();
+        LineRenderer rightLR = RightTarget.GetComponent<LineRenderer>();
+
+        //Vector3 GOpos = new Vector3(x, y, 0);
+       // RightTarget.transform.position = GOpos; 
+
+        Vector3[] points = new Vector3[5];
+
+        float xpoint;
+        float ypoint;
+
+       /* for (int i = 0; i < 5; i++)
+       {
+            xpoint = .005f*size + RightTarget.transform.position.x+i;
+            print(xpoint);
+           ypoint = .005f*size + RightTarget.transform.position.y+i;
+            print(ypoint);
+            points[i] = new Vector3(xpoint, ypoint, RightTarget.transform.position.z);
+        }*/
+
+        points[0] = new Vector3(
+            RightTarget.transform.position.x + .3f,
+            0.005f* size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[1] = new Vector3(
+            RightTarget.transform.position.x + .3f,
+            .005f * -size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[3] = new Vector3(
+            2*size*.005f+RightTarget.transform.position.x + .3f,
+            .005f * size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[2] = new Vector3(
+            2 * size * .005f + RightTarget.transform.position.x + .3f,
+            .005f * -size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[4] = new Vector3(
+            RightTarget.transform.position.x + .3f,
+            0.005f * size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+
+        rightLR.positionCount = 5;
+        rightLR.material = new Material(Shader.Find("Sprites/Default"));
+        rightLR.material.color = Color.red;
+        rightLR.widthMultiplier = .005f;
+
+        leftLR.positionCount = 5;
+        leftLR.material = new Material(Shader.Find("Sprites/Default"));
+        leftLR.material.color = Color.red;
+        leftLR.widthMultiplier = .005f;
+
+        rightLR.SetPositions(points);
+
+        points[0] = new Vector3(
+            RightTarget.transform.position.x - .3f,
+            0.005f * size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[1] = new Vector3(
+            RightTarget.transform.position.x - .3f,
+            .005f * -size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[3] = new Vector3(
+            -2 * size * .005f + RightTarget.transform.position.x - .3f,
+            .005f * size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[2] = new Vector3(
+            -2 * size * .005f + RightTarget.transform.position.x - .3f,
+            .005f * -size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+        points[4] = new Vector3(
+            RightTarget.transform.position.x - .3f,
+            0.005f * size + RightTarget.transform.position.y,
+            RightTarget.transform.position.z
+            );
+
+        leftLR.SetPositions(points);
+
     }
 
 }
