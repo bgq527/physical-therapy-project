@@ -44,42 +44,48 @@ class TrialData : MonoBehaviour
     {
         int conCount = 0;
         int inconCount = 0;
+        int validCount = 0;
 
         // Iterate over the list of RawData
         for (int i = 0; i < rawUserData.Count; i++)
         {
-            TimeSpan reactionTime = rawUserData[i].hitTarget - rawUserData[i].startTime;
-
-            avgReactionTime += reactionTime.Milliseconds;
-
-            if (rawUserData[i].isCorrect)
+            if (rawUserData[i].completedTrial)
             {
-                proportionOfCorrectResponses++;
-                avgReactionTimeCorrectResponses += reactionTime.Milliseconds;
 
-                if (rawUserData[i].shownArrows == "<<<<<" || rawUserData[i].shownArrows == ">>>>>")
-                {
-                    avgConReactionTime += reactionTime.Milliseconds;
-                    conCount++;
-                }
-                else
-                {
-                    avgInconReactionTime += reactionTime.Milliseconds;
-                    inconCount++;
-                }
+                TimeSpan reactionTime = rawUserData[i].hitTarget - rawUserData[i].startTime;
 
+                avgReactionTime += reactionTime.Milliseconds;
+
+                if (rawUserData[i].isCorrect)
+                {
+                    proportionOfCorrectResponses++;
+                    avgReactionTimeCorrectResponses += reactionTime.Milliseconds;
+
+                    if (rawUserData[i].shownArrows == "<<<<<" || rawUserData[i].shownArrows == ">>>>>")
+                    {
+                        avgConReactionTime += reactionTime.Milliseconds;
+                        conCount++;
+                    }
+                    else
+                    {
+                        avgInconReactionTime += reactionTime.Milliseconds;
+                        inconCount++;
+                    }
+                    
+                }
+                validCount++;
             }
 
         }
 
         // Calculate the Average reaction time
-        avgReactionTime = avgReactionTime / rawUserData.Count;
+        avgReactionTime = avgReactionTime / validCount;
 
         // Calculating the average reaction time of correct responses
         avgReactionTimeCorrectResponses = avgReactionTimeCorrectResponses / proportionOfCorrectResponses;
 
         // Calculating the proportion of correct responses
-        proportionOfCorrectResponses = proportionOfCorrectResponses / rawUserData.Count;
+        proportionOfCorrectResponses = proportionOfCorrectResponses / validCount;
 
         // Calculating the efficiency index
         efficiencyIndex = avgReactionTime / proportionOfCorrectResponses;

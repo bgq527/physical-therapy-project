@@ -59,6 +59,11 @@ public class Arrows : MonoBehaviour
     public GameObject LeftTarget;
     public GameObject RightTarget;
 
+    public Vector3[] lTarget;
+    public Vector3[] rTarget;
+
+    private bool drawtargets = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -104,6 +109,11 @@ public class Arrows : MonoBehaviour
         showThresholds = true;
         frame = 0;
 
+        lTarget = new Vector3[5];
+        rTarget = new Vector3[5];
+
+        ChangeTargets(0, 1);
+
     }
 
     // Update is called once per frame
@@ -114,8 +124,7 @@ public class Arrows : MonoBehaviour
            ShowOrigin();
            DrawEyeHitMarker(variable_holder.eyeRotation.x, variable_holder.eyeRotation.y);
         }
-
-        DrawTargets();
+        if (drawtargets) DrawTargets();
 
         //originMarker.transform
         //debugText.text = state.ToString();
@@ -186,9 +195,10 @@ public class Arrows : MonoBehaviour
 
                 // Set the text to the new set of arrows
                 arrowTextMesh.text = currentArrows;
-                leftTarget.text = "☐";
-                rightTarget.text = "☐";
+               // leftTarget.text = "☐";
+               // rightTarget.text = "☐";
                 state = 2;
+                drawtargets = true;
 
                 break;
 
@@ -211,13 +221,15 @@ public class Arrows : MonoBehaviour
                     // Check if the user selected the correct target
                     currentRawData.isCorrect = CheckCorrect(cameraY, currentArrows);
                     currentRawData.hitTarget = DateTime.UtcNow;
-                    currentRawData.completedTrial = true;
+                    
 
                     // Set the text to a "+" to indicate to the player to look back at it
                     arrowTextMesh.text = "+";
                     leftTarget.text = "";
                     rightTarget.text = "";
                     state = 4;
+
+                    drawtargets = false;
                 }
                 break;
 
@@ -234,6 +246,7 @@ public class Arrows : MonoBehaviour
             case 5:
                 if (CenterCheck(cameraX, cameraY))
                 {
+                    currentRawData.completedTrial = true;
                     numTrials++;
 
                     // check all 12 trials have occured
@@ -496,6 +509,15 @@ public class Arrows : MonoBehaviour
 
     }
 
+    private void CheckHitTarget(float x, float y)
+    {
+      //  if (variable_holder.eyeRotation.x > .3f && variable_holder.eyeRotation.x > .3f + scale*20*.005f && variable_holder.eyeRotation.y > )
+
+            // if (x > x1 && x < x2 && 
+            // y > y1 && y < y2) 
+            //return true;
+    }
+
     private void ShowOrigin()
     {
         double xpoint;
@@ -547,34 +569,36 @@ public class Arrows : MonoBehaviour
 
     public void DrawTargets()
     {
-        float size = 20* scale / 2;
-        float x, y;
-        x = targetX * 1000;
-        y = targetY * 1000;
-
         LineRenderer leftLR = LeftTarget.GetComponent<LineRenderer>();
         LineRenderer rightLR = RightTarget.GetComponent<LineRenderer>();
 
-        //Vector3 GOpos = new Vector3(x, y, 0);
-       // RightTarget.transform.position = GOpos; 
+        rightLR.positionCount = 5;
+        rightLR.material = new Material(Shader.Find("Sprites/Default"));
+        rightLR.material.color = Color.red;
+        rightLR.widthMultiplier = .005f;
+
+        leftLR.positionCount = 5;
+        leftLR.material = new Material(Shader.Find("Sprites/Default"));
+        leftLR.material.color = Color.red;
+        leftLR.widthMultiplier = .005f;
+
+        rightLR.SetPositions(rTarget);
+        leftLR.SetPositions(lTarget);
+
+    }
+
+    public void ChangeTargets(float xvalue, float scale)
+    {
+
+        float size = 20 * scale / 2;
+        float x = .3f + xvalue;
 
         Vector3[] points = new Vector3[5];
-
-        float xpoint;
-        float ypoint;
-
-       /* for (int i = 0; i < 5; i++)
-       {
-            xpoint = .005f*size + RightTarget.transform.position.x+i;
-            print(xpoint);
-           ypoint = .005f*size + RightTarget.transform.position.y+i;
-            print(ypoint);
-            points[i] = new Vector3(xpoint, ypoint, RightTarget.transform.position.z);
-        }*/
-
+        
+        // Right
         points[0] = new Vector3(
             RightTarget.transform.position.x + .3f,
-            0.005f* size + RightTarget.transform.position.y,
+            0.005f * size + RightTarget.transform.position.y,
             RightTarget.transform.position.z
             );
         points[1] = new Vector3(
@@ -583,7 +607,7 @@ public class Arrows : MonoBehaviour
             RightTarget.transform.position.z
             );
         points[3] = new Vector3(
-            2*size*.005f+RightTarget.transform.position.x + .3f,
+            2 * size * .005f + RightTarget.transform.position.x + .3f,
             .005f * size + RightTarget.transform.position.y,
             RightTarget.transform.position.z
             );
@@ -598,18 +622,9 @@ public class Arrows : MonoBehaviour
             RightTarget.transform.position.z
             );
 
-        rightLR.positionCount = 5;
-        rightLR.material = new Material(Shader.Find("Sprites/Default"));
-        rightLR.material.color = Color.red;
-        rightLR.widthMultiplier = .005f;
+        rTarget = points;
 
-        leftLR.positionCount = 5;
-        leftLR.material = new Material(Shader.Find("Sprites/Default"));
-        leftLR.material.color = Color.red;
-        leftLR.widthMultiplier = .005f;
-
-        rightLR.SetPositions(points);
-
+        // Left
         points[0] = new Vector3(
             RightTarget.transform.position.x - .3f,
             0.005f * size + RightTarget.transform.position.y,
@@ -636,8 +651,7 @@ public class Arrows : MonoBehaviour
             RightTarget.transform.position.z
             );
 
-        leftLR.SetPositions(points);
-
+        lTarget = points;
     }
 
 }
