@@ -97,33 +97,33 @@ class TrialData : MonoBehaviour
         avgInconReactionTime = avgInconReactionTime / inconCount;
 
         // Calculating the conflict effect
-        conflictEffect = avgInconReactionTime - avgConReactionTime;
-         
-        variable_holder.dataholder[0] = avgReactionTime;
-        variable_holder.dataholder[1] = avgConReactionTime;
-        variable_holder.dataholder[2] = avgInconReactionTime;
-        variable_holder.dataholder[3] = conflictEffect;
-
-        string[] csv_values = new string[] {
-            avgReactionTime.ToString(),
-            avgReactionTimeCorrectResponses.ToString(),
-            proportionOfCorrectResponses.ToString(),
-            efficiencyIndex.ToString(),
-            avgConReactionTime.ToString(),
-            avgInconReactionTime.ToString(),
-            conflictEffect.ToString()
-        };
-
-        string csv_string = "avgReactionTime,avgReactionTimeCorrectResponses,proportionOfCorrectResponses,efficiencyIndex,avgConReactionTime,avgInconReactionTime,conflictEffect\n";
-        foreach (string value in csv_values)
-        {
-            csv_string += value + ",";
-        }
-        csv_string += "\n";
-
-        return csv_string;
-
-
+        conflictEffect = avgInconReactionTime - avgConReactionTime;
+         
+        variable_holder.dataholder[0] = avgReactionTime;
+        variable_holder.dataholder[1] = avgConReactionTime;
+        variable_holder.dataholder[2] = avgInconReactionTime;
+        variable_holder.dataholder[3] = conflictEffect;
+
+        string[] csv_values = new string[] {
+            avgReactionTime.ToString(),
+            avgReactionTimeCorrectResponses.ToString(),
+            proportionOfCorrectResponses.ToString(),
+            efficiencyIndex.ToString(),
+            avgConReactionTime.ToString(),
+            avgInconReactionTime.ToString(),
+            conflictEffect.ToString()
+        };
+
+        string csv_string = "avgReactionTime,avgReactionTimeCorrectResponses,proportionOfCorrectResponses,efficiencyIndex,avgConReactionTime,avgInconReactionTime,conflictEffect\n";
+        foreach (string value in csv_values)
+        {
+            csv_string += value + ",";
+        }
+        csv_string += "\n";
+
+        return csv_string;
+
+
     }
 
 }
