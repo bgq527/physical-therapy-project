@@ -41,6 +41,9 @@ class TrialData : MonoBehaviour
     // Number of sets incomplete (ran out of time)
     public float numIncomplete;
 
+    // Time when the test was started
+    public String timestamp;
+
     public List<RawData> rawUserData = new List<RawData>();
 
     public String packageData()
@@ -100,14 +103,17 @@ class TrialData : MonoBehaviour
         avgInconReactionTime = avgInconReactionTime / inconCount;
 
         // Calculating the conflict effect
-        conflictEffect = avgInconReactionTime - avgConReactionTime;        numIncomplete = rawUserData.Count - validCount;
+        conflictEffect = avgInconReactionTime - avgConReactionTime;        numIncomplete = rawUserData.Count - validCount;        timestamp = rawUserData[0].startTime.ToString();
          
         variable_holder.dataholder[0] = avgReactionTime;
         variable_holder.dataholder[1] = avgConReactionTime;
         variable_holder.dataholder[2] = avgInconReactionTime;
         variable_holder.dataholder[3] = conflictEffect;
 
-        string[] csv_values = new string[] {
+        string[] csv_values = new string[] {
+
+            timestamp,
+
             avgReactionTime.ToString(),
             avgReactionTimeCorrectResponses.ToString(),
             proportionOfCorrectResponses.ToString(),
@@ -117,7 +123,7 @@ class TrialData : MonoBehaviour
             conflictEffect.ToString(),            numIncomplete.ToString()
         };
 
-        string csv_string = "avgReactionTime,avgReactionTimeCorrectResponses,proportionOfCorrectResponses,efficiencyIndex,avgConReactionTime,avgInconReactionTime,conflictEffect,numIncomplete\n";
+        string csv_string = "timestamp,avgReactionTime,avgReactionTimeCorrectResponses,proportionOfCorrectResponses,efficiencyIndex,avgConReactionTime,avgInconReactionTime,conflictEffect,numIncomplete\n";
         foreach (string value in csv_values)
         {
             csv_string += value + ",";
