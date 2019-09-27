@@ -132,7 +132,7 @@ class TrialData : MonoBehaviour
             if (i == 0) csv_string += csv_values[i];
             else csv_string += "," + csv_values[i];
         }
-       // csv_string += "\n";
+        csv_string += "\n";
 
         return csv_string;
 

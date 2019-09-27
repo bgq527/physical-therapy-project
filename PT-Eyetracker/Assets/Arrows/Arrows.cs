@@ -17,6 +17,11 @@ public class Arrows : MonoBehaviour
     Text rightTarget;
     //    GameObject roomScene;
 
+    int conLeft;
+    int conRight;
+    int inconLeft;
+    int inconRight;
+
     public bool roomActive;
     bool isSceneSetup;
     bool timeOne;
@@ -107,8 +112,8 @@ public class Arrows : MonoBehaviour
         rightTarget.color = Color.gray;
 
         arrowTextMesh.enabled = false;
-        leftTarget.text = "☐";
-        rightTarget.text = "☐";
+        leftTarget.text = "";
+        rightTarget.text = "";
 
        // LineRenderObject = GameObject.Find("LineRenderObject");
 
@@ -118,7 +123,12 @@ public class Arrows : MonoBehaviour
         lTarget = new Vector3[5];
         rTarget = new Vector3[5];
 
-        //processFlankerClass.ProcessFlankerData();
+       // processFlankerClass.ProcessFlankerData();
+
+        conLeft = 0;
+        conRight = 0;
+        inconLeft = 0;
+        inconRight = 0;
 
     }
 
@@ -158,8 +168,8 @@ public class Arrows : MonoBehaviour
     // It gives the Eriksen Flanker task to the user and then saves the results
     void PlayArrows()
     {
-        float cameraX = variable_holder.eyeRotation.y;
-        float cameraY = variable_holder.eyeRotation.x;
+        float cameraY = variable_holder.eyeRotation.y;
+        float cameraX = variable_holder.eyeRotation.x;
         DateTime currentTime = DateTime.UtcNow;
 
         /* For Debugging
@@ -224,7 +234,7 @@ public class Arrows : MonoBehaviour
                 if (CheckHitTarget(cameraX, cameraY))
                 {
                     // Check if the user selected the correct target
-                    currentRawData.isCorrect = CheckCorrect(cameraY, currentArrows);
+                    currentRawData.isCorrect = CheckCorrect(cameraX, currentArrows);
                     currentRawData.hitTarget = DateTime.UtcNow;
                     
 
@@ -256,13 +266,17 @@ public class Arrows : MonoBehaviour
                     // check all 12 trials have occured
                     // if they have go to state 6 to save the data
                     // if less than 12 have occured go to state 1
-                    state = numTrials < 12 ? 1 : 6;
+                    state = numTrials < 20 ? 1 : 6;
 
                     currentRawData.returnedToOrigin = DateTime.UtcNow;
                     thisTrialData.rawUserData.Add(currentRawData);
                     currentRawData = null;
 
-                    if (numTrials >= 12) SaveData();
+                    if (numTrials >= 20)
+                    {
+                        SaveData();
+                        processFlankerClass.ProcessFlankerData();
+                    }
                 }
                 break;
 
@@ -409,7 +423,7 @@ public class Arrows : MonoBehaviour
             thisTrialData.rawUserData.Add(currentRawData);
             currentRawData = null;
             numTrials++;
-            if (numTrials < 12)
+            if (numTrials < 20)
             {
                 state = 1;
             }
@@ -517,7 +531,7 @@ public class Arrows : MonoBehaviour
 
     private bool CheckHitTarget(float x, float y)
     {
-        if (x < .05f && x > -.05f && (y > .3f || y < .3f)) return true;
+        if ((x > .3f || x < -.3f) && (y > -.05f || y < .05f)) return true;
         else return false;
     }
 

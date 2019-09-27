@@ -2,28 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
+using System.IO;
 
 public class ProcessFlanker : MonoBehaviour
 {
     public void ProcessFlankerData()
     {
-        var psi = new ProcessStartInfo();
-        psi.FileName = @"C:\Users\NIW\AppData\Local\Programs\Python\Python37-32\python.exe";
-
-        var script = @"Desktop\newflankerprocessing.py";
-
-        //psi.CreateNoWindow = true;
-
-      //  psi.RedirectStandardError = true;
-
-       // var errors = "";
-        using (var process = Process.Start(psi))
+        foreach (string file in Directory.GetFiles(@"C:\Users\NIW\Desktop\flankerRaw", "*.csv")) 
         {
-        //    errors = process.StandardError.ReadToEnd();
+            File.AppendAllText(@"C:\Users\NIW\Desktop\combined_csv.csv", File.ReadAllText(file));
 
+            File.Delete(file);
         }
 
-       // print(errors);
-
+       
     }
 }
