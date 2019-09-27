@@ -28,6 +28,7 @@ public class Arrows : MonoBehaviour
     Statistics stats;
     TrialData thisTrialData;
     RawData currentRawData;
+    ProcessFlanker processFlankerClass;
 
     Text debugText;
 
@@ -62,7 +63,8 @@ public class Arrows : MonoBehaviour
     public Vector3[] lTarget;
     public Vector3[] rTarget;
 
-    private bool drawtargets = false;
+    ArrowsController roomController;
+
 
 
     // Start is called before the first frame update
@@ -76,10 +78,12 @@ public class Arrows : MonoBehaviour
 
         // Statistics and general program variable instantiation
         stats = new Statistics();
+        processFlankerClass = new ProcessFlanker();
         possibleArrows = new string[4] { "<<<<<", ">>>>>", "<<><<", ">><>>" };
     //  currentArrows = possibleArrows[CreateArrows()];
         thisTrialData = new TrialData();
         currentRawData = null;
+
 
         // Update method variable instantiation
         state = 0;
@@ -87,7 +91,9 @@ public class Arrows : MonoBehaviour
         isSceneSetup = false;
     //    originThreshold = .1f;
         countDownFinished = false;
-        roomActive = true;
+        roomActive = true ;
+
+
 
         // Debugging variable instantiation
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
@@ -101,8 +107,8 @@ public class Arrows : MonoBehaviour
         rightTarget.color = Color.gray;
 
         arrowTextMesh.enabled = false;
-        leftTarget.text = "";
-        rightTarget.text = "";
+        leftTarget.text = "☐";
+        rightTarget.text = "☐";
 
        // LineRenderObject = GameObject.Find("LineRenderObject");
 
@@ -112,7 +118,7 @@ public class Arrows : MonoBehaviour
         lTarget = new Vector3[5];
         rTarget = new Vector3[5];
 
-        ChangeTargets(0, 1);
+        //processFlankerClass.ProcessFlankerData();
 
     }
 
@@ -124,7 +130,7 @@ public class Arrows : MonoBehaviour
            ShowOrigin();
            DrawEyeHitMarker(variable_holder.eyeRotation.x, variable_holder.eyeRotation.y);
         }
-        if (drawtargets) DrawTargets();
+
 
         //originMarker.transform
         //debugText.text = state.ToString();
@@ -195,10 +201,9 @@ public class Arrows : MonoBehaviour
 
                 // Set the text to the new set of arrows
                 arrowTextMesh.text = currentArrows;
-               // leftTarget.text = "☐";
-               // rightTarget.text = "☐";
+                leftTarget.text = "☐";
+                rightTarget.text = "☐";
                 state = 2;
-                drawtargets = true;
 
                 break;
 
@@ -229,7 +234,6 @@ public class Arrows : MonoBehaviour
                     rightTarget.text = "";
                     state = 4;
 
-                    drawtargets = false;
                 }
                 break;
 
@@ -467,7 +471,7 @@ public class Arrows : MonoBehaviour
         string objectToJSON = JsonUtility.ToJson(thisTrialData, true);
         print(objectToJSON);
 
-        string path = "/storage/emulated/0/"; string folderName = "xyz";
+        string path = "/Users/NIW/Desktop/"; string folderName = "flankerRaw";
 
         if (!Directory.Exists(path + folderName))
         {
@@ -480,40 +484,40 @@ public class Arrows : MonoBehaviour
 
         arrowTextMesh.text = "done";
 
-        CallSaveData();
+        //CallSaveData();
 
     }
 
-    public void CallSaveData()
-    {
-        StartCoroutine(SaveDataSQL());
-    }
+    // For saving to local db
+    //public void CallSaveData()
+    //{
+    //    StartCoroutine(SaveDataSQL());
+    //}
 
 
-    IEnumerator SaveDataSQL()
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("avgtime", variable_holder.dataholder[0] + "");
-        form.AddField("contime", variable_holder.dataholder[1] + "");
-        form.AddField("incontime", variable_holder.dataholder[2] + "");
-        form.AddField("conflicteffect", variable_holder.dataholder[3] + "");
-        WWW www = new WWW("http://localhost/sqlconnect/savedata.php", form);
-        yield return www;
-        if (www.text == "0")
-        {
-            Debug.Log("Data saved successfully.");
-        }
-        else
-        {
-            Debug.Log("Save Data failed. Error: " + www.text);
-        }
+    //IEnumerator SaveDataSQL()
+    //{
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("avgtime", variable_holder.dataholder[0] + "");
+    //    form.AddField("contime", variable_holder.dataholder[1] + "");
+    //    form.AddField("incontime", variable_holder.dataholder[2] + "");
+    //    form.AddField("conflicteffect", variable_holder.dataholder[3] + "");
+    //    WWW www = new WWW("http://localhost/sqlconnect/savedata.php", form);
+    //    yield return www;
+    //    if (www.text == "0")
+    //    {
+    //        Debug.Log("Data saved successfully.");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Save Data failed. Error: " + www.text);
+    //    }
 
-    }
+    //}
 
     private bool CheckHitTarget(float x, float y)
     {
-        if (x < rTarget[0].x && x > rTarget[3].x && y < rTarget[0].y && y > rTarget[3].y) return true;
-        else if (x < lTarget[0].x && x > lTarget[3].x && y < lTarget[0].y && y > lTarget[3].y) return true;
+        if (x < .05f && x > -.05f && (y > .3f || y < .3f)) return true;
         else return false;
     }
 
@@ -566,91 +570,8 @@ public class Arrows : MonoBehaviour
         showThresholds = !showThresholds;
     }
 
-    public void DrawTargets()
-    {
-        LineRenderer leftLR = LeftTarget.GetComponent<LineRenderer>();
-        LineRenderer rightLR = RightTarget.GetComponent<LineRenderer>();
+    
 
-        rightLR.positionCount = 5;
-        rightLR.material = new Material(Shader.Find("Sprites/Default"));
-        rightLR.material.color = Color.red;
-        rightLR.widthMultiplier = .005f;
-
-        leftLR.positionCount = 5;
-        leftLR.material = new Material(Shader.Find("Sprites/Default"));
-        leftLR.material.color = Color.red;
-        leftLR.widthMultiplier = .005f;
-
-        rightLR.SetPositions(rTarget);
-        leftLR.SetPositions(lTarget);
-
-    }
-
-    public void ChangeTargets(float xvalue, float scale)
-    {
-
-        float size = 20 * scale / 2;
-        float x = .3f + xvalue;
-
-        Vector3[] points = new Vector3[5];
-        
-        // Right
-        points[0] = new Vector3(
-            RightTarget.transform.position.x + .3f,
-            0.005f * size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[1] = new Vector3(
-            RightTarget.transform.position.x + .3f,
-            .005f * -size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[3] = new Vector3(
-            2 * size * .005f + RightTarget.transform.position.x + .3f,
-            .005f * size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[2] = new Vector3(
-            2 * size * .005f + RightTarget.transform.position.x + .3f,
-            .005f * -size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[4] = new Vector3(
-            RightTarget.transform.position.x + .3f,
-            0.005f * size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-
-        rTarget = points;
-
-        // Left
-        points[0] = new Vector3(
-            RightTarget.transform.position.x - .3f,
-            0.005f * size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[1] = new Vector3(
-            RightTarget.transform.position.x - .3f,
-            .005f * -size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[3] = new Vector3(
-            -2 * size * .005f + RightTarget.transform.position.x - .3f,
-            .005f * size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[2] = new Vector3(
-            -2 * size * .005f + RightTarget.transform.position.x - .3f,
-            .005f * -size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-        points[4] = new Vector3(
-            RightTarget.transform.position.x - .3f,
-            0.005f * size + RightTarget.transform.position.y,
-            RightTarget.transform.position.z
-            );
-
-        lTarget = points;
-    }
+   
 
 }

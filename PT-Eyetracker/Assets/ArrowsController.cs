@@ -13,6 +13,7 @@ public class ArrowsController : MonoBehaviour
     void Start()
     {
         room = GameObject.FindGameObjectWithTag("room");
+        EnableBackground();
     }
 
     // Changes current scene to Main Menu

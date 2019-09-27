@@ -103,7 +103,7 @@ class TrialData : MonoBehaviour
         avgInconReactionTime = avgInconReactionTime / inconCount;
 
         // Calculating the conflict effect
-        conflictEffect = avgInconReactionTime - avgConReactionTime;        numIncomplete = rawUserData.Count - validCount;        timestamp = rawUserData[0].startTime.ToString();
+        conflictEffect = avgInconReactionTime - avgConReactionTime;        numIncomplete = rawUserData.Count - validCount;        timestamp = TimeZoneInfo.ConvertTime(rawUserData[0].startTime,TimeZoneInfo.Local).ToString();
          
         variable_holder.dataholder[0] = avgReactionTime;
         variable_holder.dataholder[1] = avgConReactionTime;
@@ -124,11 +124,15 @@ class TrialData : MonoBehaviour
         };
 
         string csv_string = "timestamp,avgReactionTime,avgReactionTimeCorrectResponses,proportionOfCorrectResponses,efficiencyIndex,avgConReactionTime,avgInconReactionTime,conflictEffect,numIncomplete\n";
-        foreach (string value in csv_values)
-        {
-            csv_string += value + ",";
+        //foreach (string value in csv_values)
+        //{            
+        //    csv_string += value + ",";
+        //}        for (int i = 0; i < csv_values.Length; i++)
+        {
+            if (i == 0) csv_string += csv_values[i];
+            else csv_string += "," + csv_values[i];
         }
-        csv_string += "\n";
+       // csv_string += "\n";
 
         return csv_string;
 
