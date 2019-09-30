@@ -25,6 +25,11 @@ public class ArrowsController : MonoBehaviour
         variable_holder.startButtonPressed = false;
     }
 
+    public void GotoFlanker()
+    {
+        SceneManager.LoadScene("FlankerScene");
+    }
+
     public void EnableBackground()
     {
         room.SetActive(!room.activeSelf);
@@ -38,5 +43,10 @@ public class ArrowsController : MonoBehaviour
     public void ReloadScene()
     {
         variable_holder.startButtonPressed = false;
+    }
+
+    public void LoadCalibration()
+    {
+        SceneManager.LoadScene("CalibrationScene");
     }
 }

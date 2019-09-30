@@ -57,7 +57,7 @@ public class Arrows : MonoBehaviour
     public static int hitmarkerPointsToDraw = 4;
 
     public static float arrowTiming = 250f;
-    public static float setTiming = 1f;
+    public static float setTiming = .500f;
 
     public static float targetX = .3f;
     public static float targetY = 0f;
@@ -75,6 +75,8 @@ public class Arrows : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       // variable_holder.calibrated = true;
+
         // GameObject component instantiation
         arrowTextMesh = GameObject.Find("arrowText").GetComponent<Text>();
         leftTarget = GameObject.Find("Left").GetComponent<Text>();
@@ -107,9 +109,9 @@ public class Arrows : MonoBehaviour
         // hide objects before eye tracker is calibrated
         //      roomScene.SetActive(false);
 
-        arrowTextMesh.color = Color.gray;
-        leftTarget.color = Color.gray;
-        rightTarget.color = Color.gray;
+        arrowTextMesh.color = Color.white;
+        leftTarget.color = Color.white;
+        rightTarget.color = Color.white;
 
         arrowTextMesh.enabled = false;
         leftTarget.text = "";
@@ -125,10 +127,6 @@ public class Arrows : MonoBehaviour
 
        // processFlankerClass.ProcessFlankerData();
 
-        conLeft = 0;
-        conRight = 0;
-        inconLeft = 0;
-        inconRight = 0;
 
     }
 
@@ -150,7 +148,7 @@ public class Arrows : MonoBehaviour
         {
             
             // Once the eye tracker has been calibrated setup the scene
-           if (variable_holder.calibrated == true && variable_holder.startButtonPressed)
+           if (/*variable_holder.calibrated == true &&*/ variable_holder.startButtonPressed)
             {
                 CountDown();
                 if (countDownFinished) SetupScene();
@@ -249,7 +247,7 @@ public class Arrows : MonoBehaviour
 
             // State 4: check if the user has left the target, goes to state 5
             case 4:
-                if (!(cameraY < -.3f || cameraY > .3f))
+                if (!(cameraX < -.3f || cameraX > .3f))
                 {
                     currentRawData.leftTarget = DateTime.UtcNow;
                     state = 5;
@@ -283,6 +281,10 @@ public class Arrows : MonoBehaviour
             // State 6
             case 6:
                 // Empty for now but we can use when one person has to perform multiple exercises/tests
+                conLeft = 0;
+                conRight = 0;
+                inconLeft = 0;
+                inconRight = 0;
                 break;
 
             default:
@@ -329,7 +331,7 @@ public class Arrows : MonoBehaviour
         //LeftConfText
 
         rightText.text = variable_holder.conf+"";
-
+        
 
         nextText.text = currentArrows;
 
@@ -345,7 +347,8 @@ public class Arrows : MonoBehaviour
             //    leaveTargText.text = currentRawData.leftTarget.Millisecond - currentRawData.startTime.Millisecond + "";
             //}
 
-
+            
+            if ( state != 1) timingText.text = DateTime.UtcNow - currentRawData.startTime + "";
 
             //CurrentStageText
             switch (state)
@@ -391,7 +394,48 @@ public class Arrows : MonoBehaviour
     // This method randomly picks a number from 0 to 4 (non-inclusive) to choose between one of four possible arrow configurations
     int CreateArrows()
     {
-        return (int)UnityEngine.Random.Range(0f, 3.9999f);
+        // while < 5 the set can be used (valid)
+        // if a set is chosen that it greater than 5, reroll until valid set is chosen
+        bool valid = false;
+
+        // while (!valid)
+
+        int set = 0;
+       
+        while (!valid)
+        {
+            // pick random number
+            set = (int)UnityEngine.Random.Range(0f, 3.9999f);
+
+            // check that number is valid
+            // if not valid reroll
+            switch (set)
+            {
+                case 0:
+                    valid = conLeft < 5;
+                    if (valid) conLeft++;
+                    break;
+                case 1:
+                    valid = conRight < 5;
+                    if (valid) conRight++;
+                    break;
+                case 2:
+                    valid = inconRight < 5;
+                    if (valid) inconRight++;
+                    break;
+                case 3:
+                    valid = inconLeft < 5;
+                    if (valid) inconLeft++;
+                    break;
+
+                default:
+                    valid = false;
+                    break;
+            }
+        }
+        // return valid number
+        return set;
+
     }
 
     // This method sets all the necessary variable for the scene 
@@ -486,6 +530,7 @@ public class Arrows : MonoBehaviour
         print(objectToJSON);
 
         string path = "/Users/NIW/Desktop/"; string folderName = "flankerRaw";
+        //string path = "/Users/Griffin/Desktop/"; string folderName = "flankerRaw";
 
         if (!Directory.Exists(path + folderName))
         {

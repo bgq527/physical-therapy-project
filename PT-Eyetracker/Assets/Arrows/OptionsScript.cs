@@ -12,6 +12,7 @@ public class OptionsScript : MonoBehaviour
     public GameObject OriginSizeInputField;
     public GameObject TargetXInputField;
     public GameObject TargetScaleInputField;
+    public GameObject OptionsCanvas;
     private Arrows arrows;
 
     void Start()
@@ -45,8 +46,8 @@ public class OptionsScript : MonoBehaviour
     public void ArrowTiming(int milliseconds)
     {
         InputField IF = DisappearInputField.GetComponent<InputField>();
-        float flo = float.Parse(IF.text);
-        Arrows.setTiming = (int)flo;
+        /*float flo = */float.TryParse(IF.text, out float flo);
+        Arrows.arrowTiming = (int)flo;
         Debug.Log("Setting the Arrow timing to " + Arrows.arrowTiming + " milliseconds");
     }
     
@@ -89,6 +90,11 @@ public class OptionsScript : MonoBehaviour
         InputField IF = TargetScaleInputField.GetComponent<InputField>();
 
 
+    }
+
+    public void ShowOptionsCanvas()
+    {
+        OptionsCanvas.SetActive(!OptionsCanvas.active);
     }
 
 }
