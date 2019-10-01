@@ -23,6 +23,7 @@ public class ArrowsController : MonoBehaviour
         //    variable_holder.calibrated = false;
 
         variable_holder.startButtonPressed = false;
+        if (VariableHolder.startedTest) VariableHolder.endedTest = true;
     }
 
     public void GotoFlanker()
@@ -48,5 +49,7 @@ public class ArrowsController : MonoBehaviour
     public void LoadCalibration()
     {
         SceneManager.LoadScene("CalibrationScene");
+        if (VariableHolder.startedTest) VariableHolder.endedTest = true;
+        variable_holder.startButtonPressed = false;
     }
 }

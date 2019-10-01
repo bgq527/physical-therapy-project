@@ -13,6 +13,7 @@ public class OptionsScript : MonoBehaviour
     public GameObject TargetXInputField;
     public GameObject TargetScaleInputField;
     public GameObject OptionsCanvas;
+    public GameObject ParticipantIDInputField;
     private Arrows arrows;
 
     void Start()
@@ -20,7 +21,7 @@ public class OptionsScript : MonoBehaviour
         arrows = new Arrows();
 
         DisappearInputField.GetComponentInChildren<Text>().text = Arrows.arrowTiming+"";
-        EndSetInputField.GetComponentInChildren<Text>().text = Arrows.setTiming*1000 + "";
+        EndSetInputField.GetComponentInChildren<Text>().text = Arrows.setTiming + "";
         OriginSizeInputField.GetComponentInChildren<Text>().text = Arrows.originThreshold*100+"";
     }
 
@@ -55,7 +56,7 @@ public class OptionsScript : MonoBehaviour
     public void SetTiming(int milliseconds)
     {
         InputField IF = EndSetInputField.GetComponent<InputField>();
-        float flo = float.Parse(IF.text) / 1000;
+        float flo = float.Parse(IF.text);
         Arrows.setTiming = flo;
         Debug.Log("Setting the set timing to "+Arrows.setTiming + " seconds");
     }
@@ -95,6 +96,14 @@ public class OptionsScript : MonoBehaviour
     public void ShowOptionsCanvas()
     {
         OptionsCanvas.SetActive(!OptionsCanvas.active);
+    }
+
+    // Called when Participant number is changed
+    public void ChangeParticipantID()
+    {
+        InputField IF = ParticipantIDInputField.GetComponent<InputField>();
+        TrialData.participantID = IF.text;
+
     }
 
 }

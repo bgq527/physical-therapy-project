@@ -57,7 +57,7 @@ public class Arrows : MonoBehaviour
     public static int hitmarkerPointsToDraw = 4;
 
     public static float arrowTiming = 250f;
-    public static float setTiming = .500f;
+    public static float setTiming = 2000f;
 
     public static float targetX = .3f;
     public static float targetY = 0f;
@@ -125,6 +125,9 @@ public class Arrows : MonoBehaviour
         lTarget = new Vector3[5];
         rTarget = new Vector3[5];
 
+        VariableHolder.startedTest = false;
+        VariableHolder.endedTest = false;
+
        // processFlankerClass.ProcessFlankerData();
 
 
@@ -160,6 +163,13 @@ public class Arrows : MonoBehaviour
         {
             PlayArrows();
         }
+        if (state==6)
+        {
+            print(VariableHolder.endedTest);
+            VariableHolder.endedTest = true;
+            processFlankerClass.ProcessFlankerData();
+        }
+        
     }
 
     // This method is called once every frame once the eyetracker has been calibrated.
@@ -273,8 +283,11 @@ public class Arrows : MonoBehaviour
                     if (numTrials >= 20)
                     {
                         SaveData();
-                        processFlankerClass.ProcessFlankerData();
+                        //processFlankerClass.ProcessFlankerData();
+                        
                     }
+
+                    
                 }
                 break;
 
@@ -285,7 +298,10 @@ public class Arrows : MonoBehaviour
                 conRight = 0;
                 inconLeft = 0;
                 inconRight = 0;
+                processFlankerClass.ProcessFlankerData();
                 break;
+
+                
 
             default:
                 Debug.Log("Default state");
@@ -303,12 +319,17 @@ public class Arrows : MonoBehaviour
             countDownStarted = true;
         }
 
-        arrowTextMesh.text =  countDownStartTime.Second - DateTime.UtcNow.Second  + "";
-
-        if (DateTime.UtcNow.Second - countDownStartTime.Second > 0f)
+        arrowTextMesh.text = (countDownStartTime - DateTime.UtcNow).Seconds + "";
+        //arrowTextMesh.text =  countDownStartTime.Second - DateTime.UtcNow.Second  + "";
+        if ((countDownStartTime - DateTime.UtcNow).Seconds < 1)
         {
             countDownFinished = true;
         }
+
+        //if (DateTime.UtcNow.Second - countDownStartTime.Second > 0f)
+        //{
+        //    countDownFinished = true;
+        //}
 
     }
 
@@ -348,7 +369,8 @@ public class Arrows : MonoBehaviour
             //}
 
             
-            if ( state != 1) timingText.text = DateTime.UtcNow - currentRawData.startTime + "";
+            if ( state != 1 && state !=6) timingText.text = DateTime.UtcNow - currentRawData.startTime + "";
+           
 
             //CurrentStageText
             switch (state)
@@ -448,6 +470,7 @@ public class Arrows : MonoBehaviour
         arrowTextMesh.enabled = true;
 //      roomScene.SetActive(true);
         isSceneSetup = true;
+        VariableHolder.startedTest = true;
     }
 
     // A method to make sure the tests stay ontime (1000 ms per set of arrows) and that the arrows are only shown for 250 ms
@@ -455,14 +478,18 @@ public class Arrows : MonoBehaviour
     {
         // Checks if 250 ms have passed since the initial showing of the arrows
         // makes the arrows disappear if time has passed
-        if (DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond > arrowTiming && !timeOne)  {
+        if ((DateTime.UtcNow - currentRawData.startTime).TotalMilliseconds > arrowTiming && !timeOne)
+        /*if (DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond > arrowTiming && !timeOne) */  {
             arrowTextMesh.text = "";
             timeOne = true;
         }
-        
+
         // checks if 1 second has passed since the initial showing of arrows
         // moves on to the next set of arrows if the user has not completed in 1 second
-        else if (((DateTime.UtcNow - currentRawData.startTime).Milliseconds/1000 + (DateTime.UtcNow - currentRawData.startTime).Seconds) > setTiming) {
+        else if ((DateTime.UtcNow - currentRawData.startTime).TotalMilliseconds > setTiming)
+        {
+            //else if (((DateTime.UtcNow - currentRawData.startTime).Milliseconds/1000 + (DateTime.UtcNow - currentRawData.startTime).Seconds) > setTiming) {
+
             currentRawData.completedTrial = false;
             thisTrialData.rawUserData.Add(currentRawData);
             currentRawData = null;
@@ -476,8 +503,11 @@ public class Arrows : MonoBehaviour
                 state = 6;
                 SaveData();
             }
+
                 
         }
+        //debugText.text = (DateTime.UtcNow - currentRawData.startTime).Seconds + ":"+(DateTime.UtcNow - currentRawData.startTime).TotalMilliseconds + "";
+        //debugText.text = (DateTime.UtcNow.Millisecond - currentRawData.startTime.Millisecond) + ":" + (DateTime.UtcNow - currentRawData.startTime).TotalMilliseconds;
     }
 
     // Changes color of text when background changes

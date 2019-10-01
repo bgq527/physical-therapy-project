@@ -44,6 +44,9 @@ class TrialData : MonoBehaviour
     // Time when the test was started
     public String timestamp;
 
+    // Number/ID to track individual partipant
+    public static String participantID;
+
     public List<RawData> rawUserData = new List<RawData>();
 
     public String packageData()
@@ -114,6 +117,8 @@ class TrialData : MonoBehaviour
 
             timestamp,
 
+            participantID,
+
             avgReactionTime.ToString(),
             avgReactionTimeCorrectResponses.ToString(),
             proportionOfCorrectResponses.ToString(),
@@ -122,8 +127,8 @@ class TrialData : MonoBehaviour
             avgInconReactionTime.ToString(),
             conflictEffect.ToString(),            numIncomplete.ToString()
         };
-
-        string csv_string = "timestamp,avgReactionTime,avgReactionTimeCorrectResponses,proportionOfCorrectResponses,efficiencyIndex,avgConReactionTime,avgInconReactionTime,conflictEffect,numIncomplete\n";
+        string csv_string = "";
+        //string csv_string = "timestamp,avgReactionTime,avgReactionTimeCorrectResponses,proportionOfCorrectResponses,efficiencyIndex,avgConReactionTime,avgInconReactionTime,conflictEffect,numIncomplete\n";
         //foreach (string value in csv_values)
         //{            
         //    csv_string += value + ",";
