@@ -49,13 +49,15 @@ public class threshold_movment_1_model : MonoBehaviour {
         float threshold = fileHolder.threshold;
         float scale = fileHolder.scale;
 
+        int[] order = { 1, 0, 3, 2, 5, 4, 7, 6, 9, 8 };
+
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("proj").Count(); i++ )
         {
         //    print(GameObject.FindGameObjectsWithTag("proj").Count());
 
             var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
             pos.z -= 1;
-            GameObject.FindGameObjectsWithTag("proj")[i].transform.position = pos;
+            GameObject.FindGameObjectsWithTag("proj")[order[i]].transform.position = pos;
 
             Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
             Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;

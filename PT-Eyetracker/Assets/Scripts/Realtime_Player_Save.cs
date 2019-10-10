@@ -71,6 +71,7 @@ public class Realtime_Player_Save : MonoBehaviour
             {
                 lastframe = frame;
                 SaveModelJSON();
+                UnityEngine.Debug.Log("Recording Saved");
                 variable_holder.stopButtonPressed = false;
             }
 

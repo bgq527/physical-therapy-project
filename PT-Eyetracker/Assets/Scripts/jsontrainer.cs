@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using LitJson;
 using UnityEngine.SceneManagement;
+using System;
+using UnityEngine.UI;
 
 public class jsontrainer : MonoBehaviour
 {
@@ -31,6 +33,10 @@ public class jsontrainer : MonoBehaviour
     bool play = false;
     float timer2 = 0f;
     int count = 0;
+    int lastframe=0;
+    int replayCount = 0;
+    DateTime startTime;
+    DateTime currentTime;
 
     ModelQuaternions[] mqInJSON;
     ModelQuaternions cqInJSON;
@@ -101,11 +107,24 @@ public class jsontrainer : MonoBehaviour
 
         if (currentFrame > mqInJSON.Length) currentFrame = 0;
         else currentFrame++;
+        currentTime = DateTime.Now;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (play)
+        {
+            Text time = GameObject.Find("TimeText").GetComponent<Text>();
+            time.text = currentTime - startTime + "";
+            Text count = GameObject.Find("CountText").GetComponent<Text>();
+            count.text = replayCount+"" ;
+        }
+
+        if (currentFrame < lastframe) replayCount++;
+
+        lastframe = currentFrame - 1;
+
         timer += Time.deltaTime;
         timer2 += Time.deltaTime;
         //print(timer);
@@ -143,11 +162,13 @@ public class jsontrainer : MonoBehaviour
                     mqInJSON = json.ModelQuaternionList;
                     MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
                     loaded = true;
+                    startTime = DateTime.Now;
                 }
             }
             else if (loaded && play)
             {
                 StartCoroutine(Play_JSON());
+                
             }
         //}
         //else
