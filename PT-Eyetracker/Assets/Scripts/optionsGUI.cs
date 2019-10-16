@@ -45,7 +45,7 @@ public class optionsGUI : MonoBehaviour
         if (GUI.Button(new Rect(loadMovementWindow.width / 2 - 25, margin + 20, 50, 20), "Load"))
         {
             System.Windows.Forms.OpenFileDialog openMovementDialog = new System.Windows.Forms.OpenFileDialog();
-            openMovementDialog.InitialDirectory = "c:\\Users\\NIW\\Documents\\GitKraken\\physical-therapy-project\\PT-Eyetracker\\Assets\\";
+            openMovementDialog.InitialDirectory = "Assets";
             openMovementDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
             if (openMovementDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

@@ -18,7 +18,11 @@ public class threshold_movment_1_model : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //string[] joint_names_string = File.ReadAllLines(@"C:\Users\Kinect\Documents\Movements\jointlist.csv");
-        string[] joint_names_string = Regex.Split(Resources.Load<TextAsset>("CSVs/jointlist").ToString(), "\n");
+        string[] joint_names_string = new string[0];
+
+       
+        // Add this line after the equals part of the string[] line
+        //Regex.Split(Resources.Load<TextAsset>("CSVs/jointlist").ToString(), "\n");
 
         for (int i = 0; i < joint_names_string.Count(); i++)
         {
