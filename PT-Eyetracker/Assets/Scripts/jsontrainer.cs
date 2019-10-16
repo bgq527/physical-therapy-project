@@ -14,7 +14,7 @@ public class jsontrainer : MonoBehaviour
     float lowest_foot;
 
     private string jsonstring;
-    private bool loaded;
+    public static bool loaded;
     private ModelJSON json;
     int currentFrame;
     Transform[] KinectChildObjects;
@@ -34,7 +34,7 @@ public class jsontrainer : MonoBehaviour
     float timer2 = 0f;
     int count = 0;
     int lastframe=0;
-    int replayCount = 0;
+    public static int replayCount = 0;
     DateTime startTime;
     DateTime currentTime;
 
