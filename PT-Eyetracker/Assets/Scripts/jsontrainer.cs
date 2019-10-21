@@ -163,6 +163,7 @@ public class jsontrainer : MonoBehaviour
                     MovementChildObjects = GameObject.FindGameObjectWithTag("movement").GetComponentsInChildren<Transform>();
                     loaded = true;
                     startTime = DateTime.Now;
+                    threshold_movment_1_model.ChangeMovement();
                 }
             }
             else if (loaded && play)

@@ -52,4 +52,6 @@ public class ArrowsController : MonoBehaviour
         if (VariableHolder.startedTest) VariableHolder.endedTest = true;
         variable_holder.startButtonPressed = false;
     }
+
+
 }
