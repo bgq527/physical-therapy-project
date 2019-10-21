@@ -260,7 +260,7 @@ public class threshold_movment_1_model : MonoBehaviour {
         var GO = GameObject.Find("MarkerToggle");
         bool isEnabled = GO.GetComponent<Toggle>().isOn;
 
-        string filename = fileHolder.movementFilename.Substring(Math.Max(0, fileHolder.movementFilename.Length - (fileHolder.movementFilename.Length - 7)));
+        string filename = fileHolder.movementFilename.Substring(Math.Max(0, fileHolder.movementFilename.Length - (fileHolder.movementFilename.Length - 33)));
 
         if (isEnabled)
         {
