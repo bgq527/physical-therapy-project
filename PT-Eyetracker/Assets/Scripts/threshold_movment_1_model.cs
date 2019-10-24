@@ -26,16 +26,16 @@ public class threshold_movment_1_model : MonoBehaviour {
 
     bool[,] possiblejoints = {
             {
-                true,true,true,true,true
+                true,true,true,true,true,true
             },
             {
-                true,false,false,true,true
+                true,false,false,true,true,true
             },
             {
-                false,true,true,false, true
+                false,true,true,false, true,true
             },
             {
-                false,false,false,false,false
+                false,false,false,false,false,false
             }
         };
 
@@ -85,11 +85,14 @@ public class threshold_movment_1_model : MonoBehaviour {
         float threshold = fileHolder.threshold;
         float scale = fileHolder.scale;
 
-        int[] order = { 1, 0, 3, 2, 5, 4, 7, 6, 9, 8, 11, 10, 13, 12, 15, 14, 17, 16, 19, 18, 21, 20 };
+        int[] order = { 1, 0, 3, 2, 4, 5};
 
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("proj").Count(); i++ )
         {
             //    print(GameObject.FindGameObjectsWithTag("proj").Count());
+
+            int temp = i;
+            i = order[temp];
 
             
             if (possiblejoints[currentMovement,i] == true && currentMovement != 0)
@@ -135,7 +138,7 @@ public class threshold_movment_1_model : MonoBehaviour {
                 }
                 
             }
-           
+            i = temp;
 
             //var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
             //pos.z -= 1;
@@ -260,7 +263,11 @@ public class threshold_movment_1_model : MonoBehaviour {
         var GO = GameObject.Find("MarkerToggle");
         bool isEnabled = GO.GetComponent<Toggle>().isOn;
 
-        string filename = fileHolder.movementFilename.Substring(Math.Max(0, fileHolder.movementFilename.Length - (fileHolder.movementFilename.Length - 33)));
+        //int dirchar = 7;
+        // For mapp computer:
+        int dirchar = 33;
+
+        string filename = fileHolder.movementFilename.Substring(Math.Max(0, fileHolder.movementFilename.Length - (fileHolder.movementFilename.Length - dirchar)));
 
         if (isEnabled)
         {
