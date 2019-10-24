@@ -16,7 +16,7 @@ public class threshold_movment_1_model : MonoBehaviour {
     string[] child_and_parent;
 
     // 0: Left knee, 1: Right knee, 2: Left Pelvis, 3: Right Pelvis, 4: Trunk
-    float[] thresholds = { .1f, .1f, .05f, .05f, .05f };
+    float[] thresholds = { 10, 10, 5, 5, 5 };
 
     // 0: No movement/other, 1: left squat, 2: right squat, 3: unsupported file, 4: no markers enabled
     public static int currentMovement = 0;
@@ -38,6 +38,12 @@ public class threshold_movment_1_model : MonoBehaviour {
                 false,false,false,false,false,false
             }
         };
+
+    String[] textNames =
+    {
+        "LeftKneeText","RightKneeText","LeftHipText","RightHipText","SpineText"
+    };
+
 
 
 
@@ -90,36 +96,46 @@ public class threshold_movment_1_model : MonoBehaviour {
         for (int i = 0; i < GameObject.FindGameObjectsWithTag("proj").Count(); i++ )
         {
             //    print(GameObject.FindGameObjectsWithTag("proj").Count());
-
-            int temp = i;
-            i = order[temp];
-
-            
             if (possiblejoints[currentMovement,i] == true && currentMovement != 0)
             {
-                //print(fileHolder.movementFilename + " : " + i + " : " + jointNames[i]);
 
+                // Find the projector assigned to the current joint and update its position to match the joints actual location
                 var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
                 pos.z -= 1;
-
-                // used order[i] below to fix 
                 GameObject.FindGameObjectsWithTag("proj")[i].transform.position = pos;
 
+                // 
                 Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
                 Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
 
                 Vector3 localPositions = localPosition1 - localPosition2;
+                //print(jointNames[i]+": "+localPositions);
+
+                Vector3 localPosition3 = actualTransform[GetIndexOfObject(jointNames[order[i]])].transform.position;
+                Vector3 localPosition4 = comparisonTransform[GetIndexOfObject(jointNames[order[i]])].transform.position;
+
+                
+                print("Child only "+jointNames[i] + ": " + Vector3.Angle(localPosition3, localPosition4));
+
+                print("Child and Parent " + jointNames[i] + ": " + Vector3.Angle(localPosition2, localPosition1));
 
                 bool withinPosition = true;
-                for (int j = 0; j < 3; j++)
-                {
 
-                    if (Math.Abs(localPositions[j]) >= thresholds[i])
-                    {
-                        withinPosition = false;
-                    }
+                float angle = Vector3.Angle(localPosition3, localPosition4);
 
-                }
+                withinPosition = (angle <= thresholds[i]);
+
+                var text = GameObject.Find(textNames[i]).GetComponent<Text>();
+                text.text = jointNames[i] + " withinPos: " + withinPosition + ", Angle: " + angle; 
+                //for (int j = 0; j < 3; j++)
+                //{
+
+                //    if (Math.Abs(localPositions[j]) >= thresholds[i])
+                //    {
+                //        withinPosition = false;
+                //    }
+
+                //}
 
 
                 if (withinPosition == true /* && variable_holder.calibrated == true*/)
@@ -138,113 +154,12 @@ public class threshold_movment_1_model : MonoBehaviour {
                 }
                 
             }
-            i = temp;
 
-            //var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
-            //pos.z -= 1;
-
-            //// used order[i] below to fix 
-            //GameObject.FindGameObjectsWithTag("proj")[i].transform.position = pos;
-
-            //Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-            //Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-
-            //Vector3 localPositions = localPosition1 - localPosition2;
-
-            //bool withinPosition = true;
-            //for (int j = 0; j < 3; j++)
-            //{
-
-            //    if (Math.Abs(localPositions[j]) >= thresholds[i])
-            //    {
-            //        withinPosition = false;
-            //    }
-
-            //}
-
-
-            //if (withinPosition == true /* && variable_holder.calibrated == true*/)
-            //{
-            //    //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = true;
-            //    //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Projector>().enabled = true;
-            //    GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().enabled = true;
-
-            //}
-            //else
-            //{
-            //    //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().enabled = false;
-            //    GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().enabled = false;
-            //    //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().material.color = Color.red;
-
-            //}
+            // Make sure the projectors clear when they are no longer being used. 
+            if (possiblejoints[currentMovement, i] == false && GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().enabled) GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().enabled = false;
         }
 
-        //for (int i = 0; i < GameObject.FindGameObjectsWithTag("cubes").Count(); i++)
-        //{
-
-        //    print(GameObject.FindGameObjectsWithTag("cubes").Count());
-        //    //print(cubeRenderer.Count());
-        //    print(jointNames[i]);
-
-        //    // New
-        //    //var pos = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
-        //    //pos.z -= 1;
-
-        //    //GameObject.FindGameObjectsWithTag("cubes")[i].transform.localScale = new Vector3(scale, scale, scale);
-
-
-        //    //Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-        //    //Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-
-        //    //Vector3 localPositions = localPosition1 - localPosition2;
-
-        //    // End
-
-
-            
-
-        //    GameObject.FindGameObjectsWithTag("cubes")[i].transform.position = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
-        //    //GameObject.FindGameObjectsWithTag("cubes")[i].transform.position.z = trainerTransform[GetIndexOfObject(jointNames[i])].transform.position;
-        //    GameObject.FindGameObjectsWithTag("cubes")[i].transform.localScale = new Vector3(scale, scale, scale);
-        //    Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-        //    Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-
-        //    Vector3 localPositions = localPosition1 - localPosition2;
-        //    print(localPositions);
-
-            
-
-        //    bool withinPosition = true;
-        //    for (int j = 0; j < 3; j++)
-        //    {
-        //        if (Math.Abs(localPositions[j]) >= threshold)
-        //        {
-        //            withinPosition = false;
-        //        }
-                
-        //    }
-
-           
-            
-
-        //    if (withinPosition == true /* && variable_holder.calibrated == true*/)
-        //    {
-        //        GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Renderer>().enabled = true;
-        //        //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<Projector>().enabled = true;
-
-        //    }
-        //    else
-        //    {
-        //          GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().enabled = false;
-        //        //GameObject.FindGameObjectsWithTag("cubes")[i].GetComponent<MeshRenderer>().material.color = Color.red;
-
-        //    }
-
-            
-        //}
-        
-        //cubeInformation.Add
-        }
+    }
     private int GetIndexOfObject(string name)
     {
         int returnvalue = 0;
@@ -263,9 +178,10 @@ public class threshold_movment_1_model : MonoBehaviour {
         var GO = GameObject.Find("MarkerToggle");
         bool isEnabled = GO.GetComponent<Toggle>().isOn;
 
-        //int dirchar = 7;
+        // for in unity editor/any computer
+        int dirchar = 7;
         // For mapp computer:
-        int dirchar = 33;
+       // int dirchar = 33;
 
         string filename = fileHolder.movementFilename.Substring(Math.Max(0, fileHolder.movementFilename.Length - (fileHolder.movementFilename.Length - dirchar)));
 
