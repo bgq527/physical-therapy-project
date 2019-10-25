@@ -16,13 +16,10 @@ public class threshold_movment_1_model : MonoBehaviour {
     string[] child_and_parent;
 
     // 0: Left knee, 1: Right knee, 2: Left Pelvis, 3: Right Pelvis, 4: Trunk
-    float[] thresholds = { 10, 10, 5, 5, 5 };
+    float[] thresholds = { .1f, .1f, .05f, .05f, .05f, .05f};
 
     // 0: No movement/other, 1: left squat, 2: right squat, 3: unsupported file, 4: no markers enabled
     public static int currentMovement = 0;
-
-    bool[] leftsquatjoints = { true, false, false, true, true };
-    bool[] rightsquatjoints = { false, true, true, false, true };
 
     bool[,] possiblejoints = {
             {
@@ -41,7 +38,7 @@ public class threshold_movment_1_model : MonoBehaviour {
 
     String[] textNames =
     {
-        "LeftKneeText","RightKneeText","LeftHipText","RightHipText","SpineText"
+        "LeftKneeText","RightKneeText","LeftHipText","RightHipText","LeftShoulderText","RightShoulderText"
     };
 
 
@@ -104,10 +101,9 @@ public class threshold_movment_1_model : MonoBehaviour {
                 pos.z -= 1;
                 GameObject.FindGameObjectsWithTag("proj")[i].transform.position = pos;
 
-                // 
-                Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[i])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-                Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[i])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[i])].transform.position;
-
+                // obsolete
+                Vector3 localPosition1 = actualTransform[GetIndexOfObject(jointNames[order[i]])].transform.position - actualTransform[GetIndexOfObject(parentJointNames[order[i]])].transform.position;
+                Vector3 localPosition2 = comparisonTransform[GetIndexOfObject(jointNames[order[i]])].transform.position - comparisonTransform[GetIndexOfObject(parentJointNames[order[i]])].transform.position;
                 Vector3 localPositions = localPosition1 - localPosition2;
                 //print(jointNames[i]+": "+localPositions);
 
@@ -115,27 +111,31 @@ public class threshold_movment_1_model : MonoBehaviour {
                 Vector3 localPosition4 = comparisonTransform[GetIndexOfObject(jointNames[order[i]])].transform.position;
 
                 
-                print("Child only "+jointNames[i] + ": " + Vector3.Angle(localPosition3, localPosition4));
+                //print("Child only "+jointNames[i] + ": " + Vector3.Angle(localPosition3, localPosition4));
 
-                print("Child and Parent " + jointNames[i] + ": " + Vector3.Angle(localPosition2, localPosition1));
+                //print("Child and Parent " + jointNames[i] + ": " + Vector3.Angle(localPosition2, localPosition1));
 
                 bool withinPosition = true;
 
-                float angle = Vector3.Angle(localPosition3, localPosition4);
+                //float angle = Vector3.Angle(localPosition1, localPosition2);
 
-                withinPosition = (angle <= thresholds[i]);
+                //withinPosition = (angle <= thresholds[i]);
 
-                var text = GameObject.Find(textNames[i]).GetComponent<Text>();
-                text.text = jointNames[i] + " withinPos: " + withinPosition + ", Angle: " + angle; 
-                //for (int j = 0; j < 3; j++)
-                //{
+                
 
-                //    if (Math.Abs(localPositions[j]) >= thresholds[i])
-                //    {
-                //        withinPosition = false;
-                //    }
+                for (int j = 0; j < 3; j++)
+                {
 
-                //}
+                    if (Math.Abs(localPositions[j]) >= thresholds[i])
+                    {
+                        withinPosition = false;
+                    }
+
+                }
+
+                // DEBUG TEXT
+                //var text = GameObject.Find(textNames[i]).GetComponent<Text>();
+                // text.text = jointNames[i] + " withinPos: " + withinPosition + ", Angle: " + localPositions.ToString();
 
 
                 if (withinPosition == true /* && variable_holder.calibrated == true*/)

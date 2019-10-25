@@ -46,6 +46,7 @@ public class jsontrainer : MonoBehaviour
     {
         loaded = false;
         KinectChildObjects = gameObject.GetComponentsInChildren<Transform>();
+        foreach (Transform trans in KinectChildObjects) print(trans);
         currentFrame = 0;
         movementMeshRenderer = GameObject.FindGameObjectWithTag("movementmr").GetComponent<SkinnedMeshRenderer>();
         
@@ -101,6 +102,7 @@ public class jsontrainer : MonoBehaviour
         float floor_y = GameObject.FindGameObjectWithTag("floorcube").transform.position.y;
         float difference = lowest_foot - floor_y;
         float new_model_y = gameObject.transform.position.y - difference + 0.2f;
+        fileHolder.new_model_y = new_model_y;
         gameObject.transform.position = new Vector3(gameObject.transform.position.x, new_model_y, gameObject.transform.position.z);
 
         yield return new WaitForSeconds(0.60f);

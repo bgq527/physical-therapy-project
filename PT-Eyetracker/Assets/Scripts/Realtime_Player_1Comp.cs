@@ -42,7 +42,10 @@ public class Realtime_Player_1Comp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        // Make sure the Realtime model is at the same y as the played model
+        gameObject.transform.position = new Vector3 (gameObject.transform.position.x, fileHolder.new_model_y, gameObject.transform.position.z);
+
 
         //KinectChildObjects[GetIndexOfObject("root")].transform.localRotation = Quaternion.Euler(0, 180, 0);
         if (BodySourceView.doesBodyExist() == true && ThisFrameJoints == null)
