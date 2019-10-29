@@ -16,7 +16,7 @@ public class threshold_movment_1_model : MonoBehaviour {
     string[] child_and_parent;
 
     // 0: Left knee, 1: Right knee, 2: Left Pelvis, 3: Right Pelvis, 4: Trunk
-    float[] thresholds = { .1f, .1f, .05f, .05f, .05f, .05f};
+    float[] thresholds = { .15f, .15f, .1f, .1f, .05f, .05f};
 
     // 0: No movement/other, 1: left squat, 2: right squat, 3: unsupported file, 4: no markers enabled
     public static int currentMovement = 0;
@@ -134,8 +134,8 @@ public class threshold_movment_1_model : MonoBehaviour {
                 }
 
                 // DEBUG TEXT
-                //var text = GameObject.Find(textNames[i]).GetComponent<Text>();
-                // text.text = jointNames[i] + " withinPos: " + withinPosition + ", Angle: " + localPositions.ToString();
+                var text = GameObject.Find(textNames[i]).GetComponent<Text>();
+                 text.text = jointNames[i] + " withinPos: " + withinPosition + ", Angle: " + localPositions.ToString();
 
 
                 if (withinPosition == true /* && variable_holder.calibrated == true*/)
