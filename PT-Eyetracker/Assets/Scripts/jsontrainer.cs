@@ -46,7 +46,7 @@ public class jsontrainer : MonoBehaviour
     {
         loaded = false;
         KinectChildObjects = gameObject.GetComponentsInChildren<Transform>();
-        foreach (Transform trans in KinectChildObjects) print(trans);
+        //foreach (Transform trans in KinectChildObjects) print(trans);
         currentFrame = 0;
         movementMeshRenderer = GameObject.FindGameObjectWithTag("movementmr").GetComponent<SkinnedMeshRenderer>();
         

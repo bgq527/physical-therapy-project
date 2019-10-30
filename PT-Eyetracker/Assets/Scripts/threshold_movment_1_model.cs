@@ -16,7 +16,7 @@ public class threshold_movment_1_model : MonoBehaviour {
     string[] child_and_parent;
 
     // 0: Left knee, 1: Right knee, 2: Left Pelvis, 3: Right Pelvis, 4: Trunk
-    float[] thresholds = { .15f, .15f, .1f, .1f, .05f, .05f};
+    public static float[] thresholds = { .15f, .15f, .1f, .1f, .05f, .05f};
 
     // 0: No movement/other, 1: left squat, 2: right squat, 3: unsupported file, 4: no markers enabled
     public static int currentMovement = 0;
@@ -211,6 +211,23 @@ public class threshold_movment_1_model : MonoBehaviour {
         {
             GameObject.FindGameObjectsWithTag("proj")[i].GetComponent<Projector>().enabled = false;
         }
+    }
+
+    // Method to change the Joint Thresholds
+    public static void EditJointThresholds(string joint, float thresholdValue)
+    {
+        if (joint == "knee")
+        {
+            thresholds[0] = thresholdValue;
+            thresholds[1] = thresholdValue;
+        }
+
+        if (joint == "hip")
+        {
+            thresholds[2] = thresholdValue;
+            thresholds[3] = thresholdValue;
+        }
+
     }
 }
 
