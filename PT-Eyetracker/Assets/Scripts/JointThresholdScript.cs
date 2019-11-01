@@ -17,6 +17,8 @@ public class JointThresholdScript : MonoBehaviour
 
         ThresholdCanvas = GameObject.Find("ThresholdCanvas");
 
+        ThresholdCanvas.active = false;
+
 
 
     }
